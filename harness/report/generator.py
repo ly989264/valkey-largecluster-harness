@@ -48,7 +48,7 @@ def _build_context(
         "cluster_plan": _cluster_plan_summary(plan),
         "test_matrix": _list(tests),
         "cluster_formation": _value(summary.get("cluster_formation")),
-        "failover": _value(summary.get("failover")),
+        "failover": _failover(summary.get("failover")),
         "migration": _value(summary.get("migration")),
         "resource_metrics": _mapping(resource_metrics),
         "validated": _list(validation.get("validated", [])),
@@ -117,6 +117,24 @@ def _cluster_plan_summary(plan: dict[str, Any] | None) -> str:
     if reasons:
         lines.append("- Placement degraded reasons:")
         lines.extend(f"  - {reason}" for reason in reasons)
+    return "\n".join(lines)
+
+
+def _failover(value: Any) -> str:
+    if not isinstance(value, dict) or not value:
+        return _value(value)
+    lines = [f"- Status: {_value(value.get('status'))}"]
+    timestamps = value.get("timestamps", {})
+    if isinstance(timestamps, dict):
+        lines.append("- Timestamps:")
+        lines.extend(f"  - {key}: {_value(timestamps.get(key))}" for key in sorted(timestamps))
+    durations = value.get("durations_ms", {})
+    if isinstance(durations, dict):
+        lines.append("- Durations:")
+        lines.extend(f"  - {key}: {_value(durations.get(key))}" for key in sorted(durations))
+    stale = value.get("stale_owner_checks", [])
+    lines.append("- Stale owner checks:")
+    lines.append(_list(stale))
     return "\n".join(lines)
 
 

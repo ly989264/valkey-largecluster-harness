@@ -5,7 +5,17 @@
     "valkey_version": "MISSING"
   },
   "executive_summary": "Fixture report for validating report generation.",
-  "failover": "",
+  "failover": {
+    "durations_ms": {
+      "client_recovery_ms": "MISSING",
+      "cluster_recovery_ms": "MISSING"
+    },
+    "stale_owner_checks": [],
+    "status": "INCONCLUSIVE",
+    "timestamps": {
+      "fault_injected_at": "MISSING"
+    }
+  },
   "migration": "",
   "resource_metrics": {
     "rss_bytes": "MISSING",
