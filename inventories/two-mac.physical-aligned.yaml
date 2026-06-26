@@ -1,0 +1,48 @@
+name: two-mac-physical-aligned
+topology_mode: physical_aligned
+virtual_azs:
+  - id: vaz-a
+    host_ids: [mac-a]
+    node_port_start: 7000
+    node_port_end: 7199
+    bus_port_offset: 10000
+  - id: vaz-b
+    host_ids: [mac-b]
+    node_port_start: 7000
+    node_port_end: 7199
+    bus_port_offset: 10000
+hosts:
+  - id: mac-a
+    address: 192.0.2.10
+    access:
+      method: ssh
+      user: valkey
+    platform:
+      os: macos
+      runtime: docker_desktop
+    hardware:
+      cpu_model: inventory-provided-example
+      cpu_cores: 12
+      memory_bytes: 34359738368
+    network:
+      primary_interface: en0
+      addresses: [192.0.2.10]
+    storage:
+      data_dir: /tmp/valkey-largecluster
+  - id: mac-b
+    address: 192.0.2.11
+    access:
+      method: ssh
+      user: valkey
+    platform:
+      os: macos
+      runtime: docker_desktop
+    hardware:
+      cpu_model: inventory-provided-example
+      cpu_cores: 12
+      memory_bytes: 34359738368
+    network:
+      primary_interface: en0
+      addresses: [192.0.2.11]
+    storage:
+      data_dir: /tmp/valkey-largecluster

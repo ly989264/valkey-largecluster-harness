@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Valkey large-cluster scenario",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "name",
+    "run_id",
+    "topology_mode",
+    "topology",
+    "node_count",
+    "replicas_per_primary",
+    "validation",
+    "traffic",
+    "virtual_az_placement"
+  ],
+  "properties": {
+    "name": {"type": "string", "minLength": 1},
+    "run_id": {"type": "string", "minLength": 1},
+    "topology_mode": {"enum": ["single_az", "physical_aligned", "interleaved"]},
+    "topology": {"enum": ["primary_only", "primary_replica"]},
+    "node_count": {"type": "integer", "minimum": 1},
+    "replicas_per_primary": {"type": "integer", "minimum": 0},
+    "validation": {"type": "object"},
+    "traffic": {"type": "object"},
+    "virtual_az_placement": {"type": "object"},
+    "timeouts": {"type": "object"},
+    "tests": {"type": "array"}
+  }
+}

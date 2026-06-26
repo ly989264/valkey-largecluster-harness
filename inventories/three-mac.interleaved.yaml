@@ -1,0 +1,70 @@
+name: three-mac-interleaved
+topology_mode: interleaved
+virtual_azs:
+  - id: vaz-a
+    host_ids: [mac-a, mac-b, mac-c]
+    node_port_start: 7000
+    node_port_end: 7299
+    bus_port_offset: 10000
+  - id: vaz-b
+    host_ids: [mac-b, mac-c, mac-a]
+    node_port_start: 7300
+    node_port_end: 7599
+    bus_port_offset: 10000
+  - id: vaz-c
+    host_ids: [mac-c, mac-a, mac-b]
+    node_port_start: 7600
+    node_port_end: 7899
+    bus_port_offset: 10000
+hosts:
+  - id: mac-a
+    address: 192.0.2.20
+    access:
+      method: ssh
+      user: valkey
+    platform:
+      os: macos
+      runtime: docker_desktop
+    hardware:
+      cpu_model: inventory-provided-example
+      cpu_cores: 12
+      memory_bytes: 34359738368
+    network:
+      primary_interface: en0
+      addresses: [192.0.2.20]
+    storage:
+      data_dir: /tmp/valkey-largecluster
+  - id: mac-b
+    address: 192.0.2.21
+    access:
+      method: ssh
+      user: valkey
+    platform:
+      os: macos
+      runtime: docker_desktop
+    hardware:
+      cpu_model: inventory-provided-example
+      cpu_cores: 12
+      memory_bytes: 34359738368
+    network:
+      primary_interface: en0
+      addresses: [192.0.2.21]
+    storage:
+      data_dir: /tmp/valkey-largecluster
+  - id: mac-c
+    address: 192.0.2.22
+    access:
+      method: ssh
+      user: valkey
+    platform:
+      os: macos
+      runtime: docker_desktop
+    hardware:
+      cpu_model: inventory-provided-example
+      cpu_cores: 12
+      memory_bytes: 34359738368
+    network:
+      primary_interface: en0
+      addresses: [192.0.2.22]
+    storage:
+      data_dir: /tmp/valkey-largecluster

@@ -1,4 +1,7 @@
-.PHONY: test
+.PHONY: test validate
 
 test:
-	python -m pytest
+	python3 -m pytest
+
+validate:
+	python3 -m harness.harnessctl validate --inventory "$(INVENTORY)" --scenario "$(SCENARIO)"

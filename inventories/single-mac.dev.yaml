@@ -1,0 +1,25 @@
+name: single-mac-dev
+topology_mode: single_az
+virtual_azs:
+  - id: vaz-a
+    host_ids: [mac-local]
+    node_port_start: 7000
+    node_port_end: 7099
+    bus_port_offset: 10000
+hosts:
+  - id: mac-local
+    address: 127.0.0.1
+    access:
+      method: localhost
+    platform:
+      os: macos
+      runtime: local_process
+    hardware:
+      cpu_model: inventory-provided-example
+      cpu_cores: 8
+      memory_bytes: 17179869184
+    network:
+      primary_interface: lo0
+      addresses: [127.0.0.1]
+    storage:
+      data_dir: /tmp/valkey-largecluster
