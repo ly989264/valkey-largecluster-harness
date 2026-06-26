@@ -10,6 +10,7 @@ from harness.cluster.create import create_cluster
 from harness.events import append_event
 from harness.inventory import ValidationError, load_inventory
 from harness.planner import build_cluster_plan, write_cluster_plan
+from harness.remote.ssh_exec import LocalhostExecutor, SshExecutor, run_logged
 from harness.report.generator import generate_report
 from harness.scenario import load_scenario
 from nodehost.valkey_cli import ValkeyCli
@@ -48,6 +49,24 @@ def main(argv: list[str] | None = None) -> int:
     run.add_argument("--scenario", required=True)
     run.add_argument("--out-dir")
 
+    preflight = subparsers.add_parser("preflight", help="validate inventory/scenario and host adapters")
+    preflight.add_argument("--inventory", required=True)
+    preflight.add_argument("--scenario", required=True)
+
+    deploy = subparsers.add_parser("deploy", help="deploy nodehost containers")
+    deploy.add_argument("--inventory", required=True)
+    deploy.add_argument("--scenario", required=True)
+    deploy.add_argument("--out-dir")
+    deploy.add_argument("--dry-run", action="store_true")
+    deploy.add_argument("--apply", action="store_true")
+
+    destroy = subparsers.add_parser("destroy", help="destroy this run's nodehost containers")
+    destroy.add_argument("--inventory", required=True)
+    destroy.add_argument("--scenario", required=True)
+    destroy.add_argument("--out-dir")
+    destroy.add_argument("--dry-run", action="store_true")
+    destroy.add_argument("--apply", action="store_true")
+
     args = parser.parse_args(argv)
     if args.command == "validate":
         return _validate(Path(args.inventory), Path(args.scenario))
@@ -61,6 +80,26 @@ def main(argv: list[str] | None = None) -> int:
         return _check_cluster(Path(args.plan), Path(args.events), args.valkey_cli)
     if args.command == "run":
         return _run(Path(args.inventory), Path(args.scenario), args.out_dir)
+    if args.command == "preflight":
+        return _preflight(Path(args.inventory), Path(args.scenario))
+    if args.command == "deploy":
+        return _deploy_or_destroy(
+            "deploy",
+            Path(args.inventory),
+            Path(args.scenario),
+            args.out_dir,
+            args.dry_run,
+            args.apply,
+        )
+    if args.command == "destroy":
+        return _deploy_or_destroy(
+            "destroy",
+            Path(args.inventory),
+            Path(args.scenario),
+            args.out_dir,
+            args.dry_run,
+            args.apply,
+        )
     parser.error(f"unknown command {args.command}")
     return 2
 
@@ -101,13 +140,6 @@ def _plan(inventory_path: Path, scenario_path: Path, out_dir: str | None) -> int
 def _load_and_cross_validate(inventory_path: Path, scenario_path: Path):
     inventory = load_inventory(inventory_path)
     scenario = load_scenario(scenario_path)
-    if inventory.topology_mode != scenario.topology_mode:
-        raise ValidationError(
-            [
-                "inventory.topology_mode must match scenario.topology_mode "
-                f"({inventory.topology_mode!r} != {scenario.topology_mode!r})"
-            ]
-        )
     return inventory, scenario
 
 
@@ -185,6 +217,92 @@ class _CliAdapter:
         if result.returncode != 0:
             raise RuntimeError(result.stderr.strip() or result.stdout.strip())
         return result.stdout
+
+
+def _preflight(inventory_path: Path, scenario_path: Path) -> int:
+    try:
+        inventory, scenario = _load_and_cross_validate(inventory_path, scenario_path)
+        plan = build_cluster_plan(inventory, scenario)
+    except (ValidationError, ValueError) as exc:
+        print(f"Preflight failed: {exc}", file=sys.stderr)
+        return 1
+    print(
+        f"Preflight passed: inventory={inventory.name} scenario={scenario.name} "
+        f"virtual AZ mode={inventory.topology_mode} nodes={len(plan['nodes'])}"
+    )
+    return 0
+
+
+def _deploy_or_destroy(
+    action: str,
+    inventory_path: Path,
+    scenario_path: Path,
+    out_dir: str | None,
+    dry_run: bool,
+    apply: bool,
+) -> int:
+    if apply == dry_run:
+        print(f"{action} requires exactly one of --dry-run or --apply", file=sys.stderr)
+        return 2
+    try:
+        inventory, scenario = _load_and_cross_validate(inventory_path, scenario_path)
+        target_dir = Path(out_dir) if out_dir else Path("artifacts") / scenario.run_id
+        plan = build_cluster_plan(inventory, scenario)
+        plan_path = write_cluster_plan(plan, target_dir)
+        events_path = target_dir / "events.jsonl"
+        for virtual_az in plan["virtual_azs"]:
+            host_id = virtual_az["host_ids"][0]
+            host = next(item for item in inventory.hosts if item.id == host_id)
+            executor = _executor_for_host(host)
+            command = _deploy_command(action, scenario.run_id, virtual_az["id"], plan_path)
+            result = run_logged(
+                executor,
+                command,
+                events_path,
+                scenario.run_id,
+                host_id,
+                dry_run=dry_run,
+            )
+            if result.returncode != 0:
+                print(result.stderr or result.stdout, file=sys.stderr)
+                return result.returncode
+    except (ValidationError, ValueError, StopIteration) as exc:
+        print(f"{action} failed: {exc}", file=sys.stderr)
+        return 1
+    print(f"{action} {'planned' if dry_run else 'applied'} for run_id={scenario.run_id}")
+    return 0
+
+
+def _executor_for_host(host):
+    method = host.access.get("method")
+    if method == "localhost":
+        return LocalhostExecutor()
+    return SshExecutor(host.address, host.access.get("user"))
+
+
+def _deploy_command(action: str, run_id: str, virtual_az_id: str, plan_path: Path) -> list[str]:
+    container = f"valkey-lc-{run_id}-{virtual_az_id}"
+    if action == "destroy":
+        return ["docker", "rm", "-f", container]
+    return [
+        "docker",
+        "run",
+        "-d",
+        "--name",
+        container,
+        "--network",
+        "host",
+        "-v",
+        "/data/valkey-largecluster:/data/valkey-largecluster",
+        "valkey-largecluster-nodehost:local",
+        "start",
+        "--plan",
+        str(plan_path),
+        "--run-dir",
+        f"/data/valkey-largecluster/runs/{run_id}/{virtual_az_id}",
+        "--valkey-server",
+        "${VALKEY_SERVER:-valkey-server}",
+    ]
 
 
 if __name__ == "__main__":
