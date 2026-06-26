@@ -25,4 +25,8 @@ destroy:
 	python3 -m harness.harnessctl destroy --inventory "$(INVENTORY)" --scenario "$(SCENARIO)" --out-dir "$(or $(OUT_DIR),artifacts/$$(basename "$(SCENARIO)" .yaml))" $(if $(APPLY),--apply,--dry-run)
 
 docker-build:
-	docker build -f docker/nodehost.Dockerfile -t valkey-largecluster-nodehost:local .
+	@base_image="$(or $(BASE_IMAGE),python:3.11-slim)"; \
+	if [ -z "$(BASE_IMAGE)" ] && docker image inspect dev-rockylinux-9.5-backup:latest >/dev/null 2>&1; then \
+		base_image="dev-rockylinux-9.5-backup:latest"; \
+	fi; \
+	docker build --build-arg BASE_IMAGE="$$base_image" -f docker/nodehost.Dockerfile -t valkey-largecluster-nodehost:local .
