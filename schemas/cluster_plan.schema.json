@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Valkey large-cluster execution plan",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "run_id",
+    "inventory",
+    "scenario",
+    "slot_count",
+    "placement_degraded",
+    "placement_degraded_reasons",
+    "virtual_azs",
+    "nodes"
+  ],
+  "properties": {
+    "schema_version": {"type": "integer"},
+    "run_id": {"type": "string"},
+    "inventory": {"type": "object"},
+    "scenario": {"type": "object"},
+    "slot_count": {"const": 16384},
+    "placement_degraded": {"type": "boolean"},
+    "placement_degraded_reasons": {"type": "array", "items": {"type": "string"}},
+    "virtual_azs": {"type": "array"},
+    "nodes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "role",
+          "primary_id",
+          "host_id",
+          "virtual_az_id",
+          "client_port",
+          "bus_port",
+          "slots"
+        ],
+        "properties": {
+          "id": {"type": "string"},
+          "role": {"enum": ["primary", "replica"]},
+          "primary_id": {"type": ["string", "null"]},
+          "host_id": {"type": "string"},
+          "virtual_az_id": {"type": "string"},
+          "client_port": {"type": "integer"},
+          "bus_port": {"type": "integer"},
+          "slots": {"type": "array"}
+        }
+      }
+    }
+  }
+}
