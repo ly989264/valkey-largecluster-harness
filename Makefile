@@ -1,4 +1,4 @@
-.PHONY: test validate plan report docker-build
+.PHONY: test validate plan report run docker-build
 
 test:
 	python3 -m pytest
@@ -11,6 +11,9 @@ plan:
 
 report:
 	python3 -m harness.harnessctl report --run-id "$(RUN_ID)" $(if $(ARTIFACTS_DIR),--artifacts-dir "$(ARTIFACTS_DIR)",)
+
+run:
+	python3 -m harness.harnessctl run --inventory "$(INVENTORY)" --scenario "$(SCENARIO)" --out-dir "$(or $(OUT_DIR),artifacts/$$(basename "$(SCENARIO)" .yaml))"
 
 docker-build:
 	docker build -f docker/nodehost.Dockerfile -t valkey-largecluster-nodehost:local .
