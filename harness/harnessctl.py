@@ -6,6 +6,7 @@ from pathlib import Path
 
 from harness.inventory import ValidationError, load_inventory
 from harness.planner import build_cluster_plan, write_cluster_plan
+from harness.report.generator import generate_report
 from harness.scenario import load_scenario
 
 
@@ -22,11 +23,18 @@ def main(argv: list[str] | None = None) -> int:
     plan.add_argument("--scenario", required=True)
     plan.add_argument("--out-dir")
 
+    report = subparsers.add_parser("report", help="generate report from run artifacts")
+    report.add_argument("--run-id", required=True)
+    report.add_argument("--artifacts-dir")
+    report.add_argument("--reports-root", default="reports")
+
     args = parser.parse_args(argv)
     if args.command == "validate":
         return _validate(Path(args.inventory), Path(args.scenario))
     if args.command == "plan":
         return _plan(Path(args.inventory), Path(args.scenario), args.out_dir)
+    if args.command == "report":
+        return _report(args.run_id, args.artifacts_dir, args.reports_root)
     parser.error(f"unknown command {args.command}")
     return 2
 
@@ -75,6 +83,18 @@ def _load_and_cross_validate(inventory_path: Path, scenario_path: Path):
             ]
         )
     return inventory, scenario
+
+
+def _report(run_id: str, artifacts_dir: str | None, reports_root: str) -> int:
+    source = Path(artifacts_dir) if artifacts_dir else Path("artifacts") / run_id
+    if not source.exists() and run_id == "fixture-minimal":
+        source = Path("tests/fixtures/minimal_run")
+    if not source.exists():
+        print(f"Report generation failed: artifacts directory not found: {source}", file=sys.stderr)
+        return 1
+    path = generate_report(run_id, source, reports_root)
+    print(f"Wrote report: {path}")
+    return 0
 
 
 if __name__ == "__main__":

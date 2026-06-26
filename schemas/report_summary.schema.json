@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Valkey large-cluster report summary",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "executive_summary": {"type": "string"},
+    "environment": {"type": "object"},
+    "test_matrix": {"type": "array"},
+    "cluster_formation": {"type": "string"},
+    "failover": {"type": "string"},
+    "migration": {"type": "string"},
+    "resource_metrics": {"type": "object"},
+    "validation": {
+      "type": "object",
+      "properties": {
+        "validated": {"type": "array"},
+        "not_validated": {"type": "array"},
+        "inconclusive": {"type": "array"}
+      }
+    }
+  }
+}

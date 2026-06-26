@@ -1,0 +1,20 @@
+{
+  "cluster_formation": "Plan fixture only; cluster creation is not validated in this fixture.",
+  "environment": {
+    "inventory": "single-mac-dev",
+    "valkey_version": "MISSING"
+  },
+  "executive_summary": "Fixture report for validating report generation.",
+  "failover": "",
+  "migration": "",
+  "resource_metrics": {
+    "rss_bytes": "MISSING",
+    "fd_count": "MISSING"
+  },
+  "test_matrix": ["fixture-report-generation"],
+  "validation": {
+    "inconclusive": ["real metrics collection"],
+    "not_validated": ["real Valkey process runtime"],
+    "validated": ["report generation from fixture artifacts"]
+  }
+}

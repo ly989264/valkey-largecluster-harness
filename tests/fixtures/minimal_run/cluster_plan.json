@@ -1,0 +1,52 @@
+{
+  "inventory": {
+    "name": "single-mac-dev",
+    "path": "inventories/single-mac.dev.yaml",
+    "topology_mode": "single_az"
+  },
+  "nodes": [
+    {
+      "bus_port": 17000,
+      "client_port": 7000,
+      "host_id": "mac-local",
+      "id": "node-0001",
+      "primary_id": null,
+      "role": "primary",
+      "slots": [{"end": 5461, "start": 0}],
+      "virtual_az_id": "vaz-a"
+    },
+    {
+      "bus_port": 17003,
+      "client_port": 7003,
+      "host_id": "mac-local",
+      "id": "node-0004",
+      "primary_id": "node-0001",
+      "role": "replica",
+      "slots": [],
+      "virtual_az_id": "vaz-a"
+    }
+  ],
+  "placement_degraded": true,
+  "placement_degraded_reasons": [
+    "node-0001: replica anti-affinity degraded: virtual AZ and host diversity unavailable"
+  ],
+  "run_id": "fixture-minimal",
+  "scenario": {
+    "name": "smoke-6",
+    "node_count": 6,
+    "path": "scenarios/smoke-6.yaml",
+    "replicas_per_primary": 1,
+    "topology": "primary_replica"
+  },
+  "schema_version": 1,
+  "slot_count": 16384,
+  "virtual_azs": [
+    {
+      "bus_port_offset": 10000,
+      "host_ids": ["mac-local"],
+      "id": "vaz-a",
+      "node_port_end": 7099,
+      "node_port_start": 7000
+    }
+  ]
+}
