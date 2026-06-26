@@ -1,0 +1,18 @@
+name: migration-100
+run_id: migration-100
+topology_mode: single_az
+topology: primary_replica
+node_count: 100
+replicas_per_primary: 1
+validation:
+  duration_seconds: 300
+  require_full_slot_coverage: true
+traffic:
+  profile: migration
+  clients: 4
+virtual_az_placement:
+  mode: single_az
+tests:
+  - migration
+timeouts:
+  scenario_seconds: 1800

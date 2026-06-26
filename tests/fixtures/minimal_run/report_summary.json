@@ -16,7 +16,14 @@
       "fault_injected_at": "MISSING"
     }
   },
-  "migration": "",
+  "migration": {
+    "clusterscan": {
+      "status": "SKIPPED_SCOPE"
+    },
+    "migration": {
+      "status": "SKIPPED_SCOPE"
+    }
+  },
   "resource_metrics": {
     "rss_bytes": "MISSING",
     "fd_count": "MISSING"

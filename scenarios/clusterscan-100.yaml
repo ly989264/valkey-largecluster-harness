@@ -1,0 +1,18 @@
+name: clusterscan-100
+run_id: clusterscan-100
+topology_mode: single_az
+topology: primary_replica
+node_count: 100
+replicas_per_primary: 1
+validation:
+  duration_seconds: 300
+  require_full_slot_coverage: true
+traffic:
+  profile: clusterscan
+  clients: 4
+virtual_az_placement:
+  mode: single_az
+tests:
+  - clusterscan
+timeouts:
+  scenario_seconds: 1800

@@ -49,7 +49,7 @@ def _build_context(
         "test_matrix": _list(tests),
         "cluster_formation": _value(summary.get("cluster_formation")),
         "failover": _failover(summary.get("failover")),
-        "migration": _value(summary.get("migration")),
+        "migration": _migration(summary.get("migration")),
         "resource_metrics": _mapping(resource_metrics),
         "validated": _list(validation.get("validated", [])),
         "not_validated": _list(validation.get("not_validated", [])),
@@ -136,6 +136,21 @@ def _failover(value: Any) -> str:
     lines.append("- Stale owner checks:")
     lines.append(_list(stale))
     return "\n".join(lines)
+
+
+def _migration(value: Any) -> str:
+    if not isinstance(value, dict) or not value:
+        return _value(value)
+    lines = []
+    migration = value.get("migration")
+    clusterscan = value.get("clusterscan")
+    if migration is not None:
+        lines.append("Migration:")
+        lines.append(_mapping(migration) if isinstance(migration, dict) else _value(migration))
+    if clusterscan is not None:
+        lines.append("CLUSTERSCAN:")
+        lines.append(_mapping(clusterscan) if isinstance(clusterscan, dict) else _value(clusterscan))
+    return "\n".join(lines) if lines else MISSING
 
 
 def _commands(run_id: str) -> str:
