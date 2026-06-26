@@ -28,6 +28,12 @@
     "rss_bytes": "MISSING",
     "fd_count": "MISSING"
   },
+  "stability_gates": {
+    "gates": {
+      "cluster_state_no_flapping": "MISSING"
+    },
+    "status": "INCONCLUSIVE"
+  },
   "test_matrix": ["fixture-report-generation"],
   "validation": {
     "inconclusive": ["real metrics collection"],

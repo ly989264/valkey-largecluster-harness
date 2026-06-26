@@ -4,12 +4,12 @@ virtual_azs:
   - id: vaz-a
     host_ids: [mac-a]
     node_port_start: 7000
-    node_port_end: 7199
+    node_port_end: 7999
     bus_port_offset: 10000
   - id: vaz-b
     host_ids: [mac-b]
     node_port_start: 7000
-    node_port_end: 7199
+    node_port_end: 7999
     bus_port_offset: 10000
 hosts:
   - id: mac-a

@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from pathlib import Path
+from typing import Any
 
 from harness.cluster.create import ClusterClient
 from harness.cluster.nodes import endpoint, primaries
@@ -12,6 +13,12 @@ from harness.events import append_event
 class ClusterCheckResult:
     ok: bool
     checks: dict[str, str | int | bool]
+
+
+@dataclass(frozen=True)
+class StabilityGateResult:
+    status: str
+    gates: dict[str, str]
 
 
 def check_cluster(plan: dict, client: ClusterClient, events_path: str | Path) -> ClusterCheckResult:
@@ -79,3 +86,61 @@ def _slot_owner_unique(output: str) -> bool | str:
                 return False
             seen.add(slot)
     return len(seen) == 16384
+
+
+def evaluate_stability_gates(samples: list[dict[str, Any]]) -> StabilityGateResult:
+    if not samples:
+        return StabilityGateResult("INCONCLUSIVE", {"samples": "MISSING"})
+    gates = {
+        "cluster_state_no_flapping": _no_flapping(samples, "cluster_state", "ok"),
+        "known_nodes_stable": _stable(samples, "known_nodes"),
+        "slots_ok_16384": _all_equal(samples, "slots_ok", 16384),
+        "rss_no_unbounded_growth": _bounded_growth(samples, "rss_bytes"),
+        "fd_no_unbounded_growth": _bounded_growth(samples, "fd_count"),
+        "socket_no_unbounded_growth": _bounded_growth(samples, "socket_count"),
+        "cluster_link_buffer_not_exceeded": _all_false(samples, "cluster_link_buffer_exceeded"),
+    }
+    if any(value == "FAILED" for value in gates.values()):
+        status = "FAILED"
+    elif any(value == "MISSING" for value in gates.values()):
+        status = "INCONCLUSIVE"
+    else:
+        status = "VALIDATED"
+    return StabilityGateResult(status, gates)
+
+
+def _no_flapping(samples: list[dict[str, Any]], key: str, expected: Any) -> str:
+    values = [sample.get(key, "MISSING") for sample in samples]
+    if "MISSING" in values:
+        return "MISSING"
+    return "VALIDATED" if all(value == expected for value in values) else "FAILED"
+
+
+def _stable(samples: list[dict[str, Any]], key: str) -> str:
+    values = [sample.get(key, "MISSING") for sample in samples]
+    if "MISSING" in values:
+        return "MISSING"
+    return "VALIDATED" if len(set(values)) == 1 else "FAILED"
+
+
+def _all_equal(samples: list[dict[str, Any]], key: str, expected: Any) -> str:
+    values = [sample.get(key, "MISSING") for sample in samples]
+    if "MISSING" in values:
+        return "MISSING"
+    return "VALIDATED" if all(value == expected for value in values) else "FAILED"
+
+
+def _bounded_growth(samples: list[dict[str, Any]], key: str) -> str:
+    values = [sample.get(key, "MISSING") for sample in samples]
+    if "MISSING" in values:
+        return "MISSING"
+    numeric = [float(value) for value in values]
+    baseline = max(numeric[0], 1.0)
+    return "VALIDATED" if numeric[-1] <= baseline * 2 else "FAILED"
+
+
+def _all_false(samples: list[dict[str, Any]], key: str) -> str:
+    values = [sample.get(key, "MISSING") for sample in samples]
+    if "MISSING" in values:
+        return "MISSING"
+    return "VALIDATED" if not any(values) else "FAILED"

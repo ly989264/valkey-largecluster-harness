@@ -51,6 +51,7 @@ def _build_context(
         "failover": _failover(summary.get("failover")),
         "migration": _migration(summary.get("migration")),
         "resource_metrics": _mapping(resource_metrics),
+        "stability_gates": _stability(summary.get("stability_gates")),
         "validated": _list(validation.get("validated", [])),
         "not_validated": _list(validation.get("not_validated", [])),
         "inconclusive": _list(validation.get("inconclusive", [])),
@@ -151,6 +152,17 @@ def _migration(value: Any) -> str:
         lines.append("CLUSTERSCAN:")
         lines.append(_mapping(clusterscan) if isinstance(clusterscan, dict) else _value(clusterscan))
     return "\n".join(lines) if lines else MISSING
+
+
+def _stability(value: Any) -> str:
+    if not isinstance(value, dict) or not value:
+        return MISSING
+    lines = [f"- Status: {_value(value.get('status'))}"]
+    gates = value.get("gates")
+    if isinstance(gates, dict):
+        lines.append("- Gates:")
+        lines.extend(f"  - {key}: {_value(gates.get(key))}" for key in sorted(gates))
+    return "\n".join(lines)
 
 
 def _commands(run_id: str) -> str:

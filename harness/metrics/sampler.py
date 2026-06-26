@@ -14,6 +14,19 @@ class Sample:
     value: object
 
 
+@dataclass(frozen=True)
+class SamplingPolicy:
+    sampled_check_seconds: int
+    full_check_seconds: int
+    stagger_seconds: float
+
+    def should_sample(self, elapsed_seconds: int) -> bool:
+        return elapsed_seconds % self.sampled_check_seconds == 0
+
+    def should_full_check(self, elapsed_seconds: int) -> bool:
+        return elapsed_seconds % self.full_check_seconds == 0
+
+
 def sample_until(
     probe: Callable[[], T],
     predicate: Callable[[T], bool],

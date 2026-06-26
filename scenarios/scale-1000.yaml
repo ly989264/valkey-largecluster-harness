@@ -1,0 +1,21 @@
+name: scale-1000
+run_id: scale-1000
+topology_mode: physical_aligned
+topology: primary_replica
+node_count: 1000
+replicas_per_primary: 1
+validation:
+  duration_seconds: 1800
+  require_full_slot_coverage: true
+traffic:
+  profile: scale
+  clients: 48
+virtual_az_placement:
+  mode: physical_aligned
+tests:
+  - cluster_create_check
+  - stability_gates
+timeouts:
+  scenario_seconds: 10800
+  sampled_check_seconds: 30
+  full_check_seconds: 900
