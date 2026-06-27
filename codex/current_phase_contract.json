@@ -1,57 +1,53 @@
 {
-  "id": "P02",
-  "order": 2,
-  "name": "配置契约：inventory 与 scenario",
-  "goal": "让 inventory 与 scenario 成为唯一输入源，覆盖物理主机、平台、虚拟 AZ、拓扑模式、端口、runtime 与 cluster scale。",
+  "id": "P03",
+  "order": 3,
+  "name": "虚拟 AZ 拓扑规划",
+  "goal": "实现 deterministic virtual AZ placement，支持 single_az、physical_aligned、uniform_interleaved、custom。",
   "allowed_paths": [
     "harness/harnessctl.py",
     "harness/config.py",
-    "harness/inventory.py",
-    "harness/scenario.py",
-    "harness/mini_yaml.py",
-    "harness/schema_validator.py",
-    "schemas/**",
-    "inventories/**",
-    "scenarios/**",
-    "tests/test_p02_config.py",
+    "harness/topology.py",
+    "harness/planner.py",
+    "tests/test_p03_virtual_az.py",
     "tests/helpers/**",
     "tests/conftest.py",
     "codex/loop_state.json",
     "codex/current_phase_contract.json",
     "codex/current_phase_contract.md",
-    "artifacts/phase-P02/**"
+    "artifacts/phase-P03/**"
   ],
   "pre_gate_commands": [
-    "python3 -m py_compile harness/config.py harness/inventory.py harness/scenario.py harness/mini_yaml.py harness/schema_validator.py harness/harnessctl.py",
-    "python3 -m unittest discover -s tests -p 'test_p02_config.py'",
-    "python3 -m harness.harnessctl validate --inventory inventories/single-mac-dev.yaml --scenario scenarios/smoke-6.yaml --json",
-    "python3 -m harness.harnessctl validate --inventory inventories/two-mac-physical-aligned.yaml --scenario scenarios/smoke-6.yaml --json",
-    "python3 -m harness.harnessctl validate --inventory inventories/three-mac-uniform-interleaved.yaml --scenario scenarios/smoke-6.yaml --json"
+    "python3 -m py_compile harness/topology.py harness/planner.py harness/harnessctl.py",
+    "python3 -m unittest discover -s tests -p 'test_p03_virtual_az.py'",
+    "python3 -m harness.harnessctl plan --inventory inventories/single-mac-dev.yaml --scenario scenarios/smoke-6.yaml --json > /tmp/plan-single.json",
+    "python3 -m harness.harnessctl plan --inventory inventories/two-mac-physical-aligned.yaml --scenario scenarios/smoke-6.yaml --json > /tmp/plan-two.json",
+    "python3 -m harness.harnessctl plan --inventory inventories/three-mac-uniform-interleaved.yaml --scenario scenarios/smoke-6.yaml --json > /tmp/plan-three.json"
   ],
   "required_artifacts": [
-    "artifacts/phase-P02/result.json",
-    "artifacts/phase-P02/notes.md",
-    "artifacts/phase-P02/commands.log",
-    "artifacts/phase-P02/commands.jsonl",
-    "artifacts/phase-P02/changed_files.txt"
+    "artifacts/phase-P03/result.json",
+    "artifacts/phase-P03/notes.md",
+    "artifacts/phase-P03/commands.log",
+    "artifacts/phase-P03/commands.jsonl",
+    "artifacts/phase-P03/changed_files.txt"
   ],
   "required_outputs": [
-    "Inventory and Scenario dataclasses or typed models with explicit defaults",
-    "Strict loader for .json/.yaml/.yml using standard library only; optional PyYAML may be used only as enhancement, not requirement",
-    "schemas/inventory.schema.json and schemas/scenario.schema.json used by code, not decorative",
-    "Sample inventories: single-mac-dev, two-mac-physical-aligned, three-mac-uniform-interleaved",
-    "Sample scenarios: smoke-6 and scale-100",
-    "harnessctl validate wired to config validation"
+    "VirtualAZPlacement model",
+    "Topology planner with deterministic ordering: physical_host_id, virtual_az_id, node_index",
+    "virtual_az_host_matrix in plan output",
+    "co-location and durability warnings when isolation is weak",
+    "harnessctl plan produces JSON topology draft"
   ],
   "acceptance": [
-    "Valid samples pass",
-    "Missing physical_hosts, illegal topology_mode, overlapping client/bus ports, total_nodes <= 0, and invalid replica settings fail with clear JSON errors",
-    "Config layer owns defaults; later planner phases must not invent hidden defaults"
+    "single_az creates one virtual AZ and emits explicit warning",
+    "physical_aligned supports 2 physical hosts / 3 virtual AZs without pretending physical isolation is perfect",
+    "uniform_interleaved emits every physical host x virtual AZ matrix entry",
+    "custom follows explicit mapping/weights exactly",
+    "Repeated plan command on same inputs gives byte-stable JSON after stable key ordering"
   ],
   "forbidden": [
-    "Do not plan topology in P02",
-    "Do not silently coerce invalid config into valid config"
+    "Do not allocate ports or slots in P03",
+    "Do not use randomness or wall-clock time in planning"
   ],
   "manifest_sha256": "d34c3ae82d24fdfa64baf19779a405194f3c2bd9e559951d6b7350fcad478f30",
-  "phase_card_sha256": "0dc29bb2d70eb7a9c65741e9b1dd31a5ef367cd7bab68ce4809ac92f1301c49e"
+  "phase_card_sha256": "075fc4fa76c169aff493ea400f94cc88d24cb04fbc4fba9ea0e65b9882aa1737"
 }

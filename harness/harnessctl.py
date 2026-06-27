@@ -7,6 +7,7 @@ from harness import __version__
 from harness.config import ConfigError, validate_config
 from harness.errors import HarnessError
 from harness.jsonio import base_payload, emit
+from harness.planner import PlanError, build_topology_plan
 
 
 COMMANDS = ("version", "doctor", "validate", "plan", "run-scenario", "report")
@@ -59,6 +60,19 @@ def handle_validate(args):
     return 0
 
 
+def handle_plan(args):
+    if not args.inventory or not args.scenario:
+        emit(command_payload("plan", status="NOT_IMPLEMENTED", reason="P03 plan requires --inventory and --scenario"))
+        return 0
+    try:
+        plan = build_topology_plan(args.inventory, args.scenario)
+    except (ConfigError, PlanError) as exc:
+        emit(command_payload("plan", status="FAIL", reason=str(exc)), stream=sys.stderr)
+        return 1
+    emit(command_payload("plan", plan=plan))
+    return 0
+
+
 def build_parser():
     parser = argparse.ArgumentParser(prog="harnessctl")
     sub = parser.add_subparsers(dest="command", required=True)
@@ -78,7 +92,13 @@ def build_parser():
     validate.add_argument("--json", action="store_true", help="emit JSON")
     validate.set_defaults(func=handle_validate)
 
-    for name in ("plan", "run-scenario", "report"):
+    plan = sub.add_parser("plan", help="create a deterministic topology draft")
+    plan.add_argument("--inventory", help="inventory file path")
+    plan.add_argument("--scenario", help="scenario file path")
+    plan.add_argument("--json", action="store_true", help="emit JSON")
+    plan.set_defaults(func=handle_plan)
+
+    for name in ("run-scenario", "report"):
         cmd = sub.add_parser(name, help=f"{name} command shell")
         cmd.add_argument("--json", action="store_true", help="emit JSON")
         cmd.set_defaults(func=handle_not_implemented(name))

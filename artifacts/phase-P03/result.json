@@ -1,0 +1,87 @@
+{
+  "phase": "P03",
+  "status": "PASS",
+  "attempt": 1,
+  "manifest_sha256": "d34c3ae82d24fdfa64baf19779a405194f3c2bd9e559951d6b7350fcad478f30",
+  "phase_card_sha256": "075fc4fa76c169aff493ea400f94cc88d24cb04fbc4fba9ea0e65b9882aa1737",
+  "summary": "P03 added deterministic virtual AZ topology planning and plan CLI output without allocating ports, slots, or replica relationships.",
+  "expected_outputs": [
+    "VirtualAZPlacement model",
+    "Topology planner with deterministic ordering: physical_host_id, virtual_az_id, node_index",
+    "virtual_az_host_matrix in plan output",
+    "co-location and durability warnings when isolation is weak",
+    "harnessctl plan produces JSON topology draft"
+  ],
+  "verified_outputs": [
+    {
+      "output": "VirtualAZPlacement model",
+      "evidence": "harness/topology.py and tests/test_p03_virtual_az.py"
+    },
+    {
+      "output": "Topology planner with deterministic ordering: physical_host_id, virtual_az_id, node_index",
+      "evidence": "unit test asserts sorted node_drafts and repeated CLI output byte stability"
+    },
+    {
+      "output": "virtual_az_host_matrix in plan output",
+      "evidence": "unit test and plan pre-gate commands emit matrix"
+    },
+    {
+      "output": "co-location and durability warnings when isolation is weak",
+      "evidence": "single_az and physical_aligned tests assert warning content"
+    },
+    {
+      "output": "harnessctl plan produces JSON topology draft",
+      "evidence": "three plan pre-gate commands exit_code=0"
+    }
+  ],
+  "commands": [
+    {
+      "command": "python3 -m py_compile harness/topology.py harness/planner.py harness/harnessctl.py",
+      "exit_code": 0
+    },
+    {
+      "command": "python3 -m unittest discover -s tests -p 'test_p03_virtual_az.py'",
+      "exit_code": 0
+    },
+    {
+      "command": "python3 -m harness.harnessctl plan --inventory inventories/single-mac-dev.yaml --scenario scenarios/smoke-6.yaml --json > /tmp/plan-single.json",
+      "exit_code": 0
+    },
+    {
+      "command": "python3 -m harness.harnessctl plan --inventory inventories/two-mac-physical-aligned.yaml --scenario scenarios/smoke-6.yaml --json > /tmp/plan-two.json",
+      "exit_code": 0
+    },
+    {
+      "command": "python3 -m harness.harnessctl plan --inventory inventories/three-mac-uniform-interleaved.yaml --scenario scenarios/smoke-6.yaml --json > /tmp/plan-three.json",
+      "exit_code": 0
+    }
+  ],
+  "changed_files": [
+    "codex/current_phase_contract.json",
+    "codex/current_phase_contract.md",
+    "codex/loop_state.json",
+    "harness/harnessctl.py",
+    "artifacts/phase-P03/cmd-001.stderr.txt",
+    "artifacts/phase-P03/cmd-001.stdout.txt",
+    "artifacts/phase-P03/cmd-002.stderr.txt",
+    "artifacts/phase-P03/cmd-002.stdout.txt",
+    "artifacts/phase-P03/cmd-003.stderr.txt",
+    "artifacts/phase-P03/cmd-003.stdout.txt",
+    "artifacts/phase-P03/cmd-004.stderr.txt",
+    "artifacts/phase-P03/cmd-004.stdout.txt",
+    "artifacts/phase-P03/cmd-005.stderr.txt",
+    "artifacts/phase-P03/cmd-005.stdout.txt",
+    "artifacts/phase-P03/commands.jsonl",
+    "artifacts/phase-P03/commands.log",
+    "artifacts/phase-P03/notes.md",
+    "harness/planner.py",
+    "harness/topology.py",
+    "tests/test_p03_virtual_az.py",
+    "artifacts/phase-P03/result.json",
+    "artifacts/phase-P03/changed_files.txt"
+  ],
+  "risks": [
+    "P03 topology draft is not a complete ClusterPlan until P04.",
+    "No runtime or production Valkey validation is claimed."
+  ]
+}
