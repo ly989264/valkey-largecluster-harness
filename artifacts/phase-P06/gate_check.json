@@ -1,0 +1,143 @@
+{
+  "status": "OK",
+  "phase": "P06",
+  "checks": [
+    {
+      "check": "status_guard.py",
+      "ok": true,
+      "payload": {
+        "phase": "P06",
+        "phase_status": "IN_PROGRESS",
+        "status": "OK"
+      }
+    },
+    {
+      "check": "artifact_guard.py",
+      "ok": true,
+      "payload": {
+        "artifact_count": 5,
+        "command_count": 2,
+        "phase": "P06",
+        "status": "OK"
+      }
+    },
+    {
+      "check": "diff_guard.py",
+      "ok": true,
+      "payload": {
+        "allowed_paths": [
+          "harness/artifacts.py",
+          "harness/events.py",
+          "harness/status.py",
+          "harness/command_log.py",
+          "tests/test_p06_artifacts_events.py",
+          "tests/helpers/**",
+          "tests/conftest.py",
+          "codex/loop_state.json",
+          "codex/current_phase_contract.json",
+          "codex/current_phase_contract.md",
+          "artifacts/phase-P06/**"
+        ],
+        "changed_files": [
+          {
+            "file": "codex/current_phase_contract.json",
+            "status": "M"
+          },
+          {
+            "file": "codex/current_phase_contract.md",
+            "status": "M"
+          },
+          {
+            "file": "codex/loop_state.json",
+            "status": "M"
+          },
+          {
+            "file": "artifacts/phase-P06/changed_files.txt",
+            "status": "??"
+          },
+          {
+            "file": "artifacts/phase-P06/cmd-001.stderr.txt",
+            "status": "??"
+          },
+          {
+            "file": "artifacts/phase-P06/cmd-001.stdout.txt",
+            "status": "??"
+          },
+          {
+            "file": "artifacts/phase-P06/cmd-002.stderr.txt",
+            "status": "??"
+          },
+          {
+            "file": "artifacts/phase-P06/cmd-002.stdout.txt",
+            "status": "??"
+          },
+          {
+            "file": "artifacts/phase-P06/commands.jsonl",
+            "status": "??"
+          },
+          {
+            "file": "artifacts/phase-P06/commands.log",
+            "status": "??"
+          },
+          {
+            "file": "artifacts/phase-P06/gate_check.json",
+            "status": "??"
+          },
+          {
+            "file": "artifacts/phase-P06/notes.md",
+            "status": "??"
+          },
+          {
+            "file": "artifacts/phase-P06/result.json",
+            "status": "??"
+          },
+          {
+            "file": "harness/artifacts.py",
+            "status": "??"
+          },
+          {
+            "file": "harness/command_log.py",
+            "status": "??"
+          },
+          {
+            "file": "harness/events.py",
+            "status": "??"
+          },
+          {
+            "file": "harness/status.py",
+            "status": "??"
+          },
+          {
+            "file": "tests/test_p06_artifacts_events.py",
+            "status": "??"
+          }
+        ],
+        "phase": "P06",
+        "status": "OK"
+      }
+    },
+    {
+      "check": "forbidden_guard.py",
+      "ok": true,
+      "payload": {
+        "phase": "P06",
+        "status": "OK",
+        "violations": []
+      }
+    },
+    {
+      "check": "commands_exact",
+      "ok": true,
+      "payload": {
+        "command_count": 2
+      }
+    },
+    {
+      "check": "result_coverage",
+      "ok": true,
+      "payload": {
+        "verified_count": 5
+      }
+    }
+  ]
+}

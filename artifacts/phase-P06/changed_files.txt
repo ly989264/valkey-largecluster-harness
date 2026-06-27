@@ -1,0 +1,17 @@
+codex/current_phase_contract.json
+codex/current_phase_contract.md
+codex/loop_state.json
+artifacts/phase-P06/cmd-001.stderr.txt
+artifacts/phase-P06/cmd-001.stdout.txt
+artifacts/phase-P06/cmd-002.stderr.txt
+artifacts/phase-P06/cmd-002.stdout.txt
+artifacts/phase-P06/commands.jsonl
+artifacts/phase-P06/commands.log
+artifacts/phase-P06/notes.md
+harness/artifacts.py
+harness/command_log.py
+harness/events.py
+harness/status.py
+tests/test_p06_artifacts_events.py
+artifacts/phase-P06/result.json
+artifacts/phase-P06/changed_files.txt

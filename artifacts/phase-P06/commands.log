@@ -1,0 +1,10 @@
+$ python3 -m py_compile harness/artifacts.py harness/events.py harness/status.py harness/command_log.py
+exit_code=0
+stdout=artifacts/phase-P06/cmd-001.stdout.txt
+stderr=artifacts/phase-P06/cmd-001.stderr.txt
+
+$ python3 -m unittest discover -s tests -p 'test_p06_artifacts_events.py'
+exit_code=0
+stdout=artifacts/phase-P06/cmd-002.stdout.txt
+stderr=artifacts/phase-P06/cmd-002.stderr.txt
+

@@ -1,0 +1,70 @@
+{
+  "phase": "P06",
+  "status": "PASS",
+  "attempt": 1,
+  "manifest_sha256": "d34c3ae82d24fdfa64baf19779a405194f3c2bd9e559951d6b7350fcad478f30",
+  "phase_card_sha256": "69558e678fc46fb630c7d86193e21766486e8e2b3702c58d83c6f30096cc547f",
+  "summary": "P06 added disk-backed artifact layout, event replay, run status, and command log infrastructure for auditable report reconstruction.",
+  "expected_outputs": [
+    "ArtifactLayout based on run_id and root directory",
+    "EventRecorder writing JSONL, one valid JSON object per line",
+    "RunStatusWriter and CommandLogWriter",
+    "Readers tolerate corrupted JSONL lines by marking them invalid instead of crashing report",
+    "Event taxonomy includes run, command, node, cluster, fault, failover, metric, assertion events"
+  ],
+  "verified_outputs": [
+    {
+      "output": "ArtifactLayout based on run_id and root directory",
+      "evidence": "tests/test_p06_artifacts_events.py validates isolated run directories"
+    },
+    {
+      "output": "EventRecorder writing JSONL, one valid JSON object per line",
+      "evidence": "EventRecorder append/replay unit test"
+    },
+    {
+      "output": "RunStatusWriter and CommandLogWriter",
+      "evidence": "status and command log round-trip unit test"
+    },
+    {
+      "output": "Readers tolerate corrupted JSONL lines by marking them invalid instead of crashing report",
+      "evidence": "corrupted event line unit test"
+    },
+    {
+      "output": "Event taxonomy includes run, command, node, cluster, fault, failover, metric, assertion events",
+      "evidence": "EVENT_TYPES unit test"
+    }
+  ],
+  "commands": [
+    {
+      "command": "python3 -m py_compile harness/artifacts.py harness/events.py harness/status.py harness/command_log.py",
+      "exit_code": 0
+    },
+    {
+      "command": "python3 -m unittest discover -s tests -p 'test_p06_artifacts_events.py'",
+      "exit_code": 0
+    }
+  ],
+  "changed_files": [
+    "codex/current_phase_contract.json",
+    "codex/current_phase_contract.md",
+    "codex/loop_state.json",
+    "artifacts/phase-P06/cmd-001.stderr.txt",
+    "artifacts/phase-P06/cmd-001.stdout.txt",
+    "artifacts/phase-P06/cmd-002.stderr.txt",
+    "artifacts/phase-P06/cmd-002.stdout.txt",
+    "artifacts/phase-P06/commands.jsonl",
+    "artifacts/phase-P06/commands.log",
+    "artifacts/phase-P06/notes.md",
+    "harness/artifacts.py",
+    "harness/command_log.py",
+    "harness/events.py",
+    "harness/status.py",
+    "tests/test_p06_artifacts_events.py",
+    "artifacts/phase-P06/result.json",
+    "artifacts/phase-P06/changed_files.txt"
+  ],
+  "risks": [
+    "No scenario runtime or final report generation is performed in P06.",
+    "Callers must manage unique run_id values."
+  ]
+}

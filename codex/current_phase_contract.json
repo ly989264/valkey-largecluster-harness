@@ -1,50 +1,48 @@
 {
-  "id": "P05",
-  "order": 5,
-  "name": "Mac/Linux 平台抽象",
-  "goal": "集中 Darwin/Linux 差异，保持 planner、cluster_create、report 与平台命令解耦。",
+  "id": "P06",
+  "order": 6,
+  "name": "事件、状态与 artifacts 基础设施",
+  "goal": "让所有 harness 动作可审计，并使 report 可完全从磁盘 artifacts 重建。",
   "allowed_paths": [
-    "harness/harnessctl.py",
-    "harness/platform_adapter.py",
-    "harness/platform_darwin.py",
-    "harness/platform_linux.py",
-    "harness/executor.py",
-    "tests/test_p05_platform_adapter.py",
+    "harness/artifacts.py",
+    "harness/events.py",
+    "harness/status.py",
+    "harness/command_log.py",
+    "tests/test_p06_artifacts_events.py",
     "tests/helpers/**",
     "tests/conftest.py",
     "codex/loop_state.json",
     "codex/current_phase_contract.json",
     "codex/current_phase_contract.md",
-    "artifacts/phase-P05/**"
+    "artifacts/phase-P06/**"
   ],
   "pre_gate_commands": [
-    "python3 -m py_compile harness/platform_adapter.py harness/platform_darwin.py harness/platform_linux.py harness/executor.py harness/harnessctl.py",
-    "python3 -m unittest discover -s tests -p 'test_p05_platform_adapter.py'",
-    "python3 -m harness.harnessctl doctor --dry-run --json"
+    "python3 -m py_compile harness/artifacts.py harness/events.py harness/status.py harness/command_log.py",
+    "python3 -m unittest discover -s tests -p 'test_p06_artifacts_events.py'"
   ],
   "required_artifacts": [
-    "artifacts/phase-P05/result.json",
-    "artifacts/phase-P05/notes.md",
-    "artifacts/phase-P05/commands.log",
-    "artifacts/phase-P05/commands.jsonl",
-    "artifacts/phase-P05/changed_files.txt"
+    "artifacts/phase-P06/result.json",
+    "artifacts/phase-P06/notes.md",
+    "artifacts/phase-P06/commands.log",
+    "artifacts/phase-P06/commands.jsonl",
+    "artifacts/phase-P06/changed_files.txt"
   ],
   "required_outputs": [
-    "PlatformAdapter interface",
-    "Darwin and Linux adapters",
-    "FakeExecutor and SubprocessExecutor",
-    "Methods: detect_platform, check_port_available, process_exists, read_process_rss, count_process_fds, list_sockets, supports_host_network, supports_network_fault_injection, network_fault_backend_hint",
-    "doctor --dry-run can report capabilities through adapter without changing system state"
+    "ArtifactLayout based on run_id and root directory",
+    "EventRecorder writing JSONL, one valid JSON object per line",
+    "RunStatusWriter and CommandLogWriter",
+    "Readers tolerate corrupted JSONL lines by marking them invalid instead of crashing report",
+    "Event taxonomy includes run, command, node, cluster, fault, failover, metric, assertion events"
   ],
   "acceptance": [
-    "Core planner imports no platform_darwin/platform_linux module",
-    "Platform adapters are mockable and unit tests do not require real lsof/ps/docker/tc",
-    "Linux migration path is explicit, even when current machine is Darwin"
+    "events.jsonl supports append and replay",
+    "artifacts paths are isolated per run_id",
+    "Corrupted event line is represented as invalid evidence, not swallowed silently"
   ],
   "forbidden": [
-    "Do not scatter os.system/subprocess platform commands through core modules",
-    "Do not claim unsupported network fault support on Darwin"
+    "Do not make report depend on live in-memory objects",
+    "Do not let one run overwrite another run's artifacts"
   ],
   "manifest_sha256": "d34c3ae82d24fdfa64baf19779a405194f3c2bd9e559951d6b7350fcad478f30",
-  "phase_card_sha256": "aa0326723ffcd774c03f47fd6a8bd75a884242decd9cd6073817f6a901623b47"
+  "phase_card_sha256": "69558e678fc46fb630c7d86193e21766486e8e2b3702c58d83c6f30096cc547f"
 }

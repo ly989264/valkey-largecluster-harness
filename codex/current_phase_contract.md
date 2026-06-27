@@ -1,33 +1,31 @@
-# Current Phase Contract: P05
+# Current Phase Contract: P06
 
 ## Name
-Mac/Linux 平台抽象
+事件、状态与 artifacts 基础设施
 
 ## Goal
-集中 Darwin/Linux 差异，保持 planner、cluster_create、report 与平台命令解耦。
+让所有 harness 动作可审计，并使 report 可完全从磁盘 artifacts 重建。
 
 ## Allowed Paths
-- `harness/harnessctl.py`
-- `harness/platform_adapter.py`
-- `harness/platform_darwin.py`
-- `harness/platform_linux.py`
-- `harness/executor.py`
-- `tests/test_p05_platform_adapter.py`
+- `harness/artifacts.py`
+- `harness/events.py`
+- `harness/status.py`
+- `harness/command_log.py`
+- `tests/test_p06_artifacts_events.py`
 - `tests/helpers/**`
 - `tests/conftest.py`
 - `codex/loop_state.json`
 - `codex/current_phase_contract.json`
 - `codex/current_phase_contract.md`
-- `artifacts/phase-P05/**`
+- `artifacts/phase-P06/**`
 
 ## Pre-Gate Commands
-- `python3 -m py_compile harness/platform_adapter.py harness/platform_darwin.py harness/platform_linux.py harness/executor.py harness/harnessctl.py`
-- `python3 -m unittest discover -s tests -p 'test_p05_platform_adapter.py'`
-- `python3 -m harness.harnessctl doctor --dry-run --json`
+- `python3 -m py_compile harness/artifacts.py harness/events.py harness/status.py harness/command_log.py`
+- `python3 -m unittest discover -s tests -p 'test_p06_artifacts_events.py'`
 
 ## Required Artifacts
-- `artifacts/phase-P05/result.json`
-- `artifacts/phase-P05/notes.md`
-- `artifacts/phase-P05/commands.log`
-- `artifacts/phase-P05/commands.jsonl`
-- `artifacts/phase-P05/changed_files.txt`
+- `artifacts/phase-P06/result.json`
+- `artifacts/phase-P06/notes.md`
+- `artifacts/phase-P06/commands.log`
+- `artifacts/phase-P06/commands.jsonl`
+- `artifacts/phase-P06/changed_files.txt`
