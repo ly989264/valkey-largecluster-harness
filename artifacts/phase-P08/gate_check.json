@@ -1,0 +1,135 @@
+{
+  "status": "OK",
+  "phase": "P08",
+  "checks": [
+    {
+      "check": "status_guard.py",
+      "ok": true,
+      "payload": {
+        "phase": "P08",
+        "phase_status": "IN_PROGRESS",
+        "status": "OK"
+      }
+    },
+    {
+      "check": "artifact_guard.py",
+      "ok": true,
+      "payload": {
+        "artifact_count": 5,
+        "command_count": 2,
+        "phase": "P08",
+        "status": "OK"
+      }
+    },
+    {
+      "check": "diff_guard.py",
+      "ok": true,
+      "payload": {
+        "allowed_paths": [
+          "nodehost/valkey_config.py",
+          "nodehost/config_writer.py",
+          "nodehost/nodehostctl.py",
+          "harness/cluster_plan.py",
+          "tests/test_p08_valkey_config.py",
+          "tests/helpers/**",
+          "tests/conftest.py",
+          "codex/loop_state.json",
+          "codex/current_phase_contract.json",
+          "codex/current_phase_contract.md",
+          "artifacts/phase-P08/**"
+        ],
+        "changed_files": [
+          {
+            "file": "codex/current_phase_contract.json",
+            "status": "M"
+          },
+          {
+            "file": "codex/current_phase_contract.md",
+            "status": "M"
+          },
+          {
+            "file": "codex/loop_state.json",
+            "status": "M"
+          },
+          {
+            "file": "artifacts/phase-P08/changed_files.txt",
+            "status": "??"
+          },
+          {
+            "file": "artifacts/phase-P08/cmd-001.stderr.txt",
+            "status": "??"
+          },
+          {
+            "file": "artifacts/phase-P08/cmd-001.stdout.txt",
+            "status": "??"
+          },
+          {
+            "file": "artifacts/phase-P08/cmd-002.stderr.txt",
+            "status": "??"
+          },
+          {
+            "file": "artifacts/phase-P08/cmd-002.stdout.txt",
+            "status": "??"
+          },
+          {
+            "file": "artifacts/phase-P08/commands.jsonl",
+            "status": "??"
+          },
+          {
+            "file": "artifacts/phase-P08/commands.log",
+            "status": "??"
+          },
+          {
+            "file": "artifacts/phase-P08/gate_check.json",
+            "status": "??"
+          },
+          {
+            "file": "artifacts/phase-P08/notes.md",
+            "status": "??"
+          },
+          {
+            "file": "artifacts/phase-P08/result.json",
+            "status": "??"
+          },
+          {
+            "file": "nodehost/config_writer.py",
+            "status": "??"
+          },
+          {
+            "file": "nodehost/valkey_config.py",
+            "status": "??"
+          },
+          {
+            "file": "tests/test_p08_valkey_config.py",
+            "status": "??"
+          }
+        ],
+        "phase": "P08",
+        "status": "OK"
+      }
+    },
+    {
+      "check": "forbidden_guard.py",
+      "ok": true,
+      "payload": {
+        "phase": "P08",
+        "status": "OK",
+        "violations": []
+      }
+    },
+    {
+      "check": "commands_exact",
+      "ok": true,
+      "payload": {
+        "command_count": 2
+      }
+    },
+    {
+      "check": "result_coverage",
+      "ok": true,
+      "payload": {
+        "verified_count": 5
+      }
+    }
+  ]
+}

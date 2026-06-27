@@ -1,0 +1,10 @@
+$ python3 -m py_compile nodehost/valkey_config.py nodehost/config_writer.py nodehost/nodehostctl.py
+exit_code=0
+stdout=artifacts/phase-P08/cmd-001.stdout.txt
+stderr=artifacts/phase-P08/cmd-001.stderr.txt
+
+$ python3 -m unittest discover -s tests -p 'test_p08_valkey_config.py'
+exit_code=0
+stdout=artifacts/phase-P08/cmd-002.stdout.txt
+stderr=artifacts/phase-P08/cmd-002.stderr.txt
+

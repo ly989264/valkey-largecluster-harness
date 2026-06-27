@@ -1,0 +1,15 @@
+codex/current_phase_contract.json
+codex/current_phase_contract.md
+codex/loop_state.json
+artifacts/phase-P08/cmd-001.stderr.txt
+artifacts/phase-P08/cmd-001.stdout.txt
+artifacts/phase-P08/cmd-002.stderr.txt
+artifacts/phase-P08/cmd-002.stdout.txt
+artifacts/phase-P08/commands.jsonl
+artifacts/phase-P08/commands.log
+artifacts/phase-P08/notes.md
+nodehost/config_writer.py
+nodehost/valkey_config.py
+tests/test_p08_valkey_config.py
+artifacts/phase-P08/result.json
+artifacts/phase-P08/changed_files.txt

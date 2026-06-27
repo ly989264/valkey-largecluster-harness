@@ -1,32 +1,31 @@
-# Current Phase Contract: P07
+# Current Phase Contract: P08
 
 ## Name
-本地进程 nodehost 与 fake runtime
+Valkey 配置生成
 
 ## Goal
-支持单 Mac 小集群开发路径；真实 Valkey 缺失时 unit/fake path 仍可验证 nodehost contract。
+根据 ClusterPlan/NodeSpec 生成真实 Valkey cluster 配置文件；不启动集群。
 
 ## Allowed Paths
-- `nodehost/**`
-- `harness/nodehost_client.py`
-- `harness/artifacts.py`
-- `harness/events.py`
-- `tests/test_p07_nodehost_local.py`
+- `nodehost/valkey_config.py`
+- `nodehost/config_writer.py`
+- `nodehost/nodehostctl.py`
+- `harness/cluster_plan.py`
+- `tests/test_p08_valkey_config.py`
 - `tests/helpers/**`
 - `tests/conftest.py`
 - `codex/loop_state.json`
 - `codex/current_phase_contract.json`
 - `codex/current_phase_contract.md`
-- `artifacts/phase-P07/**`
+- `artifacts/phase-P08/**`
 
 ## Pre-Gate Commands
-- `python3 -m py_compile nodehost/nodehostctl.py nodehost/local_process.py nodehost/fake_valkey.py nodehost/process_table.py harness/nodehost_client.py`
-- `python3 -m unittest discover -s tests -p 'test_p07_nodehost_local.py'`
-- `python3 -m nodehost.nodehostctl status --json`
+- `python3 -m py_compile nodehost/valkey_config.py nodehost/config_writer.py nodehost/nodehostctl.py`
+- `python3 -m unittest discover -s tests -p 'test_p08_valkey_config.py'`
 
 ## Required Artifacts
-- `artifacts/phase-P07/result.json`
-- `artifacts/phase-P07/notes.md`
-- `artifacts/phase-P07/commands.log`
-- `artifacts/phase-P07/commands.jsonl`
-- `artifacts/phase-P07/changed_files.txt`
+- `artifacts/phase-P08/result.json`
+- `artifacts/phase-P08/notes.md`
+- `artifacts/phase-P08/commands.log`
+- `artifacts/phase-P08/commands.jsonl`
+- `artifacts/phase-P08/changed_files.txt`

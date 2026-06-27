@@ -1,50 +1,48 @@
 {
-  "id": "P07",
-  "order": 7,
-  "name": "本地进程 nodehost 与 fake runtime",
-  "goal": "支持单 Mac 小集群开发路径；真实 Valkey 缺失时 unit/fake path 仍可验证 nodehost contract。",
+  "id": "P08",
+  "order": 8,
+  "name": "Valkey 配置生成",
+  "goal": "根据 ClusterPlan/NodeSpec 生成真实 Valkey cluster 配置文件；不启动集群。",
   "allowed_paths": [
-    "nodehost/**",
-    "harness/nodehost_client.py",
-    "harness/artifacts.py",
-    "harness/events.py",
-    "tests/test_p07_nodehost_local.py",
+    "nodehost/valkey_config.py",
+    "nodehost/config_writer.py",
+    "nodehost/nodehostctl.py",
+    "harness/cluster_plan.py",
+    "tests/test_p08_valkey_config.py",
     "tests/helpers/**",
     "tests/conftest.py",
     "codex/loop_state.json",
     "codex/current_phase_contract.json",
     "codex/current_phase_contract.md",
-    "artifacts/phase-P07/**"
+    "artifacts/phase-P08/**"
   ],
   "pre_gate_commands": [
-    "python3 -m py_compile nodehost/nodehostctl.py nodehost/local_process.py nodehost/fake_valkey.py nodehost/process_table.py harness/nodehost_client.py",
-    "python3 -m unittest discover -s tests -p 'test_p07_nodehost_local.py'",
-    "python3 -m nodehost.nodehostctl status --json"
+    "python3 -m py_compile nodehost/valkey_config.py nodehost/config_writer.py nodehost/nodehostctl.py",
+    "python3 -m unittest discover -s tests -p 'test_p08_valkey_config.py'"
   ],
   "required_artifacts": [
-    "artifacts/phase-P07/result.json",
-    "artifacts/phase-P07/notes.md",
-    "artifacts/phase-P07/commands.log",
-    "artifacts/phase-P07/commands.jsonl",
-    "artifacts/phase-P07/changed_files.txt"
+    "artifacts/phase-P08/result.json",
+    "artifacts/phase-P08/notes.md",
+    "artifacts/phase-P08/commands.log",
+    "artifacts/phase-P08/commands.jsonl",
+    "artifacts/phase-P08/changed_files.txt"
   ],
   "required_outputs": [
-    "nodehost/nodehostctl.py CLI with status/prepare/start/stop/cleanup/metrics",
-    "nodehost/local_process.py local process manager",
-    "nodehost/fake_valkey.py fake runtime",
-    "nodehost/process_table.py run-scoped process table",
-    "harness/nodehost_client.py client contract",
-    "Idempotent start/stop/cleanup behavior"
+    "ValkeyConfigRenderer",
+    "ConfigWriter creating isolated node directories",
+    "Rendered fields: port, cluster-enabled yes, cluster-config-file, cluster-node-timeout, cluster-announce-ip, cluster-announce-port, cluster-announce-bus-port, cluster-port, appendonly no, save \"\", protected-mode no, bind, loglevel, logfile, dir, pidfile",
+    "Announce IP/port derived from NodeSpec only",
+    "Tests proving no port remap or hard-coded IP assumption"
   ],
   "acceptance": [
-    "No Valkey binary is needed for unit tests",
-    "cleanup only removes state for the specified run_id",
-    "Fake runtime can represent multiple node states and metrics"
+    "Every config value is traceable to ClusterPlan/NodeSpec or explicit scenario config",
+    "Each node directory is independent",
+    "Renderer performs rendering only, not planning"
   ],
   "forbidden": [
-    "Do not require sudo or real Valkey in P07",
-    "Do not use global process state without run_id scoping"
+    "Do not calculate ports in config renderer",
+    "Do not hard-code localhost when NodeSpec has announce_ip"
   ],
   "manifest_sha256": "d34c3ae82d24fdfa64baf19779a405194f3c2bd9e559951d6b7350fcad478f30",
-  "phase_card_sha256": "758b2a2fb4ec1c1b10f51a9fe63b544860422470f27a40e411602b1690e32f48"
+  "phase_card_sha256": "f957e001272e0316c30167bd5e2136e65f84b638026951aa506d9596e8a0a5a3"
 }

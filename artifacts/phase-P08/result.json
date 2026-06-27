@@ -1,0 +1,68 @@
+{
+  "phase": "P08",
+  "status": "PASS",
+  "attempt": 1,
+  "manifest_sha256": "d34c3ae82d24fdfa64baf19779a405194f3c2bd9e559951d6b7350fcad478f30",
+  "phase_card_sha256": "f957e001272e0316c30167bd5e2136e65f84b638026951aa506d9596e8a0a5a3",
+  "summary": "P08 added Valkey cluster config rendering and isolated node config writing from NodeSpec-like inputs without starting Valkey or replanning ports.",
+  "expected_outputs": [
+    "ValkeyConfigRenderer",
+    "ConfigWriter creating isolated node directories",
+    "Rendered fields: port, cluster-enabled yes, cluster-config-file, cluster-node-timeout, cluster-announce-ip, cluster-announce-port, cluster-announce-bus-port, cluster-port, appendonly no, save \"\", protected-mode no, bind, loglevel, logfile, dir, pidfile",
+    "Announce IP/port derived from NodeSpec only",
+    "Tests proving no port remap or hard-coded IP assumption"
+  ],
+  "verified_outputs": [
+    {
+      "output": "ValkeyConfigRenderer",
+      "evidence": "nodehost/valkey_config.py and unit tests"
+    },
+    {
+      "output": "ConfigWriter creating isolated node directories",
+      "evidence": "test_writer_creates_independent_node_directories"
+    },
+    {
+      "output": "Rendered fields: port, cluster-enabled yes, cluster-config-file, cluster-node-timeout, cluster-announce-ip, cluster-announce-port, cluster-announce-bus-port, cluster-port, appendonly no, save \"\", protected-mode no, bind, loglevel, logfile, dir, pidfile",
+      "evidence": "test_renderer_outputs_required_fields_from_node_spec_and_scenario_config"
+    },
+    {
+      "output": "Announce IP/port derived from NodeSpec only",
+      "evidence": "test_renderer_does_not_remap_ports_or_invent_announce_ip"
+    },
+    {
+      "output": "Tests proving no port remap or hard-coded IP assumption",
+      "evidence": "P08 unit tests require explicit announce_ip and preserve client/bus ports"
+    }
+  ],
+  "commands": [
+    {
+      "command": "python3 -m py_compile nodehost/valkey_config.py nodehost/config_writer.py nodehost/nodehostctl.py",
+      "exit_code": 0
+    },
+    {
+      "command": "python3 -m unittest discover -s tests -p 'test_p08_valkey_config.py'",
+      "exit_code": 0
+    }
+  ],
+  "changed_files": [
+    "codex/current_phase_contract.json",
+    "codex/current_phase_contract.md",
+    "codex/loop_state.json",
+    "artifacts/phase-P08/cmd-001.stderr.txt",
+    "artifacts/phase-P08/cmd-001.stdout.txt",
+    "artifacts/phase-P08/cmd-002.stderr.txt",
+    "artifacts/phase-P08/cmd-002.stdout.txt",
+    "artifacts/phase-P08/commands.jsonl",
+    "artifacts/phase-P08/commands.log",
+    "artifacts/phase-P08/notes.md",
+    "nodehost/config_writer.py",
+    "nodehost/valkey_config.py",
+    "tests/test_p08_valkey_config.py",
+    "artifacts/phase-P08/result.json",
+    "artifacts/phase-P08/changed_files.txt"
+  ],
+  "risks": [
+    "Rendered config is unit-validated only, not accepted by a live Valkey binary in P08.",
+    "Fake/unit output is not production validation."
+  ]
+}
