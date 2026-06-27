@@ -1,0 +1,6 @@
+{
+  "scenario_id": "scale-100",
+  "topology_mode": "uniform_interleaved",
+  "backend": "fake",
+  "cluster": {"total_nodes": 100, "replicas_per_primary": 1, "virtual_az_count": 3, "node_timeout_ms": 15000}
+}

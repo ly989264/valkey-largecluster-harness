@@ -1,55 +1,57 @@
 {
-  "id": "P01",
-  "order": 1,
-  "name": "最小 Python 工程与 harnessctl CLI 壳",
-  "goal": "建立可导入的 Python 包、harnessctl 入口、统一 JSON 输出和 CLI smoke tests；不实现配置、拓扑、节点或集群管理。",
+  "id": "P02",
+  "order": 2,
+  "name": "配置契约：inventory 与 scenario",
+  "goal": "让 inventory 与 scenario 成为唯一输入源，覆盖物理主机、平台、虚拟 AZ、拓扑模式、端口、runtime 与 cluster scale。",
   "allowed_paths": [
-    "pyproject.toml",
-    "Makefile",
-    "harness/__init__.py",
     "harness/harnessctl.py",
-    "harness/errors.py",
-    "harness/jsonio.py",
-    "tests/test_p01_cli.py",
+    "harness/config.py",
+    "harness/inventory.py",
+    "harness/scenario.py",
+    "harness/mini_yaml.py",
+    "harness/schema_validator.py",
+    "schemas/**",
+    "inventories/**",
+    "scenarios/**",
+    "tests/test_p02_config.py",
     "tests/helpers/**",
+    "tests/conftest.py",
     "codex/loop_state.json",
     "codex/current_phase_contract.json",
     "codex/current_phase_contract.md",
-    "artifacts/phase-P01/**"
+    "artifacts/phase-P02/**"
   ],
   "pre_gate_commands": [
-    "python3 -m py_compile harness/__init__.py harness/harnessctl.py harness/errors.py harness/jsonio.py",
-    "python3 -m unittest discover -s tests -p 'test_p01_cli.py'",
-    "python3 -m harness.harnessctl version --json",
-    "python3 -m harness.harnessctl doctor --dry-run --json",
-    "python3 -m harness.harnessctl validate --help",
-    "python3 -m harness.harnessctl plan --help",
-    "python3 -m harness.harnessctl run-scenario --help",
-    "python3 -m harness.harnessctl report --help"
+    "python3 -m py_compile harness/config.py harness/inventory.py harness/scenario.py harness/mini_yaml.py harness/schema_validator.py harness/harnessctl.py",
+    "python3 -m unittest discover -s tests -p 'test_p02_config.py'",
+    "python3 -m harness.harnessctl validate --inventory inventories/single-mac-dev.yaml --scenario scenarios/smoke-6.yaml --json",
+    "python3 -m harness.harnessctl validate --inventory inventories/two-mac-physical-aligned.yaml --scenario scenarios/smoke-6.yaml --json",
+    "python3 -m harness.harnessctl validate --inventory inventories/three-mac-uniform-interleaved.yaml --scenario scenarios/smoke-6.yaml --json"
   ],
   "required_artifacts": [
-    "artifacts/phase-P01/result.json",
-    "artifacts/phase-P01/notes.md",
-    "artifacts/phase-P01/commands.log",
-    "artifacts/phase-P01/commands.jsonl",
-    "artifacts/phase-P01/changed_files.txt"
+    "artifacts/phase-P02/result.json",
+    "artifacts/phase-P02/notes.md",
+    "artifacts/phase-P02/commands.log",
+    "artifacts/phase-P02/commands.jsonl",
+    "artifacts/phase-P02/changed_files.txt"
   ],
   "required_outputs": [
-    "harness package importable",
-    "python3 -m harness.harnessctl version --json returns stable JSON",
-    "doctor --dry-run --json returns stable JSON without touching Docker/SSH/Valkey",
-    "validate/plan/run-scenario/report subcommands expose help or explicit NOT_IMPLEMENTED",
-    "Makefile targets: test, gate, lint-lite or equivalent standard-library friendly checks"
+    "Inventory and Scenario dataclasses or typed models with explicit defaults",
+    "Strict loader for .json/.yaml/.yml using standard library only; optional PyYAML may be used only as enhancement, not requirement",
+    "schemas/inventory.schema.json and schemas/scenario.schema.json used by code, not decorative",
+    "Sample inventories: single-mac-dev, two-mac-physical-aligned, three-mac-uniform-interleaved",
+    "Sample scenarios: smoke-6 and scale-100",
+    "harnessctl validate wired to config validation"
   ],
   "acceptance": [
-    "All listed CLI commands terminate deterministically with exit code 0 unless explicitly testing an error path",
-    "JSON output contains status, command, version or reason fields as applicable",
-    "No Docker, SSH, Valkey binary, or network access is attempted"
+    "Valid samples pass",
+    "Missing physical_hosts, illegal topology_mode, overlapping client/bus ports, total_nodes <= 0, and invalid replica settings fail with clear JSON errors",
+    "Config layer owns defaults; later planner phases must not invent hidden defaults"
   ],
   "forbidden": [
-    "Do not implement config loader or planner in P01",
-    "Do not introduce non-declared runtime dependencies"
+    "Do not plan topology in P02",
+    "Do not silently coerce invalid config into valid config"
   ],
   "manifest_sha256": "d34c3ae82d24fdfa64baf19779a405194f3c2bd9e559951d6b7350fcad478f30",
-  "phase_card_sha256": "0aa1da9e5073c8fc0ec7d755c9d1313fc84ca01a2004724c1208a9e40883d642"
+  "phase_card_sha256": "0dc29bb2d70eb7a9c65741e9b1dd31a5ef367cd7bab68ce4809ac92f1301c49e"
 }

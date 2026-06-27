@@ -1,0 +1,25 @@
+$ python3 -m py_compile harness/config.py harness/inventory.py harness/scenario.py harness/mini_yaml.py harness/schema_validator.py harness/harnessctl.py
+exit_code=0
+stdout=artifacts/phase-P02/cmd-001.stdout.txt
+stderr=artifacts/phase-P02/cmd-001.stderr.txt
+
+$ python3 -m unittest discover -s tests -p 'test_p02_config.py'
+exit_code=0
+stdout=artifacts/phase-P02/cmd-002.stdout.txt
+stderr=artifacts/phase-P02/cmd-002.stderr.txt
+
+$ python3 -m harness.harnessctl validate --inventory inventories/single-mac-dev.yaml --scenario scenarios/smoke-6.yaml --json
+exit_code=0
+stdout=artifacts/phase-P02/cmd-003.stdout.txt
+stderr=artifacts/phase-P02/cmd-003.stderr.txt
+
+$ python3 -m harness.harnessctl validate --inventory inventories/two-mac-physical-aligned.yaml --scenario scenarios/smoke-6.yaml --json
+exit_code=0
+stdout=artifacts/phase-P02/cmd-004.stdout.txt
+stderr=artifacts/phase-P02/cmd-004.stderr.txt
+
+$ python3 -m harness.harnessctl validate --inventory inventories/three-mac-uniform-interleaved.yaml --scenario scenarios/smoke-6.yaml --json
+exit_code=0
+stdout=artifacts/phase-P02/cmd-005.stdout.txt
+stderr=artifacts/phase-P02/cmd-005.stderr.txt
+

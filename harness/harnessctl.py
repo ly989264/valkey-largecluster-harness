@@ -1,9 +1,10 @@
-"""Minimal harnessctl command shell for P01."""
+"""harnessctl command shell."""
 
 import argparse
 import sys
 
 from harness import __version__
+from harness.config import ConfigError, validate_config
 from harness.errors import HarnessError
 from harness.jsonio import base_payload, emit
 
@@ -45,6 +46,19 @@ def handle_not_implemented(command):
     return _handler
 
 
+def handle_validate(args):
+    if not args.inventory or not args.scenario:
+        emit(command_payload("validate", status="NOT_IMPLEMENTED", reason="P02 validate requires --inventory and --scenario"))
+        return 0
+    try:
+        result = validate_config(args.inventory, args.scenario)
+    except ConfigError as exc:
+        emit(command_payload("validate", status="FAIL", reason=str(exc)), stream=sys.stderr)
+        return 1
+    emit(command_payload("validate", inventory=args.inventory, scenario=args.scenario, result=result))
+    return 0
+
+
 def build_parser():
     parser = argparse.ArgumentParser(prog="harnessctl")
     sub = parser.add_subparsers(dest="command", required=True)
@@ -58,7 +72,13 @@ def build_parser():
     doctor.add_argument("--json", action="store_true", help="emit JSON")
     doctor.set_defaults(func=handle_doctor)
 
-    for name in ("validate", "plan", "run-scenario", "report"):
+    validate = sub.add_parser("validate", help="validate inventory and scenario config")
+    validate.add_argument("--inventory", help="inventory file path")
+    validate.add_argument("--scenario", help="scenario file path")
+    validate.add_argument("--json", action="store_true", help="emit JSON")
+    validate.set_defaults(func=handle_validate)
+
+    for name in ("plan", "run-scenario", "report"):
         cmd = sub.add_parser(name, help=f"{name} command shell")
         cmd.add_argument("--json", action="store_true", help="emit JSON")
         cmd.set_defaults(func=handle_not_implemented(name))

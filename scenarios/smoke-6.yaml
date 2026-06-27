@@ -1,0 +1,6 @@
+{
+  "scenario_id": "smoke-6",
+  "topology_mode": "physical_aligned",
+  "backend": "fake",
+  "cluster": {"total_nodes": 6, "replicas_per_primary": 1, "virtual_az_count": 3, "node_timeout_ms": 15000}
+}

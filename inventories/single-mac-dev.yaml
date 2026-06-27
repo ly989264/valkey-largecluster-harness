@@ -1,0 +1,8 @@
+{
+  "inventory_id": "single-mac-dev",
+  "runtime": "local",
+  "physical_hosts": [
+    {"id": "mac-1", "address": "127.0.0.1", "platform": "darwin", "virtual_azs": ["az-1"]}
+  ],
+  "port_ranges": {"client_start": 30000, "bus_start": 40000, "count": 256}
+}

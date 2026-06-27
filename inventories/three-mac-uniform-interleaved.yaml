@@ -1,0 +1,10 @@
+{
+  "inventory_id": "three-mac-uniform-interleaved",
+  "runtime": "ssh",
+  "physical_hosts": [
+    {"id": "mac-1", "address": "10.0.0.21", "platform": "darwin", "virtual_azs": ["az-1", "az-2", "az-3"]},
+    {"id": "mac-2", "address": "10.0.0.22", "platform": "darwin", "virtual_azs": ["az-1", "az-2", "az-3"]},
+    {"id": "mac-3", "address": "10.0.0.23", "platform": "darwin", "virtual_azs": ["az-1", "az-2", "az-3"]}
+  ],
+  "port_ranges": {"client_start": 30000, "bus_start": 40000, "count": 1024}
+}

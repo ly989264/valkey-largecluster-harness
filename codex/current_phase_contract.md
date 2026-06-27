@@ -1,38 +1,39 @@
-# Current Phase Contract: P01
+# Current Phase Contract: P02
 
 ## Name
-最小 Python 工程与 harnessctl CLI 壳
+配置契约：inventory 与 scenario
 
 ## Goal
-建立可导入的 Python 包、harnessctl 入口、统一 JSON 输出和 CLI smoke tests；不实现配置、拓扑、节点或集群管理。
+让 inventory 与 scenario 成为唯一输入源，覆盖物理主机、平台、虚拟 AZ、拓扑模式、端口、runtime 与 cluster scale。
 
 ## Allowed Paths
-- `pyproject.toml`
-- `Makefile`
-- `harness/__init__.py`
 - `harness/harnessctl.py`
-- `harness/errors.py`
-- `harness/jsonio.py`
-- `tests/test_p01_cli.py`
+- `harness/config.py`
+- `harness/inventory.py`
+- `harness/scenario.py`
+- `harness/mini_yaml.py`
+- `harness/schema_validator.py`
+- `schemas/**`
+- `inventories/**`
+- `scenarios/**`
+- `tests/test_p02_config.py`
 - `tests/helpers/**`
+- `tests/conftest.py`
 - `codex/loop_state.json`
 - `codex/current_phase_contract.json`
 - `codex/current_phase_contract.md`
-- `artifacts/phase-P01/**`
+- `artifacts/phase-P02/**`
 
 ## Pre-Gate Commands
-- `python3 -m py_compile harness/__init__.py harness/harnessctl.py harness/errors.py harness/jsonio.py`
-- `python3 -m unittest discover -s tests -p 'test_p01_cli.py'`
-- `python3 -m harness.harnessctl version --json`
-- `python3 -m harness.harnessctl doctor --dry-run --json`
-- `python3 -m harness.harnessctl validate --help`
-- `python3 -m harness.harnessctl plan --help`
-- `python3 -m harness.harnessctl run-scenario --help`
-- `python3 -m harness.harnessctl report --help`
+- `python3 -m py_compile harness/config.py harness/inventory.py harness/scenario.py harness/mini_yaml.py harness/schema_validator.py harness/harnessctl.py`
+- `python3 -m unittest discover -s tests -p 'test_p02_config.py'`
+- `python3 -m harness.harnessctl validate --inventory inventories/single-mac-dev.yaml --scenario scenarios/smoke-6.yaml --json`
+- `python3 -m harness.harnessctl validate --inventory inventories/two-mac-physical-aligned.yaml --scenario scenarios/smoke-6.yaml --json`
+- `python3 -m harness.harnessctl validate --inventory inventories/three-mac-uniform-interleaved.yaml --scenario scenarios/smoke-6.yaml --json`
 
 ## Required Artifacts
-- `artifacts/phase-P01/result.json`
-- `artifacts/phase-P01/notes.md`
-- `artifacts/phase-P01/commands.log`
-- `artifacts/phase-P01/commands.jsonl`
-- `artifacts/phase-P01/changed_files.txt`
+- `artifacts/phase-P02/result.json`
+- `artifacts/phase-P02/notes.md`
+- `artifacts/phase-P02/commands.log`
+- `artifacts/phase-P02/commands.jsonl`
+- `artifacts/phase-P02/changed_files.txt`

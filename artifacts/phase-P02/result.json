@@ -1,0 +1,103 @@
+{
+  "phase": "P02",
+  "status": "PASS",
+  "attempt": 1,
+  "manifest_sha256": "d34c3ae82d24fdfa64baf19779a405194f3c2bd9e559951d6b7350fcad478f30",
+  "phase_card_sha256": "0dc29bb2d70eb7a9c65741e9b1dd31a5ef367cd7bab68ce4809ac92f1301c49e",
+  "summary": "P02 established inventory/scenario config as the input contract with standard-library loading, schema-backed validation, samples, and validate CLI wiring without performing topology planning.",
+  "expected_outputs": [
+    "Inventory and Scenario dataclasses or typed models with explicit defaults",
+    "Strict loader for .json/.yaml/.yml using standard library only; optional PyYAML may be used only as enhancement, not requirement",
+    "schemas/inventory.schema.json and schemas/scenario.schema.json used by code, not decorative",
+    "Sample inventories: single-mac-dev, two-mac-physical-aligned, three-mac-uniform-interleaved",
+    "Sample scenarios: smoke-6 and scale-100",
+    "harnessctl validate wired to config validation"
+  ],
+  "verified_outputs": [
+    {
+      "output": "Inventory and Scenario dataclasses or typed models with explicit defaults",
+      "evidence": "harness/inventory.py, harness/scenario.py and tests/test_p02_config.py"
+    },
+    {
+      "output": "Strict loader for .json/.yaml/.yml using standard library only; optional PyYAML may be used only as enhancement, not requirement",
+      "evidence": "harness/config.py and harness/mini_yaml.py; py_compile and unit tests exit_code=0"
+    },
+    {
+      "output": "schemas/inventory.schema.json and schemas/scenario.schema.json used by code, not decorative",
+      "evidence": "harness/config.py load_schema calls and schema validation tests"
+    },
+    {
+      "output": "Sample inventories: single-mac-dev, two-mac-physical-aligned, three-mac-uniform-interleaved",
+      "evidence": "three validate pre-gate commands exit_code=0"
+    },
+    {
+      "output": "Sample scenarios: smoke-6 and scale-100",
+      "evidence": "scenarios/smoke-6.yaml used in pre-gate; scale-100 covered by unit test"
+    },
+    {
+      "output": "harnessctl validate wired to config validation",
+      "evidence": "python3 -m harness.harnessctl validate ... --json pre-gate commands exit_code=0"
+    }
+  ],
+  "commands": [
+    {
+      "command": "python3 -m py_compile harness/config.py harness/inventory.py harness/scenario.py harness/mini_yaml.py harness/schema_validator.py harness/harnessctl.py",
+      "exit_code": 0
+    },
+    {
+      "command": "python3 -m unittest discover -s tests -p 'test_p02_config.py'",
+      "exit_code": 0
+    },
+    {
+      "command": "python3 -m harness.harnessctl validate --inventory inventories/single-mac-dev.yaml --scenario scenarios/smoke-6.yaml --json",
+      "exit_code": 0
+    },
+    {
+      "command": "python3 -m harness.harnessctl validate --inventory inventories/two-mac-physical-aligned.yaml --scenario scenarios/smoke-6.yaml --json",
+      "exit_code": 0
+    },
+    {
+      "command": "python3 -m harness.harnessctl validate --inventory inventories/three-mac-uniform-interleaved.yaml --scenario scenarios/smoke-6.yaml --json",
+      "exit_code": 0
+    }
+  ],
+  "changed_files": [
+    "codex/current_phase_contract.json",
+    "codex/current_phase_contract.md",
+    "codex/loop_state.json",
+    "harness/harnessctl.py",
+    "artifacts/phase-P02/cmd-001.stderr.txt",
+    "artifacts/phase-P02/cmd-001.stdout.txt",
+    "artifacts/phase-P02/cmd-002.stderr.txt",
+    "artifacts/phase-P02/cmd-002.stdout.txt",
+    "artifacts/phase-P02/cmd-003.stderr.txt",
+    "artifacts/phase-P02/cmd-003.stdout.txt",
+    "artifacts/phase-P02/cmd-004.stderr.txt",
+    "artifacts/phase-P02/cmd-004.stdout.txt",
+    "artifacts/phase-P02/cmd-005.stderr.txt",
+    "artifacts/phase-P02/cmd-005.stdout.txt",
+    "artifacts/phase-P02/commands.jsonl",
+    "artifacts/phase-P02/commands.log",
+    "artifacts/phase-P02/notes.md",
+    "harness/config.py",
+    "harness/inventory.py",
+    "harness/mini_yaml.py",
+    "harness/scenario.py",
+    "harness/schema_validator.py",
+    "inventories/single-mac-dev.yaml",
+    "inventories/three-mac-uniform-interleaved.yaml",
+    "inventories/two-mac-physical-aligned.yaml",
+    "scenarios/scale-100.yaml",
+    "scenarios/smoke-6.yaml",
+    "schemas/inventory.schema.json",
+    "schemas/scenario.schema.json",
+    "tests/conftest.py",
+    "tests/test_p02_config.py",
+    "artifacts/phase-P02/result.json",
+    "artifacts/phase-P02/changed_files.txt"
+  ],
+  "risks": [
+    "The mini YAML reader intentionally supports only simple repository fixture syntax.",
+    "No topology, slot, port allocation plan, or runtime validation is claimed in P02."
+  ]
+}

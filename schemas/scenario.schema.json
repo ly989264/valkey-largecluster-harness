@@ -1,0 +1,19 @@
+{
+  "type": "object",
+  "required": ["scenario_id", "topology_mode", "cluster"],
+  "properties": {
+    "scenario_id": {"type": "string"},
+    "topology_mode": {"type": "string", "enum": ["single_az", "physical_aligned", "uniform_interleaved", "custom"]},
+    "backend": {"type": "string"},
+    "cluster": {
+      "type": "object",
+      "required": ["total_nodes"],
+      "properties": {
+        "total_nodes": {"type": "integer"},
+        "replicas_per_primary": {"type": "integer"},
+        "virtual_az_count": {"type": "integer"},
+        "node_timeout_ms": {"type": "integer"}
+      }
+    }
+  }
+}

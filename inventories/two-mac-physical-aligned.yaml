@@ -1,0 +1,9 @@
+{
+  "inventory_id": "two-mac-physical-aligned",
+  "runtime": "ssh",
+  "physical_hosts": [
+    {"id": "mac-1", "address": "10.0.0.11", "platform": "darwin", "virtual_azs": ["az-1", "az-3"]},
+    {"id": "mac-2", "address": "10.0.0.12", "platform": "darwin", "virtual_azs": ["az-2"]}
+  ],
+  "port_ranges": {"client_start": 30000, "bus_start": 40000, "count": 512}
+}

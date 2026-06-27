@@ -1,0 +1,30 @@
+{
+  "type": "object",
+  "required": ["inventory_id", "physical_hosts", "port_ranges"],
+  "properties": {
+    "inventory_id": {"type": "string"},
+    "runtime": {"type": "string"},
+    "physical_hosts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "address", "platform", "virtual_azs"],
+        "properties": {
+          "id": {"type": "string"},
+          "address": {"type": "string"},
+          "platform": {"type": "string"},
+          "virtual_azs": {"type": "array", "items": {"type": "string"}}
+        }
+      }
+    },
+    "port_ranges": {
+      "type": "object",
+      "required": ["client_start", "bus_start", "count"],
+      "properties": {
+        "client_start": {"type": "integer"},
+        "bus_start": {"type": "integer"},
+        "count": {"type": "integer"}
+      }
+    }
+  }
+}

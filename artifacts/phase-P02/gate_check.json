@@ -1,0 +1,212 @@
+{
+  "status": "OK",
+  "phase": "P02",
+  "checks": [
+    {
+      "check": "status_guard.py",
+      "ok": true,
+      "payload": {
+        "phase": "P02",
+        "phase_status": "IN_PROGRESS",
+        "status": "OK"
+      }
+    },
+    {
+      "check": "artifact_guard.py",
+      "ok": true,
+      "payload": {
+        "artifact_count": 5,
+        "command_count": 5,
+        "phase": "P02",
+        "status": "OK"
+      }
+    },
+    {
+      "check": "diff_guard.py",
+      "ok": true,
+      "payload": {
+        "allowed_paths": [
+          "harness/harnessctl.py",
+          "harness/config.py",
+          "harness/inventory.py",
+          "harness/scenario.py",
+          "harness/mini_yaml.py",
+          "harness/schema_validator.py",
+          "schemas/**",
+          "inventories/**",
+          "scenarios/**",
+          "tests/test_p02_config.py",
+          "tests/helpers/**",
+          "tests/conftest.py",
+          "codex/loop_state.json",
+          "codex/current_phase_contract.json",
+          "codex/current_phase_contract.md",
+          "artifacts/phase-P02/**"
+        ],
+        "changed_files": [
+          {
+            "file": "codex/current_phase_contract.json",
+            "status": "M"
+          },
+          {
+            "file": "codex/current_phase_contract.md",
+            "status": "M"
+          },
+          {
+            "file": "codex/loop_state.json",
+            "status": "M"
+          },
+          {
+            "file": "harness/harnessctl.py",
+            "status": "M"
+          },
+          {
+            "file": "artifacts/phase-P02/changed_files.txt",
+            "status": "??"
+          },
+          {
+            "file": "artifacts/phase-P02/cmd-001.stderr.txt",
+            "status": "??"
+          },
+          {
+            "file": "artifacts/phase-P02/cmd-001.stdout.txt",
+            "status": "??"
+          },
+          {
+            "file": "artifacts/phase-P02/cmd-002.stderr.txt",
+            "status": "??"
+          },
+          {
+            "file": "artifacts/phase-P02/cmd-002.stdout.txt",
+            "status": "??"
+          },
+          {
+            "file": "artifacts/phase-P02/cmd-003.stderr.txt",
+            "status": "??"
+          },
+          {
+            "file": "artifacts/phase-P02/cmd-003.stdout.txt",
+            "status": "??"
+          },
+          {
+            "file": "artifacts/phase-P02/cmd-004.stderr.txt",
+            "status": "??"
+          },
+          {
+            "file": "artifacts/phase-P02/cmd-004.stdout.txt",
+            "status": "??"
+          },
+          {
+            "file": "artifacts/phase-P02/cmd-005.stderr.txt",
+            "status": "??"
+          },
+          {
+            "file": "artifacts/phase-P02/cmd-005.stdout.txt",
+            "status": "??"
+          },
+          {
+            "file": "artifacts/phase-P02/commands.jsonl",
+            "status": "??"
+          },
+          {
+            "file": "artifacts/phase-P02/commands.log",
+            "status": "??"
+          },
+          {
+            "file": "artifacts/phase-P02/gate_check.json",
+            "status": "??"
+          },
+          {
+            "file": "artifacts/phase-P02/notes.md",
+            "status": "??"
+          },
+          {
+            "file": "artifacts/phase-P02/result.json",
+            "status": "??"
+          },
+          {
+            "file": "harness/config.py",
+            "status": "??"
+          },
+          {
+            "file": "harness/inventory.py",
+            "status": "??"
+          },
+          {
+            "file": "harness/mini_yaml.py",
+            "status": "??"
+          },
+          {
+            "file": "harness/scenario.py",
+            "status": "??"
+          },
+          {
+            "file": "harness/schema_validator.py",
+            "status": "??"
+          },
+          {
+            "file": "inventories/single-mac-dev.yaml",
+            "status": "??"
+          },
+          {
+            "file": "inventories/three-mac-uniform-interleaved.yaml",
+            "status": "??"
+          },
+          {
+            "file": "inventories/two-mac-physical-aligned.yaml",
+            "status": "??"
+          },
+          {
+            "file": "scenarios/scale-100.yaml",
+            "status": "??"
+          },
+          {
+            "file": "scenarios/smoke-6.yaml",
+            "status": "??"
+          },
+          {
+            "file": "schemas/inventory.schema.json",
+            "status": "??"
+          },
+          {
+            "file": "schemas/scenario.schema.json",
+            "status": "??"
+          },
+          {
+            "file": "tests/conftest.py",
+            "status": "??"
+          },
+          {
+            "file": "tests/test_p02_config.py",
+            "status": "??"
+          }
+        ],
+        "phase": "P02",
+        "status": "OK"
+      }
+    },
+    {
+      "check": "forbidden_guard.py",
+      "ok": true,
+      "payload": {
+        "phase": "P02",
+        "status": "OK",
+        "violations": []
+      }
+    },
+    {
+      "check": "commands_exact",
+      "ok": true,
+      "payload": {
+        "command_count": 5
+      }
+    },
+    {
+      "check": "result_coverage",
+      "ok": true,
+      "payload": {
+        "verified_count": 6
+      }
+    }
+  ]
+}
