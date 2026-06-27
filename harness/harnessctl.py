@@ -9,6 +9,7 @@ from harness.errors import HarnessError
 from harness.jsonio import base_payload, emit
 from harness.cluster_plan import ClusterPlanError
 from harness.planner import PlanError, build_cluster_plan
+from harness.platform_adapter import adapter_for_platform
 
 
 COMMANDS = ("version", "doctor", "validate", "plan", "run-scenario", "report")
@@ -26,14 +27,22 @@ def handle_version(args):
 def handle_doctor(args):
     if not args.dry_run:
         raise HarnessError("doctor currently requires --dry-run in P01", status="NOT_IMPLEMENTED")
+    adapter = adapter_for_platform()
     emit(
         command_payload(
             "doctor",
             mode="dry-run",
             reason="P01 dry-run only; no Docker, SSH, Valkey, or network access attempted",
+            platform_capabilities=adapter.capabilities(),
+            linux_migration_path={
+                "platform": "linux",
+                "network_fault_backend_hint": "linux-tc-netem",
+                "host_network": True,
+            },
             checks=[
                 {"name": "package_import", "status": "PASS"},
                 {"name": "external_runtime", "status": "NOT_VALIDATED"},
+                {"name": "platform_adapter", "status": "PASS"},
             ],
         )
     )

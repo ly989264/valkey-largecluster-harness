@@ -1,0 +1,156 @@
+{
+  "status": "OK",
+  "phase": "P05",
+  "checks": [
+    {
+      "check": "status_guard.py",
+      "ok": true,
+      "payload": {
+        "phase": "P05",
+        "phase_status": "IN_PROGRESS",
+        "status": "OK"
+      }
+    },
+    {
+      "check": "artifact_guard.py",
+      "ok": true,
+      "payload": {
+        "artifact_count": 5,
+        "command_count": 3,
+        "phase": "P05",
+        "status": "OK"
+      }
+    },
+    {
+      "check": "diff_guard.py",
+      "ok": true,
+      "payload": {
+        "allowed_paths": [
+          "harness/harnessctl.py",
+          "harness/platform_adapter.py",
+          "harness/platform_darwin.py",
+          "harness/platform_linux.py",
+          "harness/executor.py",
+          "tests/test_p05_platform_adapter.py",
+          "tests/helpers/**",
+          "tests/conftest.py",
+          "codex/loop_state.json",
+          "codex/current_phase_contract.json",
+          "codex/current_phase_contract.md",
+          "artifacts/phase-P05/**"
+        ],
+        "changed_files": [
+          {
+            "file": "codex/current_phase_contract.json",
+            "status": "M"
+          },
+          {
+            "file": "codex/current_phase_contract.md",
+            "status": "M"
+          },
+          {
+            "file": "codex/loop_state.json",
+            "status": "M"
+          },
+          {
+            "file": "harness/harnessctl.py",
+            "status": "M"
+          },
+          {
+            "file": "artifacts/phase-P05/changed_files.txt",
+            "status": "??"
+          },
+          {
+            "file": "artifacts/phase-P05/cmd-001.stderr.txt",
+            "status": "??"
+          },
+          {
+            "file": "artifacts/phase-P05/cmd-001.stdout.txt",
+            "status": "??"
+          },
+          {
+            "file": "artifacts/phase-P05/cmd-002.stderr.txt",
+            "status": "??"
+          },
+          {
+            "file": "artifacts/phase-P05/cmd-002.stdout.txt",
+            "status": "??"
+          },
+          {
+            "file": "artifacts/phase-P05/cmd-003.stderr.txt",
+            "status": "??"
+          },
+          {
+            "file": "artifacts/phase-P05/cmd-003.stdout.txt",
+            "status": "??"
+          },
+          {
+            "file": "artifacts/phase-P05/commands.jsonl",
+            "status": "??"
+          },
+          {
+            "file": "artifacts/phase-P05/commands.log",
+            "status": "??"
+          },
+          {
+            "file": "artifacts/phase-P05/gate_check.json",
+            "status": "??"
+          },
+          {
+            "file": "artifacts/phase-P05/notes.md",
+            "status": "??"
+          },
+          {
+            "file": "artifacts/phase-P05/result.json",
+            "status": "??"
+          },
+          {
+            "file": "harness/executor.py",
+            "status": "??"
+          },
+          {
+            "file": "harness/platform_adapter.py",
+            "status": "??"
+          },
+          {
+            "file": "harness/platform_darwin.py",
+            "status": "??"
+          },
+          {
+            "file": "harness/platform_linux.py",
+            "status": "??"
+          },
+          {
+            "file": "tests/test_p05_platform_adapter.py",
+            "status": "??"
+          }
+        ],
+        "phase": "P05",
+        "status": "OK"
+      }
+    },
+    {
+      "check": "forbidden_guard.py",
+      "ok": true,
+      "payload": {
+        "phase": "P05",
+        "status": "OK",
+        "violations": []
+      }
+    },
+    {
+      "check": "commands_exact",
+      "ok": true,
+      "payload": {
+        "command_count": 3
+      }
+    },
+    {
+      "check": "result_coverage",
+      "ok": true,
+      "payload": {
+        "verified_count": 5
+      }
+    }
+  ]
+}

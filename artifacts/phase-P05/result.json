@@ -1,0 +1,77 @@
+{
+  "phase": "P05",
+  "status": "PASS",
+  "attempt": 1,
+  "manifest_sha256": "d34c3ae82d24fdfa64baf19779a405194f3c2bd9e559951d6b7350fcad478f30",
+  "phase_card_sha256": "aa0326723ffcd774c03f47fd6a8bd75a884242decd9cd6073817f6a901623b47",
+  "summary": "P05 centralized Darwin/Linux platform differences behind adapter interfaces and added dry-run doctor capability reporting without real external probes.",
+  "expected_outputs": [
+    "PlatformAdapter interface",
+    "Darwin and Linux adapters",
+    "FakeExecutor and SubprocessExecutor",
+    "Methods: detect_platform, check_port_available, process_exists, read_process_rss, count_process_fds, list_sockets, supports_host_network, supports_network_fault_injection, network_fault_backend_hint",
+    "doctor --dry-run can report capabilities through adapter without changing system state"
+  ],
+  "verified_outputs": [
+    {
+      "output": "PlatformAdapter interface",
+      "evidence": "harness/platform_adapter.py and py_compile exit_code=0"
+    },
+    {
+      "output": "Darwin and Linux adapters",
+      "evidence": "harness/platform_darwin.py, harness/platform_linux.py and unit tests"
+    },
+    {
+      "output": "FakeExecutor and SubprocessExecutor",
+      "evidence": "harness/executor.py and unit test fake executor assertions"
+    },
+    {
+      "output": "Methods: detect_platform, check_port_available, process_exists, read_process_rss, count_process_fds, list_sockets, supports_host_network, supports_network_fault_injection, network_fault_backend_hint",
+      "evidence": "adapter interface and platform-specific implementations compile and tests cover capabilities"
+    },
+    {
+      "output": "doctor --dry-run can report capabilities through adapter without changing system state",
+      "evidence": "python3 -m harness.harnessctl doctor --dry-run --json exit_code=0 and unit test checks platform_capabilities"
+    }
+  ],
+  "commands": [
+    {
+      "command": "python3 -m py_compile harness/platform_adapter.py harness/platform_darwin.py harness/platform_linux.py harness/executor.py harness/harnessctl.py",
+      "exit_code": 0
+    },
+    {
+      "command": "python3 -m unittest discover -s tests -p 'test_p05_platform_adapter.py'",
+      "exit_code": 0
+    },
+    {
+      "command": "python3 -m harness.harnessctl doctor --dry-run --json",
+      "exit_code": 0
+    }
+  ],
+  "changed_files": [
+    "codex/current_phase_contract.json",
+    "codex/current_phase_contract.md",
+    "codex/loop_state.json",
+    "harness/harnessctl.py",
+    "artifacts/phase-P05/cmd-001.stderr.txt",
+    "artifacts/phase-P05/cmd-001.stdout.txt",
+    "artifacts/phase-P05/cmd-002.stderr.txt",
+    "artifacts/phase-P05/cmd-002.stdout.txt",
+    "artifacts/phase-P05/cmd-003.stderr.txt",
+    "artifacts/phase-P05/cmd-003.stdout.txt",
+    "artifacts/phase-P05/commands.jsonl",
+    "artifacts/phase-P05/commands.log",
+    "artifacts/phase-P05/notes.md",
+    "harness/executor.py",
+    "harness/platform_adapter.py",
+    "harness/platform_darwin.py",
+    "harness/platform_linux.py",
+    "tests/test_p05_platform_adapter.py",
+    "artifacts/phase-P05/result.json",
+    "artifacts/phase-P05/changed_files.txt"
+  ],
+  "risks": [
+    "Real lsof/ps/docker/tc behavior is not validated in P05.",
+    "Darwin network fault support remains explicitly unsupported."
+  ]
+}
