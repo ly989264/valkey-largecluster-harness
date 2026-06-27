@@ -1,0 +1,204 @@
+{
+  "status": "OK",
+  "phase": "P01",
+  "checks": [
+    {
+      "check": "status_guard.py",
+      "ok": true,
+      "payload": {
+        "phase": "P01",
+        "phase_status": "IN_PROGRESS",
+        "status": "OK"
+      }
+    },
+    {
+      "check": "artifact_guard.py",
+      "ok": true,
+      "payload": {
+        "artifact_count": 5,
+        "command_count": 8,
+        "phase": "P01",
+        "status": "OK"
+      }
+    },
+    {
+      "check": "diff_guard.py",
+      "ok": true,
+      "payload": {
+        "allowed_paths": [
+          "pyproject.toml",
+          "Makefile",
+          "harness/__init__.py",
+          "harness/harnessctl.py",
+          "harness/errors.py",
+          "harness/jsonio.py",
+          "tests/test_p01_cli.py",
+          "tests/helpers/**",
+          "codex/loop_state.json",
+          "codex/current_phase_contract.json",
+          "codex/current_phase_contract.md",
+          "artifacts/phase-P01/**"
+        ],
+        "changed_files": [
+          {
+            "file": "codex/current_phase_contract.json",
+            "status": "M"
+          },
+          {
+            "file": "codex/current_phase_contract.md",
+            "status": "M"
+          },
+          {
+            "file": "codex/loop_state.json",
+            "status": "M"
+          },
+          {
+            "file": "Makefile",
+            "status": "??"
+          },
+          {
+            "file": "artifacts/phase-P01/changed_files.txt",
+            "status": "??"
+          },
+          {
+            "file": "artifacts/phase-P01/cmd-001.stderr.txt",
+            "status": "??"
+          },
+          {
+            "file": "artifacts/phase-P01/cmd-001.stdout.txt",
+            "status": "??"
+          },
+          {
+            "file": "artifacts/phase-P01/cmd-002.stderr.txt",
+            "status": "??"
+          },
+          {
+            "file": "artifacts/phase-P01/cmd-002.stdout.txt",
+            "status": "??"
+          },
+          {
+            "file": "artifacts/phase-P01/cmd-003.stderr.txt",
+            "status": "??"
+          },
+          {
+            "file": "artifacts/phase-P01/cmd-003.stdout.txt",
+            "status": "??"
+          },
+          {
+            "file": "artifacts/phase-P01/cmd-004.stderr.txt",
+            "status": "??"
+          },
+          {
+            "file": "artifacts/phase-P01/cmd-004.stdout.txt",
+            "status": "??"
+          },
+          {
+            "file": "artifacts/phase-P01/cmd-005.stderr.txt",
+            "status": "??"
+          },
+          {
+            "file": "artifacts/phase-P01/cmd-005.stdout.txt",
+            "status": "??"
+          },
+          {
+            "file": "artifacts/phase-P01/cmd-006.stderr.txt",
+            "status": "??"
+          },
+          {
+            "file": "artifacts/phase-P01/cmd-006.stdout.txt",
+            "status": "??"
+          },
+          {
+            "file": "artifacts/phase-P01/cmd-007.stderr.txt",
+            "status": "??"
+          },
+          {
+            "file": "artifacts/phase-P01/cmd-007.stdout.txt",
+            "status": "??"
+          },
+          {
+            "file": "artifacts/phase-P01/cmd-008.stderr.txt",
+            "status": "??"
+          },
+          {
+            "file": "artifacts/phase-P01/cmd-008.stdout.txt",
+            "status": "??"
+          },
+          {
+            "file": "artifacts/phase-P01/commands.jsonl",
+            "status": "??"
+          },
+          {
+            "file": "artifacts/phase-P01/commands.log",
+            "status": "??"
+          },
+          {
+            "file": "artifacts/phase-P01/gate_check.json",
+            "status": "??"
+          },
+          {
+            "file": "artifacts/phase-P01/notes.md",
+            "status": "??"
+          },
+          {
+            "file": "artifacts/phase-P01/result.json",
+            "status": "??"
+          },
+          {
+            "file": "harness/__init__.py",
+            "status": "??"
+          },
+          {
+            "file": "harness/errors.py",
+            "status": "??"
+          },
+          {
+            "file": "harness/harnessctl.py",
+            "status": "??"
+          },
+          {
+            "file": "harness/jsonio.py",
+            "status": "??"
+          },
+          {
+            "file": "pyproject.toml",
+            "status": "??"
+          },
+          {
+            "file": "tests/helpers/.keep",
+            "status": "??"
+          },
+          {
+            "file": "tests/test_p01_cli.py",
+            "status": "??"
+          }
+        ],
+        "phase": "P01",
+        "status": "OK"
+      }
+    },
+    {
+      "check": "forbidden_guard.py",
+      "ok": true,
+      "payload": {
+        "phase": "P01",
+        "status": "OK",
+        "violations": []
+      }
+    },
+    {
+      "check": "commands_exact",
+      "ok": true,
+      "payload": {
+        "command_count": 8
+      }
+    },
+    {
+      "check": "result_coverage",
+      "ok": true,
+      "payload": {
+        "verified_count": 5
+      }
+    }
+  ]
+}

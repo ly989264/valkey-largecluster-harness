@@ -1,39 +1,38 @@
-# Current Phase Contract: P00
+# Current Phase Contract: P01
 
 ## Name
-自动 NEXT、Gate 与防遗忘脚手架
+最小 Python 工程与 harnessctl CLI 壳
 
 ## Goal
-建立受脚本控制的 loop-engineering 状态机、phase manifest、阶段卡片、diff/artifact/status/forbidden/project gates；不实现 Valkey 业务 harness。
+建立可导入的 Python 包、harnessctl 入口、统一 JSON 输出和 CLI smoke tests；不实现配置、拓扑、节点或集群管理。
 
 ## Allowed Paths
-- `AGENTS.md`
-- `CODEX_LOOP.md`
-- `codex/**`
-- `scripts/codex_next.py`
-- `scripts/phase_gate.py`
-- `scripts/diff_guard.py`
-- `scripts/artifact_guard.py`
-- `scripts/status_guard.py`
-- `scripts/forbidden_guard.py`
-- `scripts/project_quality_gate.py`
-- `tests/test_p00_loop_control.py`
+- `pyproject.toml`
+- `Makefile`
+- `harness/__init__.py`
+- `harness/harnessctl.py`
+- `harness/errors.py`
+- `harness/jsonio.py`
+- `tests/test_p01_cli.py`
+- `tests/helpers/**`
 - `codex/loop_state.json`
 - `codex/current_phase_contract.json`
 - `codex/current_phase_contract.md`
-- `artifacts/phase-P00/**`
+- `artifacts/phase-P01/**`
 
 ## Pre-Gate Commands
-- `python3 -m py_compile scripts/codex_next.py scripts/phase_gate.py scripts/diff_guard.py scripts/artifact_guard.py scripts/status_guard.py scripts/forbidden_guard.py scripts/project_quality_gate.py`
-- `python3 tests/test_p00_loop_control.py`
-- `python3 scripts/codex_next.py status --json`
-- `python3 scripts/codex_next.py next --json`
-- `python3 scripts/phase_gate.py list --json`
-- `python3 scripts/diff_guard.py allowed-files --phase P00 --json`
+- `python3 -m py_compile harness/__init__.py harness/harnessctl.py harness/errors.py harness/jsonio.py`
+- `python3 -m unittest discover -s tests -p 'test_p01_cli.py'`
+- `python3 -m harness.harnessctl version --json`
+- `python3 -m harness.harnessctl doctor --dry-run --json`
+- `python3 -m harness.harnessctl validate --help`
+- `python3 -m harness.harnessctl plan --help`
+- `python3 -m harness.harnessctl run-scenario --help`
+- `python3 -m harness.harnessctl report --help`
 
 ## Required Artifacts
-- `artifacts/phase-P00/result.json`
-- `artifacts/phase-P00/notes.md`
-- `artifacts/phase-P00/commands.log`
-- `artifacts/phase-P00/commands.jsonl`
-- `artifacts/phase-P00/changed_files.txt`
+- `artifacts/phase-P01/result.json`
+- `artifacts/phase-P01/notes.md`
+- `artifacts/phase-P01/commands.log`
+- `artifacts/phase-P01/commands.jsonl`
+- `artifacts/phase-P01/changed_files.txt`

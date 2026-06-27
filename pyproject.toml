@@ -1,0 +1,9 @@
+[project]
+name = "valkey-largecluster-harness"
+version = "0.1.0"
+description = "Controlled Valkey large-cluster validation harness"
+requires-python = ">=3.9"
+dependencies = []
+
+[tool.harness]
+phase = "P01"

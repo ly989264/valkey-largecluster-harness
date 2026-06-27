@@ -1,63 +1,55 @@
 {
-  "id": "P00",
-  "order": 0,
-  "name": "自动 NEXT、Gate 与防遗忘脚手架",
-  "goal": "建立受脚本控制的 loop-engineering 状态机、phase manifest、阶段卡片、diff/artifact/status/forbidden/project gates；不实现 Valkey 业务 harness。",
+  "id": "P01",
+  "order": 1,
+  "name": "最小 Python 工程与 harnessctl CLI 壳",
+  "goal": "建立可导入的 Python 包、harnessctl 入口、统一 JSON 输出和 CLI smoke tests；不实现配置、拓扑、节点或集群管理。",
   "allowed_paths": [
-    "AGENTS.md",
-    "CODEX_LOOP.md",
-    "codex/**",
-    "scripts/codex_next.py",
-    "scripts/phase_gate.py",
-    "scripts/diff_guard.py",
-    "scripts/artifact_guard.py",
-    "scripts/status_guard.py",
-    "scripts/forbidden_guard.py",
-    "scripts/project_quality_gate.py",
-    "tests/test_p00_loop_control.py",
+    "pyproject.toml",
+    "Makefile",
+    "harness/__init__.py",
+    "harness/harnessctl.py",
+    "harness/errors.py",
+    "harness/jsonio.py",
+    "tests/test_p01_cli.py",
+    "tests/helpers/**",
     "codex/loop_state.json",
     "codex/current_phase_contract.json",
     "codex/current_phase_contract.md",
-    "artifacts/phase-P00/**"
+    "artifacts/phase-P01/**"
   ],
   "pre_gate_commands": [
-    "python3 -m py_compile scripts/codex_next.py scripts/phase_gate.py scripts/diff_guard.py scripts/artifact_guard.py scripts/status_guard.py scripts/forbidden_guard.py scripts/project_quality_gate.py",
-    "python3 tests/test_p00_loop_control.py",
-    "python3 scripts/codex_next.py status --json",
-    "python3 scripts/codex_next.py next --json",
-    "python3 scripts/phase_gate.py list --json",
-    "python3 scripts/diff_guard.py allowed-files --phase P00 --json"
+    "python3 -m py_compile harness/__init__.py harness/harnessctl.py harness/errors.py harness/jsonio.py",
+    "python3 -m unittest discover -s tests -p 'test_p01_cli.py'",
+    "python3 -m harness.harnessctl version --json",
+    "python3 -m harness.harnessctl doctor --dry-run --json",
+    "python3 -m harness.harnessctl validate --help",
+    "python3 -m harness.harnessctl plan --help",
+    "python3 -m harness.harnessctl run-scenario --help",
+    "python3 -m harness.harnessctl report --help"
   ],
   "required_artifacts": [
-    "artifacts/phase-P00/result.json",
-    "artifacts/phase-P00/notes.md",
-    "artifacts/phase-P00/commands.log",
-    "artifacts/phase-P00/commands.jsonl",
-    "artifacts/phase-P00/changed_files.txt"
+    "artifacts/phase-P01/result.json",
+    "artifacts/phase-P01/notes.md",
+    "artifacts/phase-P01/commands.log",
+    "artifacts/phase-P01/commands.jsonl",
+    "artifacts/phase-P01/changed_files.txt"
   ],
   "required_outputs": [
-    "codex/phase_manifest.json copied exactly from the canonical JSON block in 01_阶段Manifest源_ValkeyHarness.md",
-    "codex/phase_cards/P00.md ... codex/phase_cards/P16.md generated from the manifest",
-    "codex/loop_state.json initialized with P00 IN_PROGRESS/PENDING semantics and all later phases PENDING",
-    "scripts/codex_next.py with next/status/claim/progress/pass/fail/block/explain and --json support",
-    "scripts/phase_gate.py with check/explain/list and --json support",
-    "scripts/diff_guard.py, artifact_guard.py, status_guard.py, forbidden_guard.py",
-    "scripts/project_quality_gate.py strict stub with --candidate-phase support for later P16 completion",
-    "AGENTS.md and CODEX_LOOP.md summarizing the execution contract",
-    "P00 artifacts: result.json, notes.md, commands.log, commands.jsonl, changed_files.txt"
+    "harness package importable",
+    "python3 -m harness.harnessctl version --json returns stable JSON",
+    "doctor --dry-run --json returns stable JSON without touching Docker/SSH/Valkey",
+    "validate/plan/run-scenario/report subcommands expose help or explicit NOT_IMPLEMENTED",
+    "Makefile targets: test, gate, lint-lite or equivalent standard-library friendly checks"
   ],
   "acceptance": [
-    "P00 allowed_paths includes every file P00 is required to create, including scripts/project_quality_gate.py and tests/test_p00_loop_control.py",
-    "No pre_gate_commands entry contains phase_gate.py check; this avoids bootstrap/self-gate recursion",
-    "codex_next.py pass --phase P00 internally reruns phase_gate.py check --phase P00 before writing PASS to loop_state.json",
-    "diff_guard includes untracked, modified, deleted, renamed and already-committed-in-phase files by comparing against the phase base ref recorded in loop_state.json",
-    "phase_gate trusts manifest/result/commands/artifacts, not natural-language claims"
+    "All listed CLI commands terminate deterministically with exit code 0 unless explicitly testing an error path",
+    "JSON output contains status, command, version or reason fields as applicable",
+    "No Docker, SSH, Valkey binary, or network access is attempted"
   ],
   "forbidden": [
-    "Do not create harness/, nodehost/, docker/, inventories/, scenarios/ business functionality in P00",
-    "Do not weaken gate checks to make P00 pass",
-    "Do not edit the Markdown spec bundle"
+    "Do not implement config loader or planner in P01",
+    "Do not introduce non-declared runtime dependencies"
   ],
   "manifest_sha256": "d34c3ae82d24fdfa64baf19779a405194f3c2bd9e559951d6b7350fcad478f30",
-  "phase_card_sha256": "14efc37a62e248d29a8361ccba960552983b0fd9f21b17c42797b19d8e51baa0"
+  "phase_card_sha256": "0aa1da9e5073c8fc0ec7d755c9d1313fc84ca01a2004724c1208a9e40883d642"
 }

@@ -1,0 +1,109 @@
+{
+  "phase": "P01",
+  "status": "PASS",
+  "attempt": 1,
+  "manifest_sha256": "d34c3ae82d24fdfa64baf19779a405194f3c2bd9e559951d6b7350fcad478f30",
+  "phase_card_sha256": "0aa1da9e5073c8fc0ec7d755c9d1313fc84ca01a2004724c1208a9e40883d642",
+  "summary": "P01 created the minimal standard-library Python package, harnessctl JSON command shell, CLI smoke tests, and Makefile targets without implementing config, planning, or runtime behavior.",
+  "expected_outputs": [
+    "harness package importable",
+    "python3 -m harness.harnessctl version --json returns stable JSON",
+    "doctor --dry-run --json returns stable JSON without touching Docker/SSH/Valkey",
+    "validate/plan/run-scenario/report subcommands expose help or explicit NOT_IMPLEMENTED",
+    "Makefile targets: test, gate, lint-lite or equivalent standard-library friendly checks"
+  ],
+  "verified_outputs": [
+    {
+      "output": "harness package importable",
+      "evidence": "python3 -m py_compile harness/__init__.py harness/harnessctl.py harness/errors.py harness/jsonio.py exit_code=0"
+    },
+    {
+      "output": "python3 -m harness.harnessctl version --json returns stable JSON",
+      "evidence": "pre-gate command version --json exit_code=0 and tests/test_p01_cli.py"
+    },
+    {
+      "output": "doctor --dry-run --json returns stable JSON without touching Docker/SSH/Valkey",
+      "evidence": "pre-gate command doctor --dry-run --json exit_code=0 and unit test checks NOT_VALIDATED external_runtime"
+    },
+    {
+      "output": "validate/plan/run-scenario/report subcommands expose help or explicit NOT_IMPLEMENTED",
+      "evidence": "four --help pre-gate commands exit_code=0 and unit tests cover NOT_IMPLEMENTED JSON"
+    },
+    {
+      "output": "Makefile targets: test, gate, lint-lite or equivalent standard-library friendly checks",
+      "evidence": "Makefile changed file contains test, gate, and lint-lite targets"
+    }
+  ],
+  "commands": [
+    {
+      "command": "python3 -m py_compile harness/__init__.py harness/harnessctl.py harness/errors.py harness/jsonio.py",
+      "exit_code": 0
+    },
+    {
+      "command": "python3 -m unittest discover -s tests -p 'test_p01_cli.py'",
+      "exit_code": 0
+    },
+    {
+      "command": "python3 -m harness.harnessctl version --json",
+      "exit_code": 0
+    },
+    {
+      "command": "python3 -m harness.harnessctl doctor --dry-run --json",
+      "exit_code": 0
+    },
+    {
+      "command": "python3 -m harness.harnessctl validate --help",
+      "exit_code": 0
+    },
+    {
+      "command": "python3 -m harness.harnessctl plan --help",
+      "exit_code": 0
+    },
+    {
+      "command": "python3 -m harness.harnessctl run-scenario --help",
+      "exit_code": 0
+    },
+    {
+      "command": "python3 -m harness.harnessctl report --help",
+      "exit_code": 0
+    }
+  ],
+  "changed_files": [
+    "codex/current_phase_contract.json",
+    "codex/current_phase_contract.md",
+    "codex/loop_state.json",
+    "Makefile",
+    "artifacts/phase-P01/cmd-001.stderr.txt",
+    "artifacts/phase-P01/cmd-001.stdout.txt",
+    "artifacts/phase-P01/cmd-002.stderr.txt",
+    "artifacts/phase-P01/cmd-002.stdout.txt",
+    "artifacts/phase-P01/cmd-003.stderr.txt",
+    "artifacts/phase-P01/cmd-003.stdout.txt",
+    "artifacts/phase-P01/cmd-004.stderr.txt",
+    "artifacts/phase-P01/cmd-004.stdout.txt",
+    "artifacts/phase-P01/cmd-005.stderr.txt",
+    "artifacts/phase-P01/cmd-005.stdout.txt",
+    "artifacts/phase-P01/cmd-006.stderr.txt",
+    "artifacts/phase-P01/cmd-006.stdout.txt",
+    "artifacts/phase-P01/cmd-007.stderr.txt",
+    "artifacts/phase-P01/cmd-007.stdout.txt",
+    "artifacts/phase-P01/cmd-008.stderr.txt",
+    "artifacts/phase-P01/cmd-008.stdout.txt",
+    "artifacts/phase-P01/commands.jsonl",
+    "artifacts/phase-P01/commands.log",
+    "artifacts/phase-P01/notes.md",
+    "harness/__init__.py",
+    "harness/errors.py",
+    "harness/harnessctl.py",
+    "harness/jsonio.py",
+    "pyproject.toml",
+    "tests/helpers/.keep",
+    "tests/test_p01_cli.py",
+    "artifacts/phase-P01/result.json",
+    "artifacts/phase-P01/changed_files.txt"
+  ],
+  "risks": [
+    "Config loading and planner commands remain NOT_IMPLEMENTED until their assigned phases.",
+    "No real Valkey production validation is claimed."
+  ]
+}
