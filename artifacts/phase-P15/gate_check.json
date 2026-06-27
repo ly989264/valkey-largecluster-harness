@@ -1,0 +1,153 @@
+{
+  "status": "OK",
+  "phase": "P15",
+  "checks": [
+    {
+      "check": "status_guard.py",
+      "ok": true,
+      "payload": {
+        "phase": "P15",
+        "phase_status": "IN_PROGRESS",
+        "status": "OK"
+      }
+    },
+    {
+      "check": "artifact_guard.py",
+      "ok": true,
+      "payload": {
+        "artifact_count": 5,
+        "command_count": 2,
+        "phase": "P15",
+        "status": "OK"
+      }
+    },
+    {
+      "check": "diff_guard.py",
+      "ok": true,
+      "payload": {
+        "allowed_paths": [
+          "harness/network_faults.py",
+          "nodehost/faults_network.py",
+          "harness/platform_adapter.py",
+          "harness/platform_darwin.py",
+          "harness/platform_linux.py",
+          "harness/faults.py",
+          "tests/test_p15_network_faults.py",
+          "tests/helpers/**",
+          "tests/conftest.py",
+          "codex/loop_state.json",
+          "codex/current_phase_contract.json",
+          "codex/current_phase_contract.md",
+          "artifacts/phase-P15/**"
+        ],
+        "changed_files": [
+          {
+            "file": "codex/current_phase_contract.json",
+            "status": "M"
+          },
+          {
+            "file": "codex/current_phase_contract.md",
+            "status": "M"
+          },
+          {
+            "file": "codex/loop_state.json",
+            "status": "M"
+          },
+          {
+            "file": "harness/faults.py",
+            "status": "M"
+          },
+          {
+            "file": "harness/platform_adapter.py",
+            "status": "M"
+          },
+          {
+            "file": "harness/platform_darwin.py",
+            "status": "M"
+          },
+          {
+            "file": "harness/platform_linux.py",
+            "status": "M"
+          },
+          {
+            "file": "artifacts/phase-P15/changed_files.txt",
+            "status": "??"
+          },
+          {
+            "file": "artifacts/phase-P15/cmd-001.stderr.txt",
+            "status": "??"
+          },
+          {
+            "file": "artifacts/phase-P15/cmd-001.stdout.txt",
+            "status": "??"
+          },
+          {
+            "file": "artifacts/phase-P15/cmd-002.stderr.txt",
+            "status": "??"
+          },
+          {
+            "file": "artifacts/phase-P15/cmd-002.stdout.txt",
+            "status": "??"
+          },
+          {
+            "file": "artifacts/phase-P15/commands.jsonl",
+            "status": "??"
+          },
+          {
+            "file": "artifacts/phase-P15/commands.log",
+            "status": "??"
+          },
+          {
+            "file": "artifacts/phase-P15/gate_check.json",
+            "status": "??"
+          },
+          {
+            "file": "artifacts/phase-P15/notes.md",
+            "status": "??"
+          },
+          {
+            "file": "artifacts/phase-P15/result.json",
+            "status": "??"
+          },
+          {
+            "file": "harness/network_faults.py",
+            "status": "??"
+          },
+          {
+            "file": "nodehost/faults_network.py",
+            "status": "??"
+          },
+          {
+            "file": "tests/test_p15_network_faults.py",
+            "status": "??"
+          }
+        ],
+        "phase": "P15",
+        "status": "OK"
+      }
+    },
+    {
+      "check": "forbidden_guard.py",
+      "ok": true,
+      "payload": {
+        "phase": "P15",
+        "status": "OK",
+        "violations": []
+      }
+    },
+    {
+      "check": "commands_exact",
+      "ok": true,
+      "payload": {
+        "command_count": 2
+      }
+    },
+    {
+      "check": "result_coverage",
+      "ok": true,
+      "payload": {
+        "verified_count": 6
+      }
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+$ python3 -m py_compile harness/network_faults.py nodehost/faults_network.py harness/platform_adapter.py harness/platform_darwin.py harness/platform_linux.py
+exit_code=0
+stdout=artifacts/phase-P15/cmd-001.stdout.txt
+stderr=artifacts/phase-P15/cmd-001.stderr.txt
+
+$ python3 -m unittest discover -s tests -p 'test_p15_network_faults.py'
+exit_code=0
+stdout=artifacts/phase-P15/cmd-002.stdout.txt
+stderr=artifacts/phase-P15/cmd-002.stderr.txt
+

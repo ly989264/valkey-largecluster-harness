@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "current_phase": "P15",
+  "current_phase": "P16",
   "blocked": false,
   "blocked_reason": null,
   "complete": false,
@@ -156,10 +156,14 @@
       "passed_at": "2026-06-27T04:26:49Z"
     },
     "P15": {
-      "status": "PENDING",
-      "attempts": 0,
+      "status": "PASS",
+      "attempts": 1,
       "result_path": "artifacts/phase-P15/result.json",
-      "phase_card_path": "codex/phase_cards/P15.md"
+      "phase_card_path": "codex/phase_cards/P15.md",
+      "base_ref": "98b1c5a231814dbd4b48b4311972330e9d4f9add",
+      "claimed_at": "2026-06-27T04:27:28Z",
+      "updated_at": "2026-06-27T04:30:57Z",
+      "passed_at": "2026-06-27T04:30:57Z"
     },
     "P16": {
       "status": "PENDING",

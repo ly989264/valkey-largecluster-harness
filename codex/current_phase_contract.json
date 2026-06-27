@@ -1,48 +1,51 @@
 {
-  "id": "P14",
-  "order": 14,
-  "name": "多 Mac SSH 编排",
-  "goal": "让 controller 通过 SSH 编排多台 Mac；unit tests 使用 fake SSH，不要求真实多 Mac。",
+  "id": "P15",
+  "order": 15,
+  "name": "网络故障 backend 与 Linux 迁移能力",
+  "goal": "建立网络故障接口：virtual AZ 隔离、时延、丢包；Darwin 能力不足必须明确 SKIPPED_RESOURCE，Linux tc/netem 路径必须可验证命令构造。",
   "allowed_paths": [
-    "harness/ssh_exec.py",
-    "harness/remote_nodehost.py",
-    "harness/deployer.py",
-    "harness/scenario_runner.py",
-    "harness/nodehost_client.py",
-    "tests/test_p14_multi_mac_ssh.py",
+    "harness/network_faults.py",
+    "nodehost/faults_network.py",
+    "harness/platform_adapter.py",
+    "harness/platform_darwin.py",
+    "harness/platform_linux.py",
+    "harness/faults.py",
+    "tests/test_p15_network_faults.py",
     "tests/helpers/**",
     "tests/conftest.py",
     "codex/loop_state.json",
     "codex/current_phase_contract.json",
     "codex/current_phase_contract.md",
-    "artifacts/phase-P14/**"
+    "artifacts/phase-P15/**"
   ],
   "pre_gate_commands": [
-    "python3 -m py_compile harness/ssh_exec.py harness/remote_nodehost.py harness/deployer.py harness/scenario_runner.py",
-    "python3 -m unittest discover -s tests -p 'test_p14_multi_mac_ssh.py'"
+    "python3 -m py_compile harness/network_faults.py nodehost/faults_network.py harness/platform_adapter.py harness/platform_darwin.py harness/platform_linux.py",
+    "python3 -m unittest discover -s tests -p 'test_p15_network_faults.py'"
   ],
   "required_artifacts": [
-    "artifacts/phase-P14/result.json",
-    "artifacts/phase-P14/notes.md",
-    "artifacts/phase-P14/commands.log",
-    "artifacts/phase-P14/commands.jsonl",
-    "artifacts/phase-P14/changed_files.txt"
+    "artifacts/phase-P15/result.json",
+    "artifacts/phase-P15/notes.md",
+    "artifacts/phase-P15/commands.log",
+    "artifacts/phase-P15/commands.jsonl",
+    "artifacts/phase-P15/changed_files.txt"
   ],
   "required_outputs": [
-    "SSHExecutor and FakeSSHExecutor",
-    "RemoteNodehostClient",
-    "Deployer supporting preflight, sync/package, start virtual AZ runtime, run nodehostctl, collect artifacts, cleanup",
-    "Multi-host dispatch tests based on ClusterPlan"
+    "NetworkFaultBackend interface",
+    "UnsupportedNetworkFaultBackend",
+    "LinuxNetemBackend command construction boundaries for tc/netem and firewall selectors",
+    "Darwin capability detection returning capability-limited result",
+    "Targets include cluster bus ports, not only client ports",
+    "Tests for isolate/heal/delay/loss/clear command plans"
   ],
   "acceptance": [
-    "Fake SSH verifies exact command dispatch and host targeting",
-    "Real SSH absence does not fail unit tests",
-    "Remote orchestration reads ClusterPlan and does not re-plan topology"
+    "Unsupported environment returns SKIPPED_RESOURCE with reason/evidence",
+    "Linux migration path is explicit and unit-tested by command construction",
+    "Network fault targeting covers cluster bus traffic"
   ],
   "forbidden": [
-    "Do not couple SSH implementation to Docker implementation",
-    "Do not require password prompts or interactive SSH in tests"
+    "Do not claim precise Mac network fault injection unless capability check proves it",
+    "Do not execute tc/pf/iptables in unit tests"
   ],
   "manifest_sha256": "d34c3ae82d24fdfa64baf19779a405194f3c2bd9e559951d6b7350fcad478f30",
-  "phase_card_sha256": "875be1081edef033fb10ceb888026566c18b51e3bd75eb0849af1fe57d59a4c4"
+  "phase_card_sha256": "fd750f554eb51293559c6ad3f6fe23cd0ea0138373bdc4250474b577a08f252d"
 }

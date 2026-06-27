@@ -3,6 +3,8 @@
 import datetime
 from dataclasses import dataclass
 
+from harness.network_faults import targets_for_virtual_az
+
 
 @dataclass(frozen=True)
 class FaultPlan:
@@ -48,3 +50,45 @@ class FaultExecutor:
 
 def _now():
     return datetime.datetime.now(datetime.timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
+
+
+@dataclass(frozen=True)
+class NetworkFaultPlan:
+    action: str
+    virtual_az_id: str
+    milliseconds: int = None
+    percent: float = None
+
+    def validate(self):
+        if self.action not in {"isolate", "heal", "delay", "loss", "clear"}:
+            raise ValueError("network fault action must be isolate, heal, delay, loss, or clear")
+        if not self.virtual_az_id:
+            raise ValueError("virtual_az_id is required")
+        if self.action == "delay" and self.milliseconds is None:
+            raise ValueError("delay requires milliseconds")
+        if self.action == "loss" and self.percent is None:
+            raise ValueError("loss requires percent")
+
+
+class NetworkFaultExecutor:
+    def __init__(self, backend):
+        self.backend = backend
+
+    def execute(self, cluster_plan, fault_plan):
+        fault_plan.validate()
+        targets = targets_for_virtual_az(cluster_plan, fault_plan.virtual_az_id)
+        if fault_plan.action == "isolate":
+            result = self.backend.isolate(targets)
+        elif fault_plan.action == "heal":
+            result = self.backend.heal(targets)
+        elif fault_plan.action == "delay":
+            result = self.backend.delay(targets, fault_plan.milliseconds)
+        elif fault_plan.action == "loss":
+            result = self.backend.loss(targets, fault_plan.percent)
+        else:
+            result = self.backend.clear(targets)
+        return {
+            "status": result.status,
+            "targets": [target.node_id for target in targets],
+            "result": result.to_dict(),
+        }

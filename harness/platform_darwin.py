@@ -1,5 +1,6 @@
 """Darwin platform adapter."""
 
+from harness.network_faults import UnsupportedNetworkFaultBackend
 from harness.platform_adapter import PlatformAdapter
 
 
@@ -45,3 +46,9 @@ class DarwinPlatformAdapter(PlatformAdapter):
 
     def network_fault_backend_hint(self):
         return "darwin-unsupported-use-linux-tc-netem"
+
+    def network_fault_backend(self):
+        return UnsupportedNetworkFaultBackend(
+            reason="Darwin precise virtual AZ network fault injection is not enabled",
+            evidence="Use Linux tc/netem backend for command-verified migration path",
+        )

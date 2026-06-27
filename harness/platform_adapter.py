@@ -43,6 +43,14 @@ class PlatformAdapter:
     def network_fault_backend_hint(self):
         return "unsupported"
 
+    def network_fault_backend(self):
+        from harness.network_faults import UnsupportedNetworkFaultBackend
+
+        return UnsupportedNetworkFaultBackend(
+            reason="network fault injection is unsupported on this platform",
+            evidence=self.detect_platform(),
+        )
+
     def capabilities(self):
         return {
             "platform": self.detect_platform(),

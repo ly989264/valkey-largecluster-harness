@@ -1,0 +1,77 @@
+{
+  "phase": "P15",
+  "status": "PASS",
+  "attempt": 1,
+  "manifest_sha256": "d34c3ae82d24fdfa64baf19779a405194f3c2bd9e559951d6b7350fcad478f30",
+  "phase_card_sha256": "fd750f554eb51293559c6ad3f6fe23cd0ea0138373bdc4250474b577a08f252d",
+  "summary": "P15 added command-planned network fault backends with explicit unsupported Darwin behavior and Linux tc/netem migration tests covering client and cluster bus ports.",
+  "expected_outputs": [
+    "NetworkFaultBackend interface",
+    "UnsupportedNetworkFaultBackend",
+    "LinuxNetemBackend command construction boundaries for tc/netem and firewall selectors",
+    "Darwin capability detection returning capability-limited result",
+    "Targets include cluster bus ports, not only client ports",
+    "Tests for isolate/heal/delay/loss/clear command plans"
+  ],
+  "verified_outputs": [
+    {
+      "output": "NetworkFaultBackend interface",
+      "evidence": "harness/network_faults.py defines NetworkFaultBackend and NetworkFaultResult"
+    },
+    {
+      "output": "UnsupportedNetworkFaultBackend",
+      "evidence": "test_unsupported_environment_returns_skipped_resource"
+    },
+    {
+      "output": "LinuxNetemBackend command construction boundaries for tc/netem and firewall selectors",
+      "evidence": "harness/platform_linux.py and test_isolate_heal_delay_loss_clear_command_plans"
+    },
+    {
+      "output": "Darwin capability detection returning capability-limited result",
+      "evidence": "DarwinPlatformAdapter.network_fault_backend test returns SKIPPED_RESOURCE"
+    },
+    {
+      "output": "Targets include cluster bus ports, not only client ports",
+      "evidence": "test_linux_command_plan_targets_client_and_cluster_bus_ports"
+    },
+    {
+      "output": "Tests for isolate/heal/delay/loss/clear command plans",
+      "evidence": "tests/test_p15_network_faults.py"
+    }
+  ],
+  "commands": [
+    {
+      "command": "python3 -m py_compile harness/network_faults.py nodehost/faults_network.py harness/platform_adapter.py harness/platform_darwin.py harness/platform_linux.py",
+      "exit_code": 0
+    },
+    {
+      "command": "python3 -m unittest discover -s tests -p 'test_p15_network_faults.py'",
+      "exit_code": 0
+    }
+  ],
+  "changed_files": [
+    "artifacts/phase-P15/changed_files.txt",
+    "artifacts/phase-P15/cmd-001.stderr.txt",
+    "artifacts/phase-P15/cmd-001.stdout.txt",
+    "artifacts/phase-P15/cmd-002.stderr.txt",
+    "artifacts/phase-P15/cmd-002.stdout.txt",
+    "artifacts/phase-P15/commands.jsonl",
+    "artifacts/phase-P15/commands.log",
+    "artifacts/phase-P15/notes.md",
+    "artifacts/phase-P15/result.json",
+    "codex/current_phase_contract.json",
+    "codex/current_phase_contract.md",
+    "codex/loop_state.json",
+    "harness/faults.py",
+    "harness/network_faults.py",
+    "harness/platform_adapter.py",
+    "harness/platform_darwin.py",
+    "harness/platform_linux.py",
+    "nodehost/faults_network.py",
+    "tests/test_p15_network_faults.py"
+  ],
+  "risks": [
+    "Real tc/netem and firewall commands were NOT_VALIDATED in P15.",
+    "Darwin precise network fault injection remains SKIPPED_RESOURCE until a supported backend is proven."
+  ]
+}
