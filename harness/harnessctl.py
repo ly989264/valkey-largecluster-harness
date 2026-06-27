@@ -10,6 +10,7 @@ from harness.jsonio import base_payload, emit
 from harness.cluster_plan import ClusterPlanError
 from harness.planner import PlanError, build_cluster_plan
 from harness.platform_adapter import adapter_for_platform
+from harness.scenario_runner import ScenarioRunner
 
 
 COMMANDS = ("version", "doctor", "validate", "plan", "run-scenario", "report")
@@ -83,6 +84,15 @@ def handle_plan(args):
     return 0
 
 
+def handle_run_scenario(args):
+    if not args.inventory or not args.scenario or not args.run_id:
+        emit(command_payload("run-scenario", status="NOT_IMPLEMENTED", reason="P10 run-scenario requires --inventory, --scenario, and --run-id"))
+        return 0
+    result = ScenarioRunner().run(args.inventory, args.scenario, args.run_id, backend=args.backend)
+    emit(command_payload("run-scenario", **result))
+    return 0 if result["status"] in {"PASS", "SKIPPED_RESOURCE"} else 1
+
+
 def build_parser():
     parser = argparse.ArgumentParser(prog="harnessctl")
     sub = parser.add_subparsers(dest="command", required=True)
@@ -108,7 +118,15 @@ def build_parser():
     plan.add_argument("--json", action="store_true", help="emit JSON")
     plan.set_defaults(func=handle_plan)
 
-    for name in ("run-scenario", "report"):
+    run_scenario = sub.add_parser("run-scenario", help="run a scenario")
+    run_scenario.add_argument("--inventory")
+    run_scenario.add_argument("--scenario")
+    run_scenario.add_argument("--run-id")
+    run_scenario.add_argument("--backend", default="fake")
+    run_scenario.add_argument("--json", action="store_true", help="emit JSON")
+    run_scenario.set_defaults(func=handle_run_scenario)
+
+    for name in ("report",):
         cmd = sub.add_parser(name, help=f"{name} command shell")
         cmd.add_argument("--json", action="store_true", help="emit JSON")
         cmd.set_defaults(func=handle_not_implemented(name))

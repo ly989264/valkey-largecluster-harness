@@ -15,6 +15,12 @@ class ArtifactLayout:
         layout.run_dir.mkdir(parents=True, exist_ok=False)
         return layout
 
+    @classmethod
+    def open(cls, root, run_id):
+        layout = cls(Path(root), run_id)
+        layout.run_dir.mkdir(parents=True, exist_ok=True)
+        return layout
+
     @property
     def run_dir(self):
         return self.root / self.run_id

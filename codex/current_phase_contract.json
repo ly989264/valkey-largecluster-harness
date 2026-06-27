@@ -1,50 +1,54 @@
 {
-  "id": "P09",
-  "order": 9,
-  "name": "cluster command executor 与 fake cluster 状态机",
-  "goal": "实现可测试的 cluster management 状态机，显式建模 MEET、known_nodes 收敛、slot assignment、replicate、cluster_state ok。",
+  "id": "P10",
+  "order": 10,
+  "name": "单 Mac 6 节点 smoke runner",
+  "goal": "跑通 smoke-6 fake-run/dry-run 的完整路径：validate、plan、nodehost、cluster create/check、cleanup、artifacts。",
   "allowed_paths": [
-    "harness/valkey_cli.py",
-    "harness/fake_cluster.py",
+    "harness/scenario_runner.py",
+    "harness/preflight.py",
+    "harness/harnessctl.py",
+    "harness/nodehost_client.py",
     "harness/cluster_create.py",
     "harness/cluster_check.py",
-    "harness/slot_check.py",
+    "harness/artifacts.py",
     "harness/events.py",
-    "tests/test_p09_cluster_state_machine.py",
+    "harness/status.py",
+    "tests/test_p10_single_mac_smoke.py",
     "tests/helpers/**",
     "tests/conftest.py",
     "codex/loop_state.json",
     "codex/current_phase_contract.json",
     "codex/current_phase_contract.md",
-    "artifacts/phase-P09/**"
+    "artifacts/phase-P10/**"
   ],
   "pre_gate_commands": [
-    "python3 -m py_compile harness/valkey_cli.py harness/fake_cluster.py harness/cluster_create.py harness/cluster_check.py harness/slot_check.py",
-    "python3 -m unittest discover -s tests -p 'test_p09_cluster_state_machine.py'"
+    "python3 -m py_compile harness/scenario_runner.py harness/preflight.py harness/harnessctl.py",
+    "python3 -m unittest discover -s tests -p 'test_p10_single_mac_smoke.py'",
+    "python3 -m harness.harnessctl run-scenario --inventory inventories/single-mac-dev.yaml --scenario scenarios/smoke-6.yaml --run-id p10-smoke --backend fake --json"
   ],
   "required_artifacts": [
-    "artifacts/phase-P09/result.json",
-    "artifacts/phase-P09/notes.md",
-    "artifacts/phase-P09/commands.log",
-    "artifacts/phase-P09/commands.jsonl",
-    "artifacts/phase-P09/changed_files.txt"
+    "artifacts/phase-P10/result.json",
+    "artifacts/phase-P10/notes.md",
+    "artifacts/phase-P10/commands.log",
+    "artifacts/phase-P10/commands.jsonl",
+    "artifacts/phase-P10/changed_files.txt"
   ],
   "required_outputs": [
-    "ValkeyCli interface and fake implementation",
-    "FakeCluster state machine",
-    "ClusterCreator executing ClusterPlan without replanning",
-    "ClusterChecker and SlotChecker distinguishing known_nodes_missing, slots_missing, replica_missing, cluster_fail",
-    "Events for meet, known_nodes sampling, slots assigned, replica configured, cluster ok/fail"
+    "run-scenario CLI wired to ScenarioRunner",
+    "smoke-6 fake backend path",
+    "run artifacts directory containing events.jsonl, run_status.json, cluster_plan.json, command log",
+    "cleanup in finally path",
+    "Optional real Valkey path reports SKIPPED_RESOURCE when binary is absent; fake path must PASS"
   ],
   "acceptance": [
-    "Create flow follows plan order deterministically",
-    "Creator does not call planner or recalculate slots/replicas",
-    "Checker surfaces incomplete convergence as structured failure"
+    "Fake smoke run returns PASS and writes auditable artifacts",
+    "Cleanup executes on failure and success",
+    "Failures are written as events/status, not swallowed"
   ],
   "forbidden": [
-    "Do not shell out to valkey-cli in unit tests",
-    "Do not use valkey-cli --cluster create as the only model"
+    "Do not require real Valkey for P10 pass",
+    "Do not mark optional real integration as PASS when skipped"
   ],
   "manifest_sha256": "d34c3ae82d24fdfa64baf19779a405194f3c2bd9e559951d6b7350fcad478f30",
-  "phase_card_sha256": "2671badf46476c1a5e7410ed0349c129fb69d962393e30d2867a459502c1ca79"
+  "phase_card_sha256": "3624394f6b933ffb12393b4874896f5e9a9efd14fe119d28897895acc822a656"
 }

@@ -1,0 +1,76 @@
+{
+  "phase": "P10",
+  "status": "PASS",
+  "attempt": 1,
+  "manifest_sha256": "d34c3ae82d24fdfa64baf19779a405194f3c2bd9e559951d6b7350fcad478f30",
+  "phase_card_sha256": "3624394f6b933ffb12393b4874896f5e9a9efd14fe119d28897895acc822a656",
+  "summary": "P10 wired run-scenario to a fake smoke runner that validates config, plans, starts fake nodehost state, creates/checks fake cluster, cleans up, and writes run artifacts.",
+  "expected_outputs": [
+    "run-scenario CLI wired to ScenarioRunner",
+    "smoke-6 fake backend path",
+    "run artifacts directory containing events.jsonl, run_status.json, cluster_plan.json, command log",
+    "cleanup in finally path",
+    "Optional real Valkey path reports SKIPPED_RESOURCE when binary is absent; fake path must PASS"
+  ],
+  "verified_outputs": [
+    {
+      "output": "run-scenario CLI wired to ScenarioRunner",
+      "evidence": "pre-gate run-scenario command exit_code=0"
+    },
+    {
+      "output": "smoke-6 fake backend path",
+      "evidence": "test_fake_smoke_run_returns_pass_and_writes_artifacts"
+    },
+    {
+      "output": "run artifacts directory containing events.jsonl, run_status.json, cluster_plan.json, command log",
+      "evidence": "P10 unit test asserts artifact files exist"
+    },
+    {
+      "output": "cleanup in finally path",
+      "evidence": "test_cleanup_runs_after_success"
+    },
+    {
+      "output": "Optional real Valkey path reports SKIPPED_RESOURCE when binary is absent; fake path must PASS",
+      "evidence": "test_optional_real_backend_skips_when_binary_absent and pre-gate fake PASS"
+    }
+  ],
+  "commands": [
+    {
+      "command": "python3 -m py_compile harness/scenario_runner.py harness/preflight.py harness/harnessctl.py",
+      "exit_code": 0
+    },
+    {
+      "command": "python3 -m unittest discover -s tests -p 'test_p10_single_mac_smoke.py'",
+      "exit_code": 0
+    },
+    {
+      "command": "python3 -m harness.harnessctl run-scenario --inventory inventories/single-mac-dev.yaml --scenario scenarios/smoke-6.yaml --run-id p10-smoke --backend fake --json",
+      "exit_code": 0
+    }
+  ],
+  "changed_files": [
+    "codex/current_phase_contract.json",
+    "codex/current_phase_contract.md",
+    "codex/loop_state.json",
+    "harness/artifacts.py",
+    "harness/harnessctl.py",
+    "artifacts/phase-P10/cmd-001.stderr.txt",
+    "artifacts/phase-P10/cmd-001.stdout.txt",
+    "artifacts/phase-P10/cmd-002.stderr.txt",
+    "artifacts/phase-P10/cmd-002.stdout.txt",
+    "artifacts/phase-P10/cmd-003.stderr.txt",
+    "artifacts/phase-P10/cmd-003.stdout.txt",
+    "artifacts/phase-P10/commands.jsonl",
+    "artifacts/phase-P10/commands.log",
+    "artifacts/phase-P10/notes.md",
+    "harness/preflight.py",
+    "harness/scenario_runner.py",
+    "tests/test_p10_single_mac_smoke.py",
+    "artifacts/phase-P10/result.json",
+    "artifacts/phase-P10/changed_files.txt"
+  ],
+  "risks": [
+    "Fake smoke PASS is not production Valkey validation.",
+    "Real Valkey path may be SKIPPED_RESOURCE when binary is unavailable."
+  ]
+}

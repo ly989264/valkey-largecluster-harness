@@ -1,0 +1,15 @@
+$ python3 -m py_compile harness/scenario_runner.py harness/preflight.py harness/harnessctl.py
+exit_code=0
+stdout=artifacts/phase-P10/cmd-001.stdout.txt
+stderr=artifacts/phase-P10/cmd-001.stderr.txt
+
+$ python3 -m unittest discover -s tests -p 'test_p10_single_mac_smoke.py'
+exit_code=0
+stdout=artifacts/phase-P10/cmd-002.stdout.txt
+stderr=artifacts/phase-P10/cmd-002.stderr.txt
+
+$ python3 -m harness.harnessctl run-scenario --inventory inventories/single-mac-dev.yaml --scenario scenarios/smoke-6.yaml --run-id p10-smoke --backend fake --json
+exit_code=0
+stdout=artifacts/phase-P10/cmd-003.stdout.txt
+stderr=artifacts/phase-P10/cmd-003.stderr.txt
+

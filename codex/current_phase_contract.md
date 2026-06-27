@@ -1,33 +1,37 @@
-# Current Phase Contract: P09
+# Current Phase Contract: P10
 
 ## Name
-cluster command executor 与 fake cluster 状态机
+单 Mac 6 节点 smoke runner
 
 ## Goal
-实现可测试的 cluster management 状态机，显式建模 MEET、known_nodes 收敛、slot assignment、replicate、cluster_state ok。
+跑通 smoke-6 fake-run/dry-run 的完整路径：validate、plan、nodehost、cluster create/check、cleanup、artifacts。
 
 ## Allowed Paths
-- `harness/valkey_cli.py`
-- `harness/fake_cluster.py`
+- `harness/scenario_runner.py`
+- `harness/preflight.py`
+- `harness/harnessctl.py`
+- `harness/nodehost_client.py`
 - `harness/cluster_create.py`
 - `harness/cluster_check.py`
-- `harness/slot_check.py`
+- `harness/artifacts.py`
 - `harness/events.py`
-- `tests/test_p09_cluster_state_machine.py`
+- `harness/status.py`
+- `tests/test_p10_single_mac_smoke.py`
 - `tests/helpers/**`
 - `tests/conftest.py`
 - `codex/loop_state.json`
 - `codex/current_phase_contract.json`
 - `codex/current_phase_contract.md`
-- `artifacts/phase-P09/**`
+- `artifacts/phase-P10/**`
 
 ## Pre-Gate Commands
-- `python3 -m py_compile harness/valkey_cli.py harness/fake_cluster.py harness/cluster_create.py harness/cluster_check.py harness/slot_check.py`
-- `python3 -m unittest discover -s tests -p 'test_p09_cluster_state_machine.py'`
+- `python3 -m py_compile harness/scenario_runner.py harness/preflight.py harness/harnessctl.py`
+- `python3 -m unittest discover -s tests -p 'test_p10_single_mac_smoke.py'`
+- `python3 -m harness.harnessctl run-scenario --inventory inventories/single-mac-dev.yaml --scenario scenarios/smoke-6.yaml --run-id p10-smoke --backend fake --json`
 
 ## Required Artifacts
-- `artifacts/phase-P09/result.json`
-- `artifacts/phase-P09/notes.md`
-- `artifacts/phase-P09/commands.log`
-- `artifacts/phase-P09/commands.jsonl`
-- `artifacts/phase-P09/changed_files.txt`
+- `artifacts/phase-P10/result.json`
+- `artifacts/phase-P10/notes.md`
+- `artifacts/phase-P10/commands.log`
+- `artifacts/phase-P10/commands.jsonl`
+- `artifacts/phase-P10/changed_files.txt`

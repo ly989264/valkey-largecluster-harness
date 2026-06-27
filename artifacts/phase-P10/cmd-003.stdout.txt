@@ -1,0 +1,1 @@
+{"artifacts":"/tmp/valkey-largecluster-harness-runs/p10-smoke","cluster_check":{"status":"OK"},"command":"run-scenario","status":"PASS"}
