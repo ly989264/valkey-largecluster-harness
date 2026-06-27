@@ -1,0 +1,82 @@
+{
+  "phase": "P16",
+  "status": "PASS",
+  "attempt": 1,
+  "manifest_sha256": "d34c3ae82d24fdfa64baf19779a405194f3c2bd9e559951d6b7350fcad478f30",
+  "phase_card_sha256": "a3daf127bda87fb41a8294aa75235d6625e17c2b283b75e024650e0bc80b550d",
+  "summary": "P16 finalized scale ladder configuration, auditable report reconstruction, explicit non-PASS status reporting, and strict project quality checks without claiming production validation from fake or empty-node runs.",
+  "expected_outputs": [
+    "scenarios/scale-300.yaml, scale-500.yaml, scale-1000.yaml, scale-2000-empty.yaml",
+    "Report models and builder reconstructing report from artifacts",
+    "Report sections: summary, environment, virtual AZ topology, ClusterPlan, test matrix, cluster create, fault/failover timeline, migration/CLUSTERSCAN if implemented, resource metrics, stability gates, verified/unverified, failures/skips/inconclusive, reproduce commands, raw artifacts index",
+    "project_quality_gate.py finalized and strict",
+    "Fixture report artifacts for unit tests"
+  ],
+  "verified_outputs": [
+    {
+      "output": "scenarios/scale-300.yaml, scale-500.yaml, scale-1000.yaml, scale-2000-empty.yaml",
+      "evidence": "scenario files and test_scale_ladder_is_configuration_driven"
+    },
+    {
+      "output": "Report models and builder reconstructing report from artifacts",
+      "evidence": "harness/report_models.py, harness/report_builder.py, artifacts/phase-P16/report.json"
+    },
+    {
+      "output": "Report sections: summary, environment, virtual AZ topology, ClusterPlan, test matrix, cluster create, fault/failover timeline, migration/CLUSTERSCAN if implemented, resource metrics, stability gates, verified/unverified, failures/skips/inconclusive, reproduce commands, raw artifacts index",
+      "evidence": "REQUIRED_REPORT_SECTIONS and test_report_sections_and_status_vocabulary"
+    },
+    {
+      "output": "project_quality_gate.py finalized and strict",
+      "evidence": "python3 scripts/project_quality_gate.py --candidate-phase P16 --json exit_code=0"
+    },
+    {
+      "output": "Fixture report artifacts for unit tests",
+      "evidence": "artifacts/phase-P16/report.json and tests/test_p16_report_and_scale.py"
+    }
+  ],
+  "commands": [
+    {
+      "command": "python3 -m py_compile harness/report_builder.py harness/report_models.py harness/project_quality.py harness/harnessctl.py scripts/project_quality_gate.py",
+      "exit_code": 0
+    },
+    {
+      "command": "python3 -m unittest discover -s tests -p 'test_p16_report_and_scale.py'",
+      "exit_code": 0
+    },
+    {
+      "command": "python3 scripts/project_quality_gate.py --candidate-phase P16 --json",
+      "exit_code": 0
+    }
+  ],
+  "changed_files": [
+    "artifacts/phase-P16/changed_files.txt",
+    "artifacts/phase-P16/cmd-001.stderr.txt",
+    "artifacts/phase-P16/cmd-001.stdout.txt",
+    "artifacts/phase-P16/cmd-002.stderr.txt",
+    "artifacts/phase-P16/cmd-002.stdout.txt",
+    "artifacts/phase-P16/cmd-003.stderr.txt",
+    "artifacts/phase-P16/cmd-003.stdout.txt",
+    "artifacts/phase-P16/commands.jsonl",
+    "artifacts/phase-P16/commands.log",
+    "artifacts/phase-P16/notes.md",
+    "artifacts/phase-P16/report.json",
+    "artifacts/phase-P16/result.json",
+    "codex/current_phase_contract.json",
+    "codex/current_phase_contract.md",
+    "codex/loop_state.json",
+    "harness/harnessctl.py",
+    "harness/project_quality.py",
+    "harness/report_builder.py",
+    "harness/report_models.py",
+    "scenarios/scale-1000.yaml",
+    "scenarios/scale-2000-empty.yaml",
+    "scenarios/scale-300.yaml",
+    "scenarios/scale-500.yaml",
+    "scripts/project_quality_gate.py",
+    "tests/test_p16_report_and_scale.py"
+  ],
+  "risks": [
+    "scale-2000-empty is NOT_VALIDATED for throughput, production latency, production RTO, and physical 3-AZ durability.",
+    "Real Valkey 9.x production validation requires future phases or external evidence artifacts."
+  ]
+}

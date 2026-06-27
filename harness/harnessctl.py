@@ -10,6 +10,7 @@ from harness.jsonio import base_payload, emit
 from harness.cluster_plan import ClusterPlanError
 from harness.planner import PlanError, build_cluster_plan
 from harness.platform_adapter import adapter_for_platform
+from harness.report_builder import build_report, write_report
 from harness.scenario_runner import ScenarioRunner
 
 
@@ -93,6 +94,16 @@ def handle_run_scenario(args):
     return 0 if result["status"] in {"PASS", "SKIPPED_RESOURCE"} else 1
 
 
+def handle_report(args):
+    kwargs = {"artifacts_root": args.artifacts_root, "scenarios_dir": args.scenarios_dir}
+    if args.output:
+        report = write_report(args.output, **kwargs)
+    else:
+        report = build_report(**kwargs)
+    emit(command_payload("report", report=report.to_dict(), status_counts=report.status_counts()))
+    return 0
+
+
 def build_parser():
     parser = argparse.ArgumentParser(prog="harnessctl")
     sub = parser.add_subparsers(dest="command", required=True)
@@ -126,10 +137,12 @@ def build_parser():
     run_scenario.add_argument("--json", action="store_true", help="emit JSON")
     run_scenario.set_defaults(func=handle_run_scenario)
 
-    for name in ("report",):
-        cmd = sub.add_parser(name, help=f"{name} command shell")
-        cmd.add_argument("--json", action="store_true", help="emit JSON")
-        cmd.set_defaults(func=handle_not_implemented(name))
+    report = sub.add_parser("report", help="build an audit report from artifacts")
+    report.add_argument("--artifacts-root", default="artifacts")
+    report.add_argument("--scenarios-dir", default="scenarios")
+    report.add_argument("--output")
+    report.add_argument("--json", action="store_true", help="emit JSON")
+    report.set_defaults(func=handle_report)
 
     return parser
 

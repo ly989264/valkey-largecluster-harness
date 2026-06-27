@@ -1,0 +1,13 @@
+{
+  "scenario_id": "scale-2000-empty",
+  "topology_mode": "uniform_interleaved",
+  "backend": "fake",
+  "validation_profile": "best-effort-empty-node-smoke",
+  "does_not_validate": [
+    "throughput",
+    "production_latency",
+    "production_rto",
+    "physical_3az_durability"
+  ],
+  "cluster": {"total_nodes": 2000, "replicas_per_primary": 1, "virtual_az_count": 3, "node_timeout_ms": 15000}
+}

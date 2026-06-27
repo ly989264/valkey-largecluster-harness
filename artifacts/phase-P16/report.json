@@ -1,0 +1,1005 @@
+{
+  "report_id": "valkey-largecluster-report",
+  "sections": [
+    {
+      "name": "summary",
+      "items": [
+        {
+          "name": "completed phases P00-P15",
+          "status": "PASS",
+          "evidence": "phase result.json files"
+        },
+        {
+          "name": "report status vocabulary",
+          "status": "PASS",
+          "evidence": "PASS, FAIL, MISSING, INCONCLUSIVE, NOT_VALIDATED, SKIPPED_RESOURCE"
+        }
+      ]
+    },
+    {
+      "name": "environment",
+      "items": [
+        {
+          "name": "real Valkey runtime",
+          "status": "NOT_VALIDATED",
+          "evidence": "current artifacts are unit/fake/command-contract focused"
+        },
+        {
+          "name": "unsupported resources",
+          "status": "SKIPPED_RESOURCE",
+          "evidence": "Docker, SSH, and Darwin network limitations remain explicit in phase artifacts"
+        }
+      ]
+    },
+    {
+      "name": "virtual AZ topology",
+      "items": [
+        {
+          "name": "virtual AZ planner",
+          "status": "PASS",
+          "evidence": "P03 result.json"
+        }
+      ]
+    },
+    {
+      "name": "ClusterPlan",
+      "items": [
+        {
+          "name": "cluster plan",
+          "status": "PASS",
+          "evidence": "P04 result.json"
+        }
+      ]
+    },
+    {
+      "name": "test matrix",
+      "items": [
+        {
+          "name": "scale-100",
+          "status": "NOT_VALIDATED",
+          "evidence": "scenarios/scale-100.yaml"
+        },
+        {
+          "name": "scale-1000",
+          "status": "NOT_VALIDATED",
+          "evidence": "scenarios/scale-1000.yaml"
+        },
+        {
+          "name": "scale-2000-empty",
+          "status": "NOT_VALIDATED",
+          "evidence": "scenarios/scale-2000-empty.yaml"
+        },
+        {
+          "name": "scale-300",
+          "status": "NOT_VALIDATED",
+          "evidence": "scenarios/scale-300.yaml"
+        },
+        {
+          "name": "scale-500",
+          "status": "NOT_VALIDATED",
+          "evidence": "scenarios/scale-500.yaml"
+        }
+      ]
+    },
+    {
+      "name": "cluster create",
+      "items": [
+        {
+          "name": "cluster create path",
+          "status": "PASS",
+          "evidence": "P09 result.json"
+        }
+      ]
+    },
+    {
+      "name": "fault/failover timeline",
+      "items": [
+        {
+          "name": "failover metrics",
+          "status": "PASS",
+          "evidence": "P12 result.json"
+        }
+      ]
+    },
+    {
+      "name": "migration/CLUSTERSCAN",
+      "items": [
+        {
+          "name": "migration and CLUSTERSCAN",
+          "status": "MISSING",
+          "evidence": "not implemented in canonical phases"
+        }
+      ]
+    },
+    {
+      "name": "resource metrics",
+      "items": [
+        {
+          "name": "production resource metrics",
+          "status": "NOT_VALIDATED",
+          "evidence": "no production runtime metrics collected"
+        }
+      ]
+    },
+    {
+      "name": "stability gates",
+      "items": [
+        {
+          "name": "phase gates",
+          "status": "PASS",
+          "evidence": "P00-P15 artifacts"
+        }
+      ]
+    },
+    {
+      "name": "verified/unverified",
+      "items": [
+        {
+          "name": "P00 verified outputs",
+          "status": "PASS",
+          "evidence": "P00 established the controlled loop state machine, canonical manifest copy, phase cards, guard scripts, quality gate stub, documentation, and auditable P00 command artifacts without implementing Valkey business harness behavior."
+        },
+        {
+          "name": "P01 verified outputs",
+          "status": "PASS",
+          "evidence": "P01 created the minimal standard-library Python package, harnessctl JSON command shell, CLI smoke tests, and Makefile targets without implementing config, planning, or runtime behavior."
+        },
+        {
+          "name": "P02 verified outputs",
+          "status": "PASS",
+          "evidence": "P02 established inventory/scenario config as the input contract with standard-library loading, schema-backed validation, samples, and validate CLI wiring without performing topology planning."
+        },
+        {
+          "name": "P03 verified outputs",
+          "status": "PASS",
+          "evidence": "P03 added deterministic virtual AZ topology planning and plan CLI output without allocating ports, slots, or replica relationships."
+        },
+        {
+          "name": "P04 verified outputs",
+          "status": "PASS",
+          "evidence": "P04 expanded topology planning into a complete ClusterPlan with node roles, ports, slot ranges, replica placement, and explicit placement warnings."
+        },
+        {
+          "name": "P05 verified outputs",
+          "status": "PASS",
+          "evidence": "P05 centralized Darwin/Linux platform differences behind adapter interfaces and added dry-run doctor capability reporting without real external probes."
+        },
+        {
+          "name": "P06 verified outputs",
+          "status": "PASS",
+          "evidence": "P06 added disk-backed artifact layout, event replay, run status, and command log infrastructure for auditable report reconstruction."
+        },
+        {
+          "name": "P07 verified outputs",
+          "status": "PASS",
+          "evidence": "P07 added local nodehost CLI, run-scoped fake process table, fake runtime metrics, and a controller-side client contract without requiring real Valkey."
+        },
+        {
+          "name": "P08 verified outputs",
+          "status": "PASS",
+          "evidence": "P08 added Valkey cluster config rendering and isolated node config writing from NodeSpec-like inputs without starting Valkey or replanning ports."
+        },
+        {
+          "name": "P09 verified outputs",
+          "status": "PASS",
+          "evidence": "P09 added a fake Valkey cluster state machine, cluster create/check flow, slot checker, and cluster events without shelling out to valkey-cli."
+        },
+        {
+          "name": "P10 verified outputs",
+          "status": "PASS",
+          "evidence": "P10 wired run-scenario to a fake smoke runner that validates config, plans, starts fake nodehost state, creates/checks fake cluster, cleans up, and writes run artifacts."
+        },
+        {
+          "name": "P11 verified outputs",
+          "status": "PASS",
+          "evidence": "P11 added process and virtual-AZ fault planning/execution against fake nodehost state with ClusterPlan-based target selection and auditable before/after events."
+        },
+        {
+          "name": "P12 verified outputs",
+          "status": "PASS",
+          "evidence": "P12 added failover timeline reconstruction, metric calculation, and stability assertions that preserve INCONCLUSIVE for missing critical evidence."
+        },
+        {
+          "name": "P13 verified outputs",
+          "status": "PASS",
+          "evidence": "P13 added Docker host-network nodehost command contract grouped by virtual AZ with structured Docker capability skipping and no Docker-in-Docker dependency."
+        },
+        {
+          "name": "P14 verified outputs",
+          "status": "PASS",
+          "evidence": "P14 added non-interactive SSH execution abstractions, remote nodehost command wrapping, and a ClusterPlan-driven multi-host deployer verified with fake SSH tests."
+        },
+        {
+          "name": "P15 verified outputs",
+          "status": "PASS",
+          "evidence": "P15 added command-planned network fault backends with explicit unsupported Darwin behavior and Linux tc/netem migration tests covering client and cluster bus ports."
+        },
+        {
+          "name": "scale-100",
+          "status": "NOT_VALIDATED",
+          "evidence": "scenarios/scale-100.yaml"
+        },
+        {
+          "name": "scale-1000",
+          "status": "NOT_VALIDATED",
+          "evidence": "scenarios/scale-1000.yaml"
+        },
+        {
+          "name": "scale-2000-empty",
+          "status": "NOT_VALIDATED",
+          "evidence": "scenarios/scale-2000-empty.yaml does not validate throughput, production_latency, production_rto, or physical_3az_durability"
+        },
+        {
+          "name": "scale-300",
+          "status": "NOT_VALIDATED",
+          "evidence": "scenarios/scale-300.yaml"
+        },
+        {
+          "name": "scale-500",
+          "status": "NOT_VALIDATED",
+          "evidence": "scenarios/scale-500.yaml"
+        }
+      ]
+    },
+    {
+      "name": "failures/skips/inconclusive",
+      "items": [
+        {
+          "name": "missing migration/CLUSTERSCAN",
+          "status": "MISSING",
+          "evidence": "not implemented"
+        },
+        {
+          "name": "real runtime metrics",
+          "status": "NOT_VALIDATED",
+          "evidence": "not collected"
+        },
+        {
+          "name": "resource-dependent backends",
+          "status": "SKIPPED_RESOURCE",
+          "evidence": "see phase artifacts for capability limits"
+        },
+        {
+          "name": "production conclusion",
+          "status": "INCONCLUSIVE",
+          "evidence": "no production workload evidence"
+        },
+        {
+          "name": "failure preservation sentinel",
+          "status": "FAIL",
+          "evidence": "report keeps failing evidence as FAIL"
+        }
+      ]
+    },
+    {
+      "name": "reproduce commands",
+      "items": [
+        {
+          "name": "P00: python3 -m py_compile scripts/codex_next.py scripts/phase_gate.py scripts/diff_guard.py scripts/artifact_guard.py scripts/status_guard.py scripts/forbidden_guard.py scripts/project_quality_gate.py",
+          "status": "PASS",
+          "evidence": "recorded pre-gate command"
+        },
+        {
+          "name": "P00: python3 tests/test_p00_loop_control.py",
+          "status": "PASS",
+          "evidence": "recorded pre-gate command"
+        },
+        {
+          "name": "P00: python3 scripts/codex_next.py status --json",
+          "status": "PASS",
+          "evidence": "recorded pre-gate command"
+        },
+        {
+          "name": "P00: python3 scripts/codex_next.py next --json",
+          "status": "PASS",
+          "evidence": "recorded pre-gate command"
+        },
+        {
+          "name": "P00: python3 scripts/phase_gate.py list --json",
+          "status": "PASS",
+          "evidence": "recorded pre-gate command"
+        },
+        {
+          "name": "P00: python3 scripts/diff_guard.py allowed-files --phase P00 --json",
+          "status": "PASS",
+          "evidence": "recorded pre-gate command"
+        },
+        {
+          "name": "P01: python3 -m py_compile harness/__init__.py harness/harnessctl.py harness/errors.py harness/jsonio.py",
+          "status": "PASS",
+          "evidence": "recorded pre-gate command"
+        },
+        {
+          "name": "P01: python3 -m unittest discover -s tests -p 'test_p01_cli.py'",
+          "status": "PASS",
+          "evidence": "recorded pre-gate command"
+        },
+        {
+          "name": "P01: python3 -m harness.harnessctl version --json",
+          "status": "PASS",
+          "evidence": "recorded pre-gate command"
+        },
+        {
+          "name": "P01: python3 -m harness.harnessctl doctor --dry-run --json",
+          "status": "PASS",
+          "evidence": "recorded pre-gate command"
+        },
+        {
+          "name": "P01: python3 -m harness.harnessctl validate --help",
+          "status": "PASS",
+          "evidence": "recorded pre-gate command"
+        },
+        {
+          "name": "P01: python3 -m harness.harnessctl plan --help",
+          "status": "PASS",
+          "evidence": "recorded pre-gate command"
+        },
+        {
+          "name": "P01: python3 -m harness.harnessctl run-scenario --help",
+          "status": "PASS",
+          "evidence": "recorded pre-gate command"
+        },
+        {
+          "name": "P01: python3 -m harness.harnessctl report --help",
+          "status": "PASS",
+          "evidence": "recorded pre-gate command"
+        },
+        {
+          "name": "P02: python3 -m py_compile harness/config.py harness/inventory.py harness/scenario.py harness/mini_yaml.py harness/schema_validator.py harness/harnessctl.py",
+          "status": "PASS",
+          "evidence": "recorded pre-gate command"
+        },
+        {
+          "name": "P02: python3 -m unittest discover -s tests -p 'test_p02_config.py'",
+          "status": "PASS",
+          "evidence": "recorded pre-gate command"
+        },
+        {
+          "name": "P02: python3 -m harness.harnessctl validate --inventory inventories/single-mac-dev.yaml --scenario scenarios/smoke-6.yaml --json",
+          "status": "PASS",
+          "evidence": "recorded pre-gate command"
+        },
+        {
+          "name": "P02: python3 -m harness.harnessctl validate --inventory inventories/two-mac-physical-aligned.yaml --scenario scenarios/smoke-6.yaml --json",
+          "status": "PASS",
+          "evidence": "recorded pre-gate command"
+        },
+        {
+          "name": "P02: python3 -m harness.harnessctl validate --inventory inventories/three-mac-uniform-interleaved.yaml --scenario scenarios/smoke-6.yaml --json",
+          "status": "PASS",
+          "evidence": "recorded pre-gate command"
+        },
+        {
+          "name": "P03: python3 -m py_compile harness/topology.py harness/planner.py harness/harnessctl.py",
+          "status": "PASS",
+          "evidence": "recorded pre-gate command"
+        },
+        {
+          "name": "P03: python3 -m unittest discover -s tests -p 'test_p03_virtual_az.py'",
+          "status": "PASS",
+          "evidence": "recorded pre-gate command"
+        },
+        {
+          "name": "P03: python3 -m harness.harnessctl plan --inventory inventories/single-mac-dev.yaml --scenario scenarios/smoke-6.yaml --json > /tmp/plan-single.json",
+          "status": "PASS",
+          "evidence": "recorded pre-gate command"
+        },
+        {
+          "name": "P03: python3 -m harness.harnessctl plan --inventory inventories/two-mac-physical-aligned.yaml --scenario scenarios/smoke-6.yaml --json > /tmp/plan-two.json",
+          "status": "PASS",
+          "evidence": "recorded pre-gate command"
+        },
+        {
+          "name": "P03: python3 -m harness.harnessctl plan --inventory inventories/three-mac-uniform-interleaved.yaml --scenario scenarios/smoke-6.yaml --json > /tmp/plan-three.json",
+          "status": "PASS",
+          "evidence": "recorded pre-gate command"
+        },
+        {
+          "name": "P04: python3 -m py_compile harness/cluster_plan.py harness/port_allocator.py harness/slot_allocator.py harness/planner.py harness/harnessctl.py",
+          "status": "PASS",
+          "evidence": "recorded pre-gate command"
+        },
+        {
+          "name": "P04: python3 -m unittest discover -s tests -p 'test_p04_cluster_plan.py'",
+          "status": "PASS",
+          "evidence": "recorded pre-gate command"
+        },
+        {
+          "name": "P04: python3 -m harness.harnessctl plan --inventory inventories/two-mac-physical-aligned.yaml --scenario scenarios/smoke-6.yaml --json > /tmp/cluster-plan.json",
+          "status": "PASS",
+          "evidence": "recorded pre-gate command"
+        },
+        {
+          "name": "P05: python3 -m py_compile harness/platform_adapter.py harness/platform_darwin.py harness/platform_linux.py harness/executor.py harness/harnessctl.py",
+          "status": "PASS",
+          "evidence": "recorded pre-gate command"
+        },
+        {
+          "name": "P05: python3 -m unittest discover -s tests -p 'test_p05_platform_adapter.py'",
+          "status": "PASS",
+          "evidence": "recorded pre-gate command"
+        },
+        {
+          "name": "P05: python3 -m harness.harnessctl doctor --dry-run --json",
+          "status": "PASS",
+          "evidence": "recorded pre-gate command"
+        },
+        {
+          "name": "P06: python3 -m py_compile harness/artifacts.py harness/events.py harness/status.py harness/command_log.py",
+          "status": "PASS",
+          "evidence": "recorded pre-gate command"
+        },
+        {
+          "name": "P06: python3 -m unittest discover -s tests -p 'test_p06_artifacts_events.py'",
+          "status": "PASS",
+          "evidence": "recorded pre-gate command"
+        },
+        {
+          "name": "P07: python3 -m py_compile nodehost/nodehostctl.py nodehost/local_process.py nodehost/fake_valkey.py nodehost/process_table.py harness/nodehost_client.py",
+          "status": "PASS",
+          "evidence": "recorded pre-gate command"
+        },
+        {
+          "name": "P07: python3 -m unittest discover -s tests -p 'test_p07_nodehost_local.py'",
+          "status": "PASS",
+          "evidence": "recorded pre-gate command"
+        },
+        {
+          "name": "P07: python3 -m nodehost.nodehostctl status --json",
+          "status": "PASS",
+          "evidence": "recorded pre-gate command"
+        },
+        {
+          "name": "P08: python3 -m py_compile nodehost/valkey_config.py nodehost/config_writer.py nodehost/nodehostctl.py",
+          "status": "PASS",
+          "evidence": "recorded pre-gate command"
+        },
+        {
+          "name": "P08: python3 -m unittest discover -s tests -p 'test_p08_valkey_config.py'",
+          "status": "PASS",
+          "evidence": "recorded pre-gate command"
+        },
+        {
+          "name": "P09: python3 -m py_compile harness/valkey_cli.py harness/fake_cluster.py harness/cluster_create.py harness/cluster_check.py harness/slot_check.py",
+          "status": "PASS",
+          "evidence": "recorded pre-gate command"
+        },
+        {
+          "name": "P09: python3 -m unittest discover -s tests -p 'test_p09_cluster_state_machine.py'",
+          "status": "PASS",
+          "evidence": "recorded pre-gate command"
+        },
+        {
+          "name": "P10: python3 -m py_compile harness/scenario_runner.py harness/preflight.py harness/harnessctl.py",
+          "status": "PASS",
+          "evidence": "recorded pre-gate command"
+        },
+        {
+          "name": "P10: python3 -m unittest discover -s tests -p 'test_p10_single_mac_smoke.py'",
+          "status": "PASS",
+          "evidence": "recorded pre-gate command"
+        },
+        {
+          "name": "P10: python3 -m harness.harnessctl run-scenario --inventory inventories/single-mac-dev.yaml --scenario scenarios/smoke-6.yaml --run-id p10-smoke --backend fake --json",
+          "status": "PASS",
+          "evidence": "recorded pre-gate command"
+        },
+        {
+          "name": "P11: python3 -m py_compile harness/faults.py nodehost/faults_process.py harness/scenario_runner.py",
+          "status": "PASS",
+          "evidence": "recorded pre-gate command"
+        },
+        {
+          "name": "P11: python3 -m unittest discover -s tests -p 'test_p11_process_faults.py'",
+          "status": "PASS",
+          "evidence": "recorded pre-gate command"
+        },
+        {
+          "name": "P12: python3 -m py_compile harness/failover_timeline.py harness/failover_observer.py harness/stability_assertions.py harness/cluster_check.py",
+          "status": "PASS",
+          "evidence": "recorded pre-gate command"
+        },
+        {
+          "name": "P12: python3 -m unittest discover -s tests -p 'test_p12_failover_timeline.py'",
+          "status": "PASS",
+          "evidence": "recorded pre-gate command"
+        },
+        {
+          "name": "P13: python3 -m py_compile harness/docker_nodehost.py harness/nodehost_client.py harness/preflight.py",
+          "status": "PASS",
+          "evidence": "recorded pre-gate command"
+        },
+        {
+          "name": "P13: python3 -m unittest discover -s tests -p 'test_p13_docker_hostnet.py'",
+          "status": "PASS",
+          "evidence": "recorded pre-gate command"
+        },
+        {
+          "name": "P14: python3 -m py_compile harness/ssh_exec.py harness/remote_nodehost.py harness/deployer.py harness/scenario_runner.py",
+          "status": "PASS",
+          "evidence": "recorded pre-gate command"
+        },
+        {
+          "name": "P14: python3 -m unittest discover -s tests -p 'test_p14_multi_mac_ssh.py'",
+          "status": "PASS",
+          "evidence": "recorded pre-gate command"
+        },
+        {
+          "name": "P15: python3 -m py_compile harness/network_faults.py nodehost/faults_network.py harness/platform_adapter.py harness/platform_darwin.py harness/platform_linux.py",
+          "status": "PASS",
+          "evidence": "recorded pre-gate command"
+        },
+        {
+          "name": "P15: python3 -m unittest discover -s tests -p 'test_p15_network_faults.py'",
+          "status": "PASS",
+          "evidence": "recorded pre-gate command"
+        }
+      ]
+    },
+    {
+      "name": "raw artifacts index",
+      "items": [
+        {
+          "name": "artifacts/phase-P00/changed_files.txt",
+          "status": "PASS",
+          "evidence": "artifacts/phase-P00/changed_files.txt"
+        },
+        {
+          "name": "artifacts/phase-P00/cmd-001.stderr.txt",
+          "status": "PASS",
+          "evidence": "artifacts/phase-P00/cmd-001.stderr.txt"
+        },
+        {
+          "name": "artifacts/phase-P00/cmd-001.stdout.txt",
+          "status": "PASS",
+          "evidence": "artifacts/phase-P00/cmd-001.stdout.txt"
+        },
+        {
+          "name": "artifacts/phase-P00/cmd-002.stderr.txt",
+          "status": "PASS",
+          "evidence": "artifacts/phase-P00/cmd-002.stderr.txt"
+        },
+        {
+          "name": "artifacts/phase-P00/cmd-002.stdout.txt",
+          "status": "PASS",
+          "evidence": "artifacts/phase-P00/cmd-002.stdout.txt"
+        },
+        {
+          "name": "artifacts/phase-P00/cmd-003.stderr.txt",
+          "status": "PASS",
+          "evidence": "artifacts/phase-P00/cmd-003.stderr.txt"
+        },
+        {
+          "name": "artifacts/phase-P00/cmd-003.stdout.txt",
+          "status": "PASS",
+          "evidence": "artifacts/phase-P00/cmd-003.stdout.txt"
+        },
+        {
+          "name": "artifacts/phase-P00/cmd-004.stderr.txt",
+          "status": "PASS",
+          "evidence": "artifacts/phase-P00/cmd-004.stderr.txt"
+        },
+        {
+          "name": "artifacts/phase-P00/cmd-004.stdout.txt",
+          "status": "PASS",
+          "evidence": "artifacts/phase-P00/cmd-004.stdout.txt"
+        },
+        {
+          "name": "artifacts/phase-P00/cmd-005.stderr.txt",
+          "status": "PASS",
+          "evidence": "artifacts/phase-P00/cmd-005.stderr.txt"
+        },
+        {
+          "name": "artifacts/phase-P00/cmd-005.stdout.txt",
+          "status": "PASS",
+          "evidence": "artifacts/phase-P00/cmd-005.stdout.txt"
+        },
+        {
+          "name": "artifacts/phase-P00/cmd-006.stderr.txt",
+          "status": "PASS",
+          "evidence": "artifacts/phase-P00/cmd-006.stderr.txt"
+        },
+        {
+          "name": "artifacts/phase-P00/cmd-006.stdout.txt",
+          "status": "PASS",
+          "evidence": "artifacts/phase-P00/cmd-006.stdout.txt"
+        },
+        {
+          "name": "artifacts/phase-P00/commands.jsonl",
+          "status": "PASS",
+          "evidence": "artifacts/phase-P00/commands.jsonl"
+        },
+        {
+          "name": "artifacts/phase-P00/commands.log",
+          "status": "PASS",
+          "evidence": "artifacts/phase-P00/commands.log"
+        },
+        {
+          "name": "artifacts/phase-P00/gate_check.json",
+          "status": "PASS",
+          "evidence": "artifacts/phase-P00/gate_check.json"
+        },
+        {
+          "name": "artifacts/phase-P00/notes.md",
+          "status": "PASS",
+          "evidence": "artifacts/phase-P00/notes.md"
+        },
+        {
+          "name": "artifacts/phase-P00/result.json",
+          "status": "PASS",
+          "evidence": "artifacts/phase-P00/result.json"
+        },
+        {
+          "name": "artifacts/phase-P01/changed_files.txt",
+          "status": "PASS",
+          "evidence": "artifacts/phase-P01/changed_files.txt"
+        },
+        {
+          "name": "artifacts/phase-P01/cmd-001.stderr.txt",
+          "status": "PASS",
+          "evidence": "artifacts/phase-P01/cmd-001.stderr.txt"
+        },
+        {
+          "name": "artifacts/phase-P01/cmd-001.stdout.txt",
+          "status": "PASS",
+          "evidence": "artifacts/phase-P01/cmd-001.stdout.txt"
+        },
+        {
+          "name": "artifacts/phase-P01/cmd-002.stderr.txt",
+          "status": "PASS",
+          "evidence": "artifacts/phase-P01/cmd-002.stderr.txt"
+        },
+        {
+          "name": "artifacts/phase-P01/cmd-002.stdout.txt",
+          "status": "PASS",
+          "evidence": "artifacts/phase-P01/cmd-002.stdout.txt"
+        },
+        {
+          "name": "artifacts/phase-P01/cmd-003.stderr.txt",
+          "status": "PASS",
+          "evidence": "artifacts/phase-P01/cmd-003.stderr.txt"
+        },
+        {
+          "name": "artifacts/phase-P01/cmd-003.stdout.txt",
+          "status": "PASS",
+          "evidence": "artifacts/phase-P01/cmd-003.stdout.txt"
+        },
+        {
+          "name": "artifacts/phase-P01/cmd-004.stderr.txt",
+          "status": "PASS",
+          "evidence": "artifacts/phase-P01/cmd-004.stderr.txt"
+        },
+        {
+          "name": "artifacts/phase-P01/cmd-004.stdout.txt",
+          "status": "PASS",
+          "evidence": "artifacts/phase-P01/cmd-004.stdout.txt"
+        },
+        {
+          "name": "artifacts/phase-P01/cmd-005.stderr.txt",
+          "status": "PASS",
+          "evidence": "artifacts/phase-P01/cmd-005.stderr.txt"
+        },
+        {
+          "name": "artifacts/phase-P01/cmd-005.stdout.txt",
+          "status": "PASS",
+          "evidence": "artifacts/phase-P01/cmd-005.stdout.txt"
+        },
+        {
+          "name": "artifacts/phase-P01/cmd-006.stderr.txt",
+          "status": "PASS",
+          "evidence": "artifacts/phase-P01/cmd-006.stderr.txt"
+        },
+        {
+          "name": "artifacts/phase-P01/cmd-006.stdout.txt",
+          "status": "PASS",
+          "evidence": "artifacts/phase-P01/cmd-006.stdout.txt"
+        },
+        {
+          "name": "artifacts/phase-P01/cmd-007.stderr.txt",
+          "status": "PASS",
+          "evidence": "artifacts/phase-P01/cmd-007.stderr.txt"
+        },
+        {
+          "name": "artifacts/phase-P01/cmd-007.stdout.txt",
+          "status": "PASS",
+          "evidence": "artifacts/phase-P01/cmd-007.stdout.txt"
+        },
+        {
+          "name": "artifacts/phase-P01/cmd-008.stderr.txt",
+          "status": "PASS",
+          "evidence": "artifacts/phase-P01/cmd-008.stderr.txt"
+        },
+        {
+          "name": "artifacts/phase-P01/cmd-008.stdout.txt",
+          "status": "PASS",
+          "evidence": "artifacts/phase-P01/cmd-008.stdout.txt"
+        },
+        {
+          "name": "artifacts/phase-P01/commands.jsonl",
+          "status": "PASS",
+          "evidence": "artifacts/phase-P01/commands.jsonl"
+        },
+        {
+          "name": "artifacts/phase-P01/commands.log",
+          "status": "PASS",
+          "evidence": "artifacts/phase-P01/commands.log"
+        },
+        {
+          "name": "artifacts/phase-P01/gate_check.json",
+          "status": "PASS",
+          "evidence": "artifacts/phase-P01/gate_check.json"
+        },
+        {
+          "name": "artifacts/phase-P01/notes.md",
+          "status": "PASS",
+          "evidence": "artifacts/phase-P01/notes.md"
+        },
+        {
+          "name": "artifacts/phase-P01/result.json",
+          "status": "PASS",
+          "evidence": "artifacts/phase-P01/result.json"
+        },
+        {
+          "name": "artifacts/phase-P02/changed_files.txt",
+          "status": "PASS",
+          "evidence": "artifacts/phase-P02/changed_files.txt"
+        },
+        {
+          "name": "artifacts/phase-P02/cmd-001.stderr.txt",
+          "status": "PASS",
+          "evidence": "artifacts/phase-P02/cmd-001.stderr.txt"
+        },
+        {
+          "name": "artifacts/phase-P02/cmd-001.stdout.txt",
+          "status": "PASS",
+          "evidence": "artifacts/phase-P02/cmd-001.stdout.txt"
+        },
+        {
+          "name": "artifacts/phase-P02/cmd-002.stderr.txt",
+          "status": "PASS",
+          "evidence": "artifacts/phase-P02/cmd-002.stderr.txt"
+        },
+        {
+          "name": "artifacts/phase-P02/cmd-002.stdout.txt",
+          "status": "PASS",
+          "evidence": "artifacts/phase-P02/cmd-002.stdout.txt"
+        },
+        {
+          "name": "artifacts/phase-P02/cmd-003.stderr.txt",
+          "status": "PASS",
+          "evidence": "artifacts/phase-P02/cmd-003.stderr.txt"
+        },
+        {
+          "name": "artifacts/phase-P02/cmd-003.stdout.txt",
+          "status": "PASS",
+          "evidence": "artifacts/phase-P02/cmd-003.stdout.txt"
+        },
+        {
+          "name": "artifacts/phase-P02/cmd-004.stderr.txt",
+          "status": "PASS",
+          "evidence": "artifacts/phase-P02/cmd-004.stderr.txt"
+        },
+        {
+          "name": "artifacts/phase-P02/cmd-004.stdout.txt",
+          "status": "PASS",
+          "evidence": "artifacts/phase-P02/cmd-004.stdout.txt"
+        },
+        {
+          "name": "artifacts/phase-P02/cmd-005.stderr.txt",
+          "status": "PASS",
+          "evidence": "artifacts/phase-P02/cmd-005.stderr.txt"
+        }
+      ]
+    }
+  ],
+  "raw_artifacts_index": [
+    "artifacts/phase-P00/changed_files.txt",
+    "artifacts/phase-P00/cmd-001.stderr.txt",
+    "artifacts/phase-P00/cmd-001.stdout.txt",
+    "artifacts/phase-P00/cmd-002.stderr.txt",
+    "artifacts/phase-P00/cmd-002.stdout.txt",
+    "artifacts/phase-P00/cmd-003.stderr.txt",
+    "artifacts/phase-P00/cmd-003.stdout.txt",
+    "artifacts/phase-P00/cmd-004.stderr.txt",
+    "artifacts/phase-P00/cmd-004.stdout.txt",
+    "artifacts/phase-P00/cmd-005.stderr.txt",
+    "artifacts/phase-P00/cmd-005.stdout.txt",
+    "artifacts/phase-P00/cmd-006.stderr.txt",
+    "artifacts/phase-P00/cmd-006.stdout.txt",
+    "artifacts/phase-P00/commands.jsonl",
+    "artifacts/phase-P00/commands.log",
+    "artifacts/phase-P00/gate_check.json",
+    "artifacts/phase-P00/notes.md",
+    "artifacts/phase-P00/result.json",
+    "artifacts/phase-P01/changed_files.txt",
+    "artifacts/phase-P01/cmd-001.stderr.txt",
+    "artifacts/phase-P01/cmd-001.stdout.txt",
+    "artifacts/phase-P01/cmd-002.stderr.txt",
+    "artifacts/phase-P01/cmd-002.stdout.txt",
+    "artifacts/phase-P01/cmd-003.stderr.txt",
+    "artifacts/phase-P01/cmd-003.stdout.txt",
+    "artifacts/phase-P01/cmd-004.stderr.txt",
+    "artifacts/phase-P01/cmd-004.stdout.txt",
+    "artifacts/phase-P01/cmd-005.stderr.txt",
+    "artifacts/phase-P01/cmd-005.stdout.txt",
+    "artifacts/phase-P01/cmd-006.stderr.txt",
+    "artifacts/phase-P01/cmd-006.stdout.txt",
+    "artifacts/phase-P01/cmd-007.stderr.txt",
+    "artifacts/phase-P01/cmd-007.stdout.txt",
+    "artifacts/phase-P01/cmd-008.stderr.txt",
+    "artifacts/phase-P01/cmd-008.stdout.txt",
+    "artifacts/phase-P01/commands.jsonl",
+    "artifacts/phase-P01/commands.log",
+    "artifacts/phase-P01/gate_check.json",
+    "artifacts/phase-P01/notes.md",
+    "artifacts/phase-P01/result.json",
+    "artifacts/phase-P02/changed_files.txt",
+    "artifacts/phase-P02/cmd-001.stderr.txt",
+    "artifacts/phase-P02/cmd-001.stdout.txt",
+    "artifacts/phase-P02/cmd-002.stderr.txt",
+    "artifacts/phase-P02/cmd-002.stdout.txt",
+    "artifacts/phase-P02/cmd-003.stderr.txt",
+    "artifacts/phase-P02/cmd-003.stdout.txt",
+    "artifacts/phase-P02/cmd-004.stderr.txt",
+    "artifacts/phase-P02/cmd-004.stdout.txt",
+    "artifacts/phase-P02/cmd-005.stderr.txt",
+    "artifacts/phase-P02/cmd-005.stdout.txt",
+    "artifacts/phase-P02/commands.jsonl",
+    "artifacts/phase-P02/commands.log",
+    "artifacts/phase-P02/gate_check.json",
+    "artifacts/phase-P02/notes.md",
+    "artifacts/phase-P02/result.json",
+    "artifacts/phase-P03/changed_files.txt",
+    "artifacts/phase-P03/cmd-001.stderr.txt",
+    "artifacts/phase-P03/cmd-001.stdout.txt",
+    "artifacts/phase-P03/cmd-002.stderr.txt",
+    "artifacts/phase-P03/cmd-002.stdout.txt",
+    "artifacts/phase-P03/cmd-003.stderr.txt",
+    "artifacts/phase-P03/cmd-003.stdout.txt",
+    "artifacts/phase-P03/cmd-004.stderr.txt",
+    "artifacts/phase-P03/cmd-004.stdout.txt",
+    "artifacts/phase-P03/cmd-005.stderr.txt",
+    "artifacts/phase-P03/cmd-005.stdout.txt",
+    "artifacts/phase-P03/commands.jsonl",
+    "artifacts/phase-P03/commands.log",
+    "artifacts/phase-P03/gate_check.json",
+    "artifacts/phase-P03/notes.md",
+    "artifacts/phase-P03/result.json",
+    "artifacts/phase-P04/changed_files.txt",
+    "artifacts/phase-P04/cmd-001.stderr.txt",
+    "artifacts/phase-P04/cmd-001.stdout.txt",
+    "artifacts/phase-P04/cmd-002.stderr.txt",
+    "artifacts/phase-P04/cmd-002.stdout.txt",
+    "artifacts/phase-P04/cmd-003.stderr.txt",
+    "artifacts/phase-P04/cmd-003.stdout.txt",
+    "artifacts/phase-P04/commands.jsonl",
+    "artifacts/phase-P04/commands.log",
+    "artifacts/phase-P04/gate_check.json",
+    "artifacts/phase-P04/notes.md",
+    "artifacts/phase-P04/result.json",
+    "artifacts/phase-P05/changed_files.txt",
+    "artifacts/phase-P05/cmd-001.stderr.txt",
+    "artifacts/phase-P05/cmd-001.stdout.txt",
+    "artifacts/phase-P05/cmd-002.stderr.txt",
+    "artifacts/phase-P05/cmd-002.stdout.txt",
+    "artifacts/phase-P05/cmd-003.stderr.txt",
+    "artifacts/phase-P05/cmd-003.stdout.txt",
+    "artifacts/phase-P05/commands.jsonl",
+    "artifacts/phase-P05/commands.log",
+    "artifacts/phase-P05/gate_check.json",
+    "artifacts/phase-P05/notes.md",
+    "artifacts/phase-P05/result.json",
+    "artifacts/phase-P06/changed_files.txt",
+    "artifacts/phase-P06/cmd-001.stderr.txt",
+    "artifacts/phase-P06/cmd-001.stdout.txt",
+    "artifacts/phase-P06/cmd-002.stderr.txt",
+    "artifacts/phase-P06/cmd-002.stdout.txt",
+    "artifacts/phase-P06/commands.jsonl",
+    "artifacts/phase-P06/commands.log",
+    "artifacts/phase-P06/gate_check.json",
+    "artifacts/phase-P06/notes.md",
+    "artifacts/phase-P06/result.json",
+    "artifacts/phase-P07/changed_files.txt",
+    "artifacts/phase-P07/cmd-001.stderr.txt",
+    "artifacts/phase-P07/cmd-001.stdout.txt",
+    "artifacts/phase-P07/cmd-002.stderr.txt",
+    "artifacts/phase-P07/cmd-002.stdout.txt",
+    "artifacts/phase-P07/cmd-003.stderr.txt",
+    "artifacts/phase-P07/cmd-003.stdout.txt",
+    "artifacts/phase-P07/commands.jsonl",
+    "artifacts/phase-P07/commands.log",
+    "artifacts/phase-P07/gate_check.json",
+    "artifacts/phase-P07/notes.md",
+    "artifacts/phase-P07/result.json",
+    "artifacts/phase-P08/changed_files.txt",
+    "artifacts/phase-P08/cmd-001.stderr.txt",
+    "artifacts/phase-P08/cmd-001.stdout.txt",
+    "artifacts/phase-P08/cmd-002.stderr.txt",
+    "artifacts/phase-P08/cmd-002.stdout.txt",
+    "artifacts/phase-P08/commands.jsonl",
+    "artifacts/phase-P08/commands.log",
+    "artifacts/phase-P08/gate_check.json",
+    "artifacts/phase-P08/notes.md",
+    "artifacts/phase-P08/result.json",
+    "artifacts/phase-P09/changed_files.txt",
+    "artifacts/phase-P09/cmd-001.stderr.txt",
+    "artifacts/phase-P09/cmd-001.stdout.txt",
+    "artifacts/phase-P09/cmd-002.stderr.txt",
+    "artifacts/phase-P09/cmd-002.stdout.txt",
+    "artifacts/phase-P09/commands.jsonl",
+    "artifacts/phase-P09/commands.log",
+    "artifacts/phase-P09/gate_check.json",
+    "artifacts/phase-P09/notes.md",
+    "artifacts/phase-P09/result.json",
+    "artifacts/phase-P10/changed_files.txt",
+    "artifacts/phase-P10/cmd-001.stderr.txt",
+    "artifacts/phase-P10/cmd-001.stdout.txt",
+    "artifacts/phase-P10/cmd-002.stderr.txt",
+    "artifacts/phase-P10/cmd-002.stdout.txt",
+    "artifacts/phase-P10/cmd-003.stderr.txt",
+    "artifacts/phase-P10/cmd-003.stdout.txt",
+    "artifacts/phase-P10/commands.jsonl",
+    "artifacts/phase-P10/commands.log",
+    "artifacts/phase-P10/gate_check.json",
+    "artifacts/phase-P10/notes.md",
+    "artifacts/phase-P10/result.json",
+    "artifacts/phase-P11/changed_files.txt",
+    "artifacts/phase-P11/cmd-001.stderr.txt",
+    "artifacts/phase-P11/cmd-001.stdout.txt",
+    "artifacts/phase-P11/cmd-002.stderr.txt",
+    "artifacts/phase-P11/cmd-002.stdout.txt",
+    "artifacts/phase-P11/commands.jsonl",
+    "artifacts/phase-P11/commands.log",
+    "artifacts/phase-P11/gate_check.json",
+    "artifacts/phase-P11/notes.md",
+    "artifacts/phase-P11/result.json",
+    "artifacts/phase-P12/changed_files.txt",
+    "artifacts/phase-P12/cmd-001.stderr.txt",
+    "artifacts/phase-P12/cmd-001.stdout.txt",
+    "artifacts/phase-P12/cmd-002.stderr.txt",
+    "artifacts/phase-P12/cmd-002.stdout.txt",
+    "artifacts/phase-P12/commands.jsonl",
+    "artifacts/phase-P12/commands.log",
+    "artifacts/phase-P12/gate_check.json",
+    "artifacts/phase-P12/notes.md",
+    "artifacts/phase-P12/result.json",
+    "artifacts/phase-P13/changed_files.txt",
+    "artifacts/phase-P13/cmd-001.stderr.txt",
+    "artifacts/phase-P13/cmd-001.stdout.txt",
+    "artifacts/phase-P13/cmd-002.stderr.txt",
+    "artifacts/phase-P13/cmd-002.stdout.txt",
+    "artifacts/phase-P13/commands.jsonl",
+    "artifacts/phase-P13/commands.log",
+    "artifacts/phase-P13/gate_check.json",
+    "artifacts/phase-P13/notes.md",
+    "artifacts/phase-P13/result.json",
+    "artifacts/phase-P14/changed_files.txt",
+    "artifacts/phase-P14/cmd-001.stderr.txt",
+    "artifacts/phase-P14/cmd-001.stdout.txt",
+    "artifacts/phase-P14/cmd-002.stderr.txt",
+    "artifacts/phase-P14/cmd-002.stdout.txt",
+    "artifacts/phase-P14/commands.jsonl",
+    "artifacts/phase-P14/commands.log",
+    "artifacts/phase-P14/gate_check.json",
+    "artifacts/phase-P14/notes.md",
+    "artifacts/phase-P14/result.json",
+    "artifacts/phase-P15/changed_files.txt",
+    "artifacts/phase-P15/cmd-001.stderr.txt",
+    "artifacts/phase-P15/cmd-001.stdout.txt",
+    "artifacts/phase-P15/cmd-002.stderr.txt",
+    "artifacts/phase-P15/cmd-002.stdout.txt",
+    "artifacts/phase-P15/commands.jsonl",
+    "artifacts/phase-P15/commands.log",
+    "artifacts/phase-P15/gate_check.json",
+    "artifacts/phase-P15/notes.md",
+    "artifacts/phase-P15/result.json",
+    "artifacts/phase-P16/cmd-001.stderr.txt",
+    "artifacts/phase-P16/cmd-001.stdout.txt",
+    "artifacts/phase-P16/cmd-002.stderr.txt",
+    "artifacts/phase-P16/cmd-002.stdout.txt",
+    "artifacts/phase-P16/cmd-003.stderr.txt",
+    "artifacts/phase-P16/cmd-003.stdout.txt",
+    "artifacts/phase-P16/commands.jsonl",
+    "artifacts/phase-P16/commands.log"
+  ]
+}

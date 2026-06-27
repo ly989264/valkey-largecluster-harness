@@ -1,51 +1,57 @@
 {
-  "id": "P15",
-  "order": 15,
-  "name": "网络故障 backend 与 Linux 迁移能力",
-  "goal": "建立网络故障接口：virtual AZ 隔离、时延、丢包；Darwin 能力不足必须明确 SKIPPED_RESOURCE，Linux tc/netem 路径必须可验证命令构造。",
+  "id": "P16",
+  "order": 16,
+  "name": "scale ladder 与最终 report pipeline",
+  "goal": "固化 100/300/500/1000/2000 场景与 report pipeline；2000 是 best-effort empty-node smoke，不是生产能力背书。",
   "allowed_paths": [
-    "harness/network_faults.py",
-    "nodehost/faults_network.py",
-    "harness/platform_adapter.py",
-    "harness/platform_darwin.py",
-    "harness/platform_linux.py",
-    "harness/faults.py",
-    "tests/test_p15_network_faults.py",
+    "scenarios/**",
+    "harness/report_builder.py",
+    "harness/report_models.py",
+    "harness/project_quality.py",
+    "harness/harnessctl.py",
+    "harness/artifacts.py",
+    "harness/events.py",
+    "harness/status.py",
+    "harness/failover_timeline.py",
+    "scripts/project_quality_gate.py",
+    "tests/test_p16_report_and_scale.py",
     "tests/helpers/**",
     "tests/conftest.py",
+    "Makefile",
     "codex/loop_state.json",
     "codex/current_phase_contract.json",
     "codex/current_phase_contract.md",
-    "artifacts/phase-P15/**"
+    "artifacts/phase-P16/**"
   ],
   "pre_gate_commands": [
-    "python3 -m py_compile harness/network_faults.py nodehost/faults_network.py harness/platform_adapter.py harness/platform_darwin.py harness/platform_linux.py",
-    "python3 -m unittest discover -s tests -p 'test_p15_network_faults.py'"
+    "python3 -m py_compile harness/report_builder.py harness/report_models.py harness/project_quality.py harness/harnessctl.py scripts/project_quality_gate.py",
+    "python3 -m unittest discover -s tests -p 'test_p16_report_and_scale.py'",
+    "python3 scripts/project_quality_gate.py --candidate-phase P16 --json"
   ],
   "required_artifacts": [
-    "artifacts/phase-P15/result.json",
-    "artifacts/phase-P15/notes.md",
-    "artifacts/phase-P15/commands.log",
-    "artifacts/phase-P15/commands.jsonl",
-    "artifacts/phase-P15/changed_files.txt"
+    "artifacts/phase-P16/result.json",
+    "artifacts/phase-P16/notes.md",
+    "artifacts/phase-P16/commands.log",
+    "artifacts/phase-P16/commands.jsonl",
+    "artifacts/phase-P16/changed_files.txt"
   ],
   "required_outputs": [
-    "NetworkFaultBackend interface",
-    "UnsupportedNetworkFaultBackend",
-    "LinuxNetemBackend command construction boundaries for tc/netem and firewall selectors",
-    "Darwin capability detection returning capability-limited result",
-    "Targets include cluster bus ports, not only client ports",
-    "Tests for isolate/heal/delay/loss/clear command plans"
+    "scenarios/scale-300.yaml, scale-500.yaml, scale-1000.yaml, scale-2000-empty.yaml",
+    "Report models and builder reconstructing report from artifacts",
+    "Report sections: summary, environment, virtual AZ topology, ClusterPlan, test matrix, cluster create, fault/failover timeline, migration/CLUSTERSCAN if implemented, resource metrics, stability gates, verified/unverified, failures/skips/inconclusive, reproduce commands, raw artifacts index",
+    "project_quality_gate.py finalized and strict",
+    "Fixture report artifacts for unit tests"
   ],
   "acceptance": [
-    "Unsupported environment returns SKIPPED_RESOURCE with reason/evidence",
-    "Linux migration path is explicit and unit-tested by command construction",
-    "Network fault targeting covers cluster bus traffic"
+    "Scale ladder is configuration-driven, not branchy hard-coded code paths",
+    "Report explicitly represents MISSING, INCONCLUSIVE, NOT_VALIDATED, SKIPPED_RESOURCE and FAIL",
+    "scale-2000-empty clearly does not validate throughput, production latency, production RTO, or physical 3-AZ durability",
+    "project_quality_gate validates manifest consistency, all prior phases, forbidden patterns, runnable tests, and report honesty"
   ],
   "forbidden": [
-    "Do not claim precise Mac network fault injection unless capability check proves it",
-    "Do not execute tc/pf/iptables in unit tests"
+    "Do not beautify failures into pass",
+    "Do not claim production validation from fake/empty-node runs"
   ],
   "manifest_sha256": "d34c3ae82d24fdfa64baf19779a405194f3c2bd9e559951d6b7350fcad478f30",
-  "phase_card_sha256": "fd750f554eb51293559c6ad3f6fe23cd0ea0138373bdc4250474b577a08f252d"
+  "phase_card_sha256": "a3daf127bda87fb41a8294aa75235d6625e17c2b283b75e024650e0bc80b550d"
 }

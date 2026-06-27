@@ -1,33 +1,39 @@
-# Current Phase Contract: P15
+# Current Phase Contract: P16
 
 ## Name
-网络故障 backend 与 Linux 迁移能力
+scale ladder 与最终 report pipeline
 
 ## Goal
-建立网络故障接口：virtual AZ 隔离、时延、丢包；Darwin 能力不足必须明确 SKIPPED_RESOURCE，Linux tc/netem 路径必须可验证命令构造。
+固化 100/300/500/1000/2000 场景与 report pipeline；2000 是 best-effort empty-node smoke，不是生产能力背书。
 
 ## Allowed Paths
-- `harness/network_faults.py`
-- `nodehost/faults_network.py`
-- `harness/platform_adapter.py`
-- `harness/platform_darwin.py`
-- `harness/platform_linux.py`
-- `harness/faults.py`
-- `tests/test_p15_network_faults.py`
+- `scenarios/**`
+- `harness/report_builder.py`
+- `harness/report_models.py`
+- `harness/project_quality.py`
+- `harness/harnessctl.py`
+- `harness/artifacts.py`
+- `harness/events.py`
+- `harness/status.py`
+- `harness/failover_timeline.py`
+- `scripts/project_quality_gate.py`
+- `tests/test_p16_report_and_scale.py`
 - `tests/helpers/**`
 - `tests/conftest.py`
+- `Makefile`
 - `codex/loop_state.json`
 - `codex/current_phase_contract.json`
 - `codex/current_phase_contract.md`
-- `artifacts/phase-P15/**`
+- `artifacts/phase-P16/**`
 
 ## Pre-Gate Commands
-- `python3 -m py_compile harness/network_faults.py nodehost/faults_network.py harness/platform_adapter.py harness/platform_darwin.py harness/platform_linux.py`
-- `python3 -m unittest discover -s tests -p 'test_p15_network_faults.py'`
+- `python3 -m py_compile harness/report_builder.py harness/report_models.py harness/project_quality.py harness/harnessctl.py scripts/project_quality_gate.py`
+- `python3 -m unittest discover -s tests -p 'test_p16_report_and_scale.py'`
+- `python3 scripts/project_quality_gate.py --candidate-phase P16 --json`
 
 ## Required Artifacts
-- `artifacts/phase-P15/result.json`
-- `artifacts/phase-P15/notes.md`
-- `artifacts/phase-P15/commands.log`
-- `artifacts/phase-P15/commands.jsonl`
-- `artifacts/phase-P15/changed_files.txt`
+- `artifacts/phase-P16/result.json`
+- `artifacts/phase-P16/notes.md`
+- `artifacts/phase-P16/commands.log`
+- `artifacts/phase-P16/commands.jsonl`
+- `artifacts/phase-P16/changed_files.txt`
