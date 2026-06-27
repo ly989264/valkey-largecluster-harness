@@ -1,0 +1,10 @@
+$ python3 -m py_compile harness/valkey_cli.py harness/fake_cluster.py harness/cluster_create.py harness/cluster_check.py harness/slot_check.py
+exit_code=0
+stdout=artifacts/phase-P09/cmd-001.stdout.txt
+stderr=artifacts/phase-P09/cmd-001.stderr.txt
+
+$ python3 -m unittest discover -s tests -p 'test_p09_cluster_state_machine.py'
+exit_code=0
+stdout=artifacts/phase-P09/cmd-002.stdout.txt
+stderr=artifacts/phase-P09/cmd-002.stderr.txt
+

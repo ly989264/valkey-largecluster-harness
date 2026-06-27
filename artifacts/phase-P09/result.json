@@ -1,0 +1,71 @@
+{
+  "phase": "P09",
+  "status": "PASS",
+  "attempt": 1,
+  "manifest_sha256": "d34c3ae82d24fdfa64baf19779a405194f3c2bd9e559951d6b7350fcad478f30",
+  "phase_card_sha256": "2671badf46476c1a5e7410ed0349c129fb69d962393e30d2867a459502c1ca79",
+  "summary": "P09 added a fake Valkey cluster state machine, cluster create/check flow, slot checker, and cluster events without shelling out to valkey-cli.",
+  "expected_outputs": [
+    "ValkeyCli interface and fake implementation",
+    "FakeCluster state machine",
+    "ClusterCreator executing ClusterPlan without replanning",
+    "ClusterChecker and SlotChecker distinguishing known_nodes_missing, slots_missing, replica_missing, cluster_fail",
+    "Events for meet, known_nodes sampling, slots assigned, replica configured, cluster ok/fail"
+  ],
+  "verified_outputs": [
+    {
+      "output": "ValkeyCli interface and fake implementation",
+      "evidence": "harness/valkey_cli.py and P09 unit tests"
+    },
+    {
+      "output": "FakeCluster state machine",
+      "evidence": "harness/fake_cluster.py and checker pass/fail tests"
+    },
+    {
+      "output": "ClusterCreator executing ClusterPlan without replanning",
+      "evidence": "test_create_flow_follows_plan_order_without_replanning"
+    },
+    {
+      "output": "ClusterChecker and SlotChecker distinguishing known_nodes_missing, slots_missing, replica_missing, cluster_fail",
+      "evidence": "test_checker_distinguishes_slots_replica_and_cluster_fail"
+    },
+    {
+      "output": "Events for meet, known_nodes sampling, slots assigned, replica configured, cluster ok/fail",
+      "evidence": "test_creator_records_cluster_events"
+    }
+  ],
+  "commands": [
+    {
+      "command": "python3 -m py_compile harness/valkey_cli.py harness/fake_cluster.py harness/cluster_create.py harness/cluster_check.py harness/slot_check.py",
+      "exit_code": 0
+    },
+    {
+      "command": "python3 -m unittest discover -s tests -p 'test_p09_cluster_state_machine.py'",
+      "exit_code": 0
+    }
+  ],
+  "changed_files": [
+    "codex/current_phase_contract.json",
+    "codex/current_phase_contract.md",
+    "codex/loop_state.json",
+    "artifacts/phase-P09/cmd-001.stderr.txt",
+    "artifacts/phase-P09/cmd-001.stdout.txt",
+    "artifacts/phase-P09/cmd-002.stderr.txt",
+    "artifacts/phase-P09/cmd-002.stdout.txt",
+    "artifacts/phase-P09/commands.jsonl",
+    "artifacts/phase-P09/commands.log",
+    "artifacts/phase-P09/notes.md",
+    "harness/cluster_check.py",
+    "harness/cluster_create.py",
+    "harness/fake_cluster.py",
+    "harness/slot_check.py",
+    "harness/valkey_cli.py",
+    "tests/test_p09_cluster_state_machine.py",
+    "artifacts/phase-P09/result.json",
+    "artifacts/phase-P09/changed_files.txt"
+  ],
+  "risks": [
+    "Fake cluster behavior is not real Valkey production validation.",
+    "Real valkey-cli integration remains unvalidated."
+  ]
+}

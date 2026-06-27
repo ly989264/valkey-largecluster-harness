@@ -1,48 +1,50 @@
 {
-  "id": "P08",
-  "order": 8,
-  "name": "Valkey 配置生成",
-  "goal": "根据 ClusterPlan/NodeSpec 生成真实 Valkey cluster 配置文件；不启动集群。",
+  "id": "P09",
+  "order": 9,
+  "name": "cluster command executor 与 fake cluster 状态机",
+  "goal": "实现可测试的 cluster management 状态机，显式建模 MEET、known_nodes 收敛、slot assignment、replicate、cluster_state ok。",
   "allowed_paths": [
-    "nodehost/valkey_config.py",
-    "nodehost/config_writer.py",
-    "nodehost/nodehostctl.py",
-    "harness/cluster_plan.py",
-    "tests/test_p08_valkey_config.py",
+    "harness/valkey_cli.py",
+    "harness/fake_cluster.py",
+    "harness/cluster_create.py",
+    "harness/cluster_check.py",
+    "harness/slot_check.py",
+    "harness/events.py",
+    "tests/test_p09_cluster_state_machine.py",
     "tests/helpers/**",
     "tests/conftest.py",
     "codex/loop_state.json",
     "codex/current_phase_contract.json",
     "codex/current_phase_contract.md",
-    "artifacts/phase-P08/**"
+    "artifacts/phase-P09/**"
   ],
   "pre_gate_commands": [
-    "python3 -m py_compile nodehost/valkey_config.py nodehost/config_writer.py nodehost/nodehostctl.py",
-    "python3 -m unittest discover -s tests -p 'test_p08_valkey_config.py'"
+    "python3 -m py_compile harness/valkey_cli.py harness/fake_cluster.py harness/cluster_create.py harness/cluster_check.py harness/slot_check.py",
+    "python3 -m unittest discover -s tests -p 'test_p09_cluster_state_machine.py'"
   ],
   "required_artifacts": [
-    "artifacts/phase-P08/result.json",
-    "artifacts/phase-P08/notes.md",
-    "artifacts/phase-P08/commands.log",
-    "artifacts/phase-P08/commands.jsonl",
-    "artifacts/phase-P08/changed_files.txt"
+    "artifacts/phase-P09/result.json",
+    "artifacts/phase-P09/notes.md",
+    "artifacts/phase-P09/commands.log",
+    "artifacts/phase-P09/commands.jsonl",
+    "artifacts/phase-P09/changed_files.txt"
   ],
   "required_outputs": [
-    "ValkeyConfigRenderer",
-    "ConfigWriter creating isolated node directories",
-    "Rendered fields: port, cluster-enabled yes, cluster-config-file, cluster-node-timeout, cluster-announce-ip, cluster-announce-port, cluster-announce-bus-port, cluster-port, appendonly no, save \"\", protected-mode no, bind, loglevel, logfile, dir, pidfile",
-    "Announce IP/port derived from NodeSpec only",
-    "Tests proving no port remap or hard-coded IP assumption"
+    "ValkeyCli interface and fake implementation",
+    "FakeCluster state machine",
+    "ClusterCreator executing ClusterPlan without replanning",
+    "ClusterChecker and SlotChecker distinguishing known_nodes_missing, slots_missing, replica_missing, cluster_fail",
+    "Events for meet, known_nodes sampling, slots assigned, replica configured, cluster ok/fail"
   ],
   "acceptance": [
-    "Every config value is traceable to ClusterPlan/NodeSpec or explicit scenario config",
-    "Each node directory is independent",
-    "Renderer performs rendering only, not planning"
+    "Create flow follows plan order deterministically",
+    "Creator does not call planner or recalculate slots/replicas",
+    "Checker surfaces incomplete convergence as structured failure"
   ],
   "forbidden": [
-    "Do not calculate ports in config renderer",
-    "Do not hard-code localhost when NodeSpec has announce_ip"
+    "Do not shell out to valkey-cli in unit tests",
+    "Do not use valkey-cli --cluster create as the only model"
   ],
   "manifest_sha256": "d34c3ae82d24fdfa64baf19779a405194f3c2bd9e559951d6b7350fcad478f30",
-  "phase_card_sha256": "f957e001272e0316c30167bd5e2136e65f84b638026951aa506d9596e8a0a5a3"
+  "phase_card_sha256": "2671badf46476c1a5e7410ed0349c129fb69d962393e30d2867a459502c1ca79"
 }
