@@ -1,0 +1,10 @@
+$ python3 -m py_compile harness/docker_nodehost.py harness/nodehost_client.py harness/preflight.py
+exit_code=0
+stdout=artifacts/phase-P13/cmd-001.stdout.txt
+stderr=artifacts/phase-P13/cmd-001.stderr.txt
+
+$ python3 -m unittest discover -s tests -p 'test_p13_docker_hostnet.py'
+exit_code=0
+stdout=artifacts/phase-P13/cmd-002.stdout.txt
+stderr=artifacts/phase-P13/cmd-002.stderr.txt
+

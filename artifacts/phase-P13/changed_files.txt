@@ -1,0 +1,17 @@
+codex/current_phase_contract.json
+codex/current_phase_contract.md
+codex/loop_state.json
+harness/preflight.py
+artifacts/phase-P13/cmd-001.stderr.txt
+artifacts/phase-P13/cmd-001.stdout.txt
+artifacts/phase-P13/cmd-002.stderr.txt
+artifacts/phase-P13/cmd-002.stdout.txt
+artifacts/phase-P13/commands.jsonl
+artifacts/phase-P13/commands.log
+artifacts/phase-P13/notes.md
+docker/nodehost-entrypoint.sh
+docker/nodehost.Dockerfile
+harness/docker_nodehost.py
+tests/test_p13_docker_hostnet.py
+artifacts/phase-P13/result.json
+artifacts/phase-P13/changed_files.txt

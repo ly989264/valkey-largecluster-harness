@@ -1,49 +1,40 @@
 {
-  "id": "P12",
-  "order": 12,
-  "name": "故障接管 timeline 与稳定性断言",
-  "goal": "记录 failover 时间线并计算稳定性指标；不能只用最终 cluster_state ok 判断成功。",
+  "id": "P13",
+  "order": 13,
+  "name": "Docker hostnet nodehost",
+  "goal": "实现 Docker host network scale backend contract：一个虚拟 AZ 一个容器，容器内多个 Valkey 进程；禁止 Docker-in-Docker 和一节点一容器。",
   "allowed_paths": [
-    "harness/failover_timeline.py",
-    "harness/failover_observer.py",
-    "harness/stability_assertions.py",
-    "harness/cluster_check.py",
-    "harness/events.py",
-    "tests/test_p12_failover_timeline.py",
+    "docker/**",
+    "harness/docker_nodehost.py",
+    "harness/nodehost_client.py",
+    "harness/preflight.py",
+    "tests/test_p13_docker_hostnet.py",
     "tests/helpers/**",
     "tests/conftest.py",
     "codex/loop_state.json",
     "codex/current_phase_contract.json",
     "codex/current_phase_contract.md",
-    "artifacts/phase-P12/**"
+    "artifacts/phase-P13/**"
   ],
   "pre_gate_commands": [
-    "python3 -m py_compile harness/failover_timeline.py harness/failover_observer.py harness/stability_assertions.py harness/cluster_check.py",
-    "python3 -m unittest discover -s tests -p 'test_p12_failover_timeline.py'"
+    "python3 -m py_compile harness/docker_nodehost.py harness/nodehost_client.py harness/preflight.py",
+    "python3 -m unittest discover -s tests -p 'test_p13_docker_hostnet.py'"
   ],
   "required_artifacts": [
-    "artifacts/phase-P12/result.json",
-    "artifacts/phase-P12/notes.md",
-    "artifacts/phase-P12/commands.log",
-    "artifacts/phase-P12/commands.jsonl",
-    "artifacts/phase-P12/changed_files.txt"
+    "artifacts/phase-P13/result.json",
+    "artifacts/phase-P13/notes.md",
+    "artifacts/phase-P13/commands.log",
+    "artifacts/phase-P13/commands.jsonl",
+    "artifacts/phase-P13/changed_files.txt"
   ],
   "required_outputs": [
-    "FailoverTimeline with fault_injected_at, first_pfail_observed_at, first_fail_observed_at, replica_promoted_at, slots_recovered_at, cluster_ok_at, client_success_restored_at",
-    "Metric calculation: pfail_detection_ms, fail_confirmation_ms, promotion_ms, slot_recovery_ms, cluster_recovery_ms, client_recovery_ms, unavailable_slots_count_max, stale_owner_duration_ms",
-    "FailoverObserver reconstructing timeline from events",
-    "StabilityAssertions returning PASS/FAIL/INCONCLUSIVE with reasons",
-    "Tests for missing PFAIL, missing promotion, client not recovered, stale owner"
-  ],
-  "acceptance": [
-    "Complete timeline computes all metrics",
-    "Missing critical evidence yields INCONCLUSIVE, not PASS",
-    "cluster_state ok alone cannot satisfy failover success"
-  ],
-  "forbidden": [
-    "Do not synthesize missing timestamps",
-    "Do not turn INCONCLUSIVE into PASS for report cosmetics"
+    "docker/nodehost.Dockerfile",
+    "docker/nodehost-entrypoint.sh",
+    "DockerNodehostClient",
+    "Docker command builder grouping by virtual_az_id",
+    "Capability handling when host networking or docker CLI is unavailable",
+    "Contract tests proving no one-node-one-container loop"
   ],
   "manifest_sha256": "d34c3ae82d24fdfa64baf19779a405194f3c2bd9e559951d6b7350fcad478f30",
-  "phase_card_sha256": "360d86c63ba860e3966b5c83f66d777de2c3c0b5191ae9f40a3f671ea1518dac"
+  "phase_card_sha256": "b53e9b26d5e9762f266756a11a3120655e42e8322fdff1bfe81bd26fb9e30376"
 }
