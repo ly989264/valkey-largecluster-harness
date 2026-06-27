@@ -1,0 +1,10 @@
+$ python3 -m py_compile harness/faults.py nodehost/faults_process.py harness/scenario_runner.py
+exit_code=0
+stdout=artifacts/phase-P11/cmd-001.stdout.txt
+stderr=artifacts/phase-P11/cmd-001.stderr.txt
+
+$ python3 -m unittest discover -s tests -p 'test_p11_process_faults.py'
+exit_code=0
+stdout=artifacts/phase-P11/cmd-002.stdout.txt
+stderr=artifacts/phase-P11/cmd-002.stderr.txt
+

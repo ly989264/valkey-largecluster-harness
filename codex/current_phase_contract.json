@@ -1,54 +1,49 @@
 {
-  "id": "P10",
-  "order": 10,
-  "name": "单 Mac 6 节点 smoke runner",
-  "goal": "跑通 smoke-6 fake-run/dry-run 的完整路径：validate、plan、nodehost、cluster create/check、cleanup、artifacts。",
+  "id": "P11",
+  "order": 11,
+  "name": "进程故障与虚拟 AZ 故障",
+  "goal": "支持 node 级与 virtual AZ 级进程/fake fault：kill、pause、resume、restart；不做网络故障。",
   "allowed_paths": [
+    "harness/faults.py",
+    "nodehost/faults_process.py",
+    "nodehost/process_table.py",
     "harness/scenario_runner.py",
-    "harness/preflight.py",
-    "harness/harnessctl.py",
-    "harness/nodehost_client.py",
-    "harness/cluster_create.py",
-    "harness/cluster_check.py",
-    "harness/artifacts.py",
     "harness/events.py",
-    "harness/status.py",
-    "tests/test_p10_single_mac_smoke.py",
+    "tests/test_p11_process_faults.py",
     "tests/helpers/**",
     "tests/conftest.py",
     "codex/loop_state.json",
     "codex/current_phase_contract.json",
     "codex/current_phase_contract.md",
-    "artifacts/phase-P10/**"
+    "artifacts/phase-P11/**"
   ],
   "pre_gate_commands": [
-    "python3 -m py_compile harness/scenario_runner.py harness/preflight.py harness/harnessctl.py",
-    "python3 -m unittest discover -s tests -p 'test_p10_single_mac_smoke.py'",
-    "python3 -m harness.harnessctl run-scenario --inventory inventories/single-mac-dev.yaml --scenario scenarios/smoke-6.yaml --run-id p10-smoke --backend fake --json"
+    "python3 -m py_compile harness/faults.py nodehost/faults_process.py harness/scenario_runner.py",
+    "python3 -m unittest discover -s tests -p 'test_p11_process_faults.py'"
   ],
   "required_artifacts": [
-    "artifacts/phase-P10/result.json",
-    "artifacts/phase-P10/notes.md",
-    "artifacts/phase-P10/commands.log",
-    "artifacts/phase-P10/commands.jsonl",
-    "artifacts/phase-P10/changed_files.txt"
+    "artifacts/phase-P11/result.json",
+    "artifacts/phase-P11/notes.md",
+    "artifacts/phase-P11/commands.log",
+    "artifacts/phase-P11/commands.jsonl",
+    "artifacts/phase-P11/changed_files.txt"
   ],
   "required_outputs": [
-    "run-scenario CLI wired to ScenarioRunner",
-    "smoke-6 fake backend path",
-    "run artifacts directory containing events.jsonl, run_status.json, cluster_plan.json, command log",
-    "cleanup in finally path",
-    "Optional real Valkey path reports SKIPPED_RESOURCE when binary is absent; fake path must PASS"
+    "FaultPlan model",
+    "FaultExecutor and ProcessFaultBackend",
+    "Virtual AZ target selector reading ClusterPlan",
+    "Fault events with before/after timestamps",
+    "Idempotent resume/restart semantics"
   ],
   "acceptance": [
-    "Fake smoke run returns PASS and writes auditable artifacts",
-    "Cleanup executes on failure and success",
-    "Failures are written as events/status, not swallowed"
+    "Fault selection is based on ClusterPlan node virtual_az_id",
+    "Repeating resume/restart does not corrupt state",
+    "Fault code does not recompute topology"
   ],
   "forbidden": [
-    "Do not require real Valkey for P10 pass",
-    "Do not mark optional real integration as PASS when skipped"
+    "Do not implement network latency/loss in P11",
+    "Do not select targets by ad hoc hostnames when ClusterPlan has explicit IDs"
   ],
   "manifest_sha256": "d34c3ae82d24fdfa64baf19779a405194f3c2bd9e559951d6b7350fcad478f30",
-  "phase_card_sha256": "3624394f6b933ffb12393b4874896f5e9a9efd14fe119d28897895acc822a656"
+  "phase_card_sha256": "a832b2286a6f605402f4c57a775abab21d56796c097250d2ba05a5dbddbad44c"
 }

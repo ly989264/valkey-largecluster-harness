@@ -1,37 +1,32 @@
-# Current Phase Contract: P10
+# Current Phase Contract: P11
 
 ## Name
-单 Mac 6 节点 smoke runner
+进程故障与虚拟 AZ 故障
 
 ## Goal
-跑通 smoke-6 fake-run/dry-run 的完整路径：validate、plan、nodehost、cluster create/check、cleanup、artifacts。
+支持 node 级与 virtual AZ 级进程/fake fault：kill、pause、resume、restart；不做网络故障。
 
 ## Allowed Paths
+- `harness/faults.py`
+- `nodehost/faults_process.py`
+- `nodehost/process_table.py`
 - `harness/scenario_runner.py`
-- `harness/preflight.py`
-- `harness/harnessctl.py`
-- `harness/nodehost_client.py`
-- `harness/cluster_create.py`
-- `harness/cluster_check.py`
-- `harness/artifacts.py`
 - `harness/events.py`
-- `harness/status.py`
-- `tests/test_p10_single_mac_smoke.py`
+- `tests/test_p11_process_faults.py`
 - `tests/helpers/**`
 - `tests/conftest.py`
 - `codex/loop_state.json`
 - `codex/current_phase_contract.json`
 - `codex/current_phase_contract.md`
-- `artifacts/phase-P10/**`
+- `artifacts/phase-P11/**`
 
 ## Pre-Gate Commands
-- `python3 -m py_compile harness/scenario_runner.py harness/preflight.py harness/harnessctl.py`
-- `python3 -m unittest discover -s tests -p 'test_p10_single_mac_smoke.py'`
-- `python3 -m harness.harnessctl run-scenario --inventory inventories/single-mac-dev.yaml --scenario scenarios/smoke-6.yaml --run-id p10-smoke --backend fake --json`
+- `python3 -m py_compile harness/faults.py nodehost/faults_process.py harness/scenario_runner.py`
+- `python3 -m unittest discover -s tests -p 'test_p11_process_faults.py'`
 
 ## Required Artifacts
-- `artifacts/phase-P10/result.json`
-- `artifacts/phase-P10/notes.md`
-- `artifacts/phase-P10/commands.log`
-- `artifacts/phase-P10/commands.jsonl`
-- `artifacts/phase-P10/changed_files.txt`
+- `artifacts/phase-P11/result.json`
+- `artifacts/phase-P11/notes.md`
+- `artifacts/phase-P11/commands.log`
+- `artifacts/phase-P11/commands.jsonl`
+- `artifacts/phase-P11/changed_files.txt`

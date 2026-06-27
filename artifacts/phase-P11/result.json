@@ -1,0 +1,68 @@
+{
+  "phase": "P11",
+  "status": "PASS",
+  "attempt": 1,
+  "manifest_sha256": "d34c3ae82d24fdfa64baf19779a405194f3c2bd9e559951d6b7350fcad478f30",
+  "phase_card_sha256": "a832b2286a6f605402f4c57a775abab21d56796c097250d2ba05a5dbddbad44c",
+  "summary": "P11 added process and virtual-AZ fault planning/execution against fake nodehost state with ClusterPlan-based target selection and auditable before/after events.",
+  "expected_outputs": [
+    "FaultPlan model",
+    "FaultExecutor and ProcessFaultBackend",
+    "Virtual AZ target selector reading ClusterPlan",
+    "Fault events with before/after timestamps",
+    "Idempotent resume/restart semantics"
+  ],
+  "verified_outputs": [
+    {
+      "output": "FaultPlan model",
+      "evidence": "harness/faults.py and unit tests"
+    },
+    {
+      "output": "FaultExecutor and ProcessFaultBackend",
+      "evidence": "FaultExecutor records before/after events and ProcessFaultBackend state tests"
+    },
+    {
+      "output": "Virtual AZ target selector reading ClusterPlan",
+      "evidence": "test_virtual_az_selection_reads_cluster_plan"
+    },
+    {
+      "output": "Fault events with before/after timestamps",
+      "evidence": "test_fault_executor_records_before_after_events"
+    },
+    {
+      "output": "Idempotent resume/restart semantics",
+      "evidence": "test_process_fault_backend_kill_pause_resume_restart"
+    }
+  ],
+  "commands": [
+    {
+      "command": "python3 -m py_compile harness/faults.py nodehost/faults_process.py harness/scenario_runner.py",
+      "exit_code": 0
+    },
+    {
+      "command": "python3 -m unittest discover -s tests -p 'test_p11_process_faults.py'",
+      "exit_code": 0
+    }
+  ],
+  "changed_files": [
+    "codex/current_phase_contract.json",
+    "codex/current_phase_contract.md",
+    "codex/loop_state.json",
+    "artifacts/phase-P11/cmd-001.stderr.txt",
+    "artifacts/phase-P11/cmd-001.stdout.txt",
+    "artifacts/phase-P11/cmd-002.stderr.txt",
+    "artifacts/phase-P11/cmd-002.stdout.txt",
+    "artifacts/phase-P11/commands.jsonl",
+    "artifacts/phase-P11/commands.log",
+    "artifacts/phase-P11/notes.md",
+    "harness/faults.py",
+    "nodehost/faults_process.py",
+    "tests/test_p11_process_faults.py",
+    "artifacts/phase-P11/result.json",
+    "artifacts/phase-P11/changed_files.txt"
+  ],
+  "risks": [
+    "Network faults are intentionally not implemented in P11.",
+    "Fake process table behavior is not real OS process validation."
+  ]
+}

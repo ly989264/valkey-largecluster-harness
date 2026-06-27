@@ -1,0 +1,15 @@
+codex/current_phase_contract.json
+codex/current_phase_contract.md
+codex/loop_state.json
+artifacts/phase-P11/cmd-001.stderr.txt
+artifacts/phase-P11/cmd-001.stdout.txt
+artifacts/phase-P11/cmd-002.stderr.txt
+artifacts/phase-P11/cmd-002.stdout.txt
+artifacts/phase-P11/commands.jsonl
+artifacts/phase-P11/commands.log
+artifacts/phase-P11/notes.md
+harness/faults.py
+nodehost/faults_process.py
+tests/test_p11_process_faults.py
+artifacts/phase-P11/result.json
+artifacts/phase-P11/changed_files.txt
