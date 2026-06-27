@@ -1,31 +1,32 @@
-# Current Phase Contract: P13
+# Current Phase Contract: P14
 
 ## Name
-Docker hostnet nodehost
+多 Mac SSH 编排
 
 ## Goal
-实现 Docker host network scale backend contract：一个虚拟 AZ 一个容器，容器内多个 Valkey 进程；禁止 Docker-in-Docker 和一节点一容器。
+让 controller 通过 SSH 编排多台 Mac；unit tests 使用 fake SSH，不要求真实多 Mac。
 
 ## Allowed Paths
-- `docker/**`
-- `harness/docker_nodehost.py`
+- `harness/ssh_exec.py`
+- `harness/remote_nodehost.py`
+- `harness/deployer.py`
+- `harness/scenario_runner.py`
 - `harness/nodehost_client.py`
-- `harness/preflight.py`
-- `tests/test_p13_docker_hostnet.py`
+- `tests/test_p14_multi_mac_ssh.py`
 - `tests/helpers/**`
 - `tests/conftest.py`
 - `codex/loop_state.json`
 - `codex/current_phase_contract.json`
 - `codex/current_phase_contract.md`
-- `artifacts/phase-P13/**`
+- `artifacts/phase-P14/**`
 
 ## Pre-Gate Commands
-- `python3 -m py_compile harness/docker_nodehost.py harness/nodehost_client.py harness/preflight.py`
-- `python3 -m unittest discover -s tests -p 'test_p13_docker_hostnet.py'`
+- `python3 -m py_compile harness/ssh_exec.py harness/remote_nodehost.py harness/deployer.py harness/scenario_runner.py`
+- `python3 -m unittest discover -s tests -p 'test_p14_multi_mac_ssh.py'`
 
 ## Required Artifacts
-- `artifacts/phase-P13/result.json`
-- `artifacts/phase-P13/notes.md`
-- `artifacts/phase-P13/commands.log`
-- `artifacts/phase-P13/commands.jsonl`
-- `artifacts/phase-P13/changed_files.txt`
+- `artifacts/phase-P14/result.json`
+- `artifacts/phase-P14/notes.md`
+- `artifacts/phase-P14/commands.log`
+- `artifacts/phase-P14/commands.jsonl`
+- `artifacts/phase-P14/changed_files.txt`

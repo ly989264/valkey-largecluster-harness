@@ -1,0 +1,65 @@
+{
+  "phase": "P14",
+  "status": "PASS",
+  "attempt": 1,
+  "manifest_sha256": "d34c3ae82d24fdfa64baf19779a405194f3c2bd9e559951d6b7350fcad478f30",
+  "phase_card_sha256": "875be1081edef033fb10ceb888026566c18b51e3bd75eb0849af1fe57d59a4c4",
+  "summary": "P14 added non-interactive SSH execution abstractions, remote nodehost command wrapping, and a ClusterPlan-driven multi-host deployer verified with fake SSH tests.",
+  "expected_outputs": [
+    "SSHExecutor and FakeSSHExecutor",
+    "RemoteNodehostClient",
+    "Deployer supporting preflight, sync/package, start virtual AZ runtime, run nodehostctl, collect artifacts, cleanup",
+    "Multi-host dispatch tests based on ClusterPlan"
+  ],
+  "verified_outputs": [
+    {
+      "output": "SSHExecutor and FakeSSHExecutor",
+      "evidence": "harness/ssh_exec.py and test_fake_ssh_verifies_exact_host_targeting"
+    },
+    {
+      "output": "RemoteNodehostClient",
+      "evidence": "harness/remote_nodehost.py and test_real_ssh_absence_does_not_affect_unit_tests"
+    },
+    {
+      "output": "Deployer supporting preflight, sync/package, start virtual AZ runtime, run nodehostctl, collect artifacts, cleanup",
+      "evidence": "harness/deployer.py deploy orchestration and fake SSH command assertions"
+    },
+    {
+      "output": "Multi-host dispatch tests based on ClusterPlan",
+      "evidence": "tests/test_p14_multi_mac_ssh.py uses build_cluster_plan on two-mac inventory"
+    }
+  ],
+  "commands": [
+    {
+      "command": "python3 -m py_compile harness/ssh_exec.py harness/remote_nodehost.py harness/deployer.py harness/scenario_runner.py",
+      "exit_code": 0
+    },
+    {
+      "command": "python3 -m unittest discover -s tests -p 'test_p14_multi_mac_ssh.py'",
+      "exit_code": 0
+    }
+  ],
+  "changed_files": [
+    "artifacts/phase-P14/changed_files.txt",
+    "artifacts/phase-P14/cmd-001.stderr.txt",
+    "artifacts/phase-P14/cmd-001.stdout.txt",
+    "artifacts/phase-P14/cmd-002.stderr.txt",
+    "artifacts/phase-P14/cmd-002.stdout.txt",
+    "artifacts/phase-P14/commands.jsonl",
+    "artifacts/phase-P14/commands.log",
+    "artifacts/phase-P14/gate_check.json",
+    "artifacts/phase-P14/notes.md",
+    "artifacts/phase-P14/result.json",
+    "codex/current_phase_contract.json",
+    "codex/current_phase_contract.md",
+    "codex/loop_state.json",
+    "harness/deployer.py",
+    "harness/remote_nodehost.py",
+    "harness/ssh_exec.py",
+    "tests/test_p14_multi_mac_ssh.py"
+  ],
+  "risks": [
+    "No real multi-Mac SSH execution is validated in P14.",
+    "Remote package path and nodehostctl installation details remain command-contract level until a real environment phase."
+  ]
+}

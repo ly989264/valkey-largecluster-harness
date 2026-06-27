@@ -1,0 +1,140 @@
+{
+  "status": "OK",
+  "phase": "P14",
+  "checks": [
+    {
+      "check": "status_guard.py",
+      "ok": true,
+      "payload": {
+        "phase": "P14",
+        "phase_status": "IN_PROGRESS",
+        "status": "OK"
+      }
+    },
+    {
+      "check": "artifact_guard.py",
+      "ok": true,
+      "payload": {
+        "artifact_count": 5,
+        "command_count": 2,
+        "phase": "P14",
+        "status": "OK"
+      }
+    },
+    {
+      "check": "diff_guard.py",
+      "ok": true,
+      "payload": {
+        "allowed_paths": [
+          "harness/ssh_exec.py",
+          "harness/remote_nodehost.py",
+          "harness/deployer.py",
+          "harness/scenario_runner.py",
+          "harness/nodehost_client.py",
+          "tests/test_p14_multi_mac_ssh.py",
+          "tests/helpers/**",
+          "tests/conftest.py",
+          "codex/loop_state.json",
+          "codex/current_phase_contract.json",
+          "codex/current_phase_contract.md",
+          "artifacts/phase-P14/**"
+        ],
+        "changed_files": [
+          {
+            "file": "codex/current_phase_contract.json",
+            "status": "M"
+          },
+          {
+            "file": "codex/current_phase_contract.md",
+            "status": "M"
+          },
+          {
+            "file": "codex/loop_state.json",
+            "status": "M"
+          },
+          {
+            "file": "artifacts/phase-P14/changed_files.txt",
+            "status": "??"
+          },
+          {
+            "file": "artifacts/phase-P14/cmd-001.stderr.txt",
+            "status": "??"
+          },
+          {
+            "file": "artifacts/phase-P14/cmd-001.stdout.txt",
+            "status": "??"
+          },
+          {
+            "file": "artifacts/phase-P14/cmd-002.stderr.txt",
+            "status": "??"
+          },
+          {
+            "file": "artifacts/phase-P14/cmd-002.stdout.txt",
+            "status": "??"
+          },
+          {
+            "file": "artifacts/phase-P14/commands.jsonl",
+            "status": "??"
+          },
+          {
+            "file": "artifacts/phase-P14/commands.log",
+            "status": "??"
+          },
+          {
+            "file": "artifacts/phase-P14/gate_check.json",
+            "status": "??"
+          },
+          {
+            "file": "artifacts/phase-P14/notes.md",
+            "status": "??"
+          },
+          {
+            "file": "artifacts/phase-P14/result.json",
+            "status": "??"
+          },
+          {
+            "file": "harness/deployer.py",
+            "status": "??"
+          },
+          {
+            "file": "harness/remote_nodehost.py",
+            "status": "??"
+          },
+          {
+            "file": "harness/ssh_exec.py",
+            "status": "??"
+          },
+          {
+            "file": "tests/test_p14_multi_mac_ssh.py",
+            "status": "??"
+          }
+        ],
+        "phase": "P14",
+        "status": "OK"
+      }
+    },
+    {
+      "check": "forbidden_guard.py",
+      "ok": true,
+      "payload": {
+        "phase": "P14",
+        "status": "OK",
+        "violations": []
+      }
+    },
+    {
+      "check": "commands_exact",
+      "ok": true,
+      "payload": {
+        "command_count": 2
+      }
+    },
+    {
+      "check": "result_coverage",
+      "ok": true,
+      "payload": {
+        "verified_count": 4
+      }
+    }
+  ]
+}

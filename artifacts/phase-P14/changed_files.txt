@@ -1,0 +1,17 @@
+artifacts/phase-P14/changed_files.txt
+artifacts/phase-P14/cmd-001.stderr.txt
+artifacts/phase-P14/cmd-001.stdout.txt
+artifacts/phase-P14/cmd-002.stderr.txt
+artifacts/phase-P14/cmd-002.stdout.txt
+artifacts/phase-P14/commands.jsonl
+artifacts/phase-P14/commands.log
+artifacts/phase-P14/gate_check.json
+artifacts/phase-P14/notes.md
+artifacts/phase-P14/result.json
+codex/current_phase_contract.json
+codex/current_phase_contract.md
+codex/loop_state.json
+harness/deployer.py
+harness/remote_nodehost.py
+harness/ssh_exec.py
+tests/test_p14_multi_mac_ssh.py
