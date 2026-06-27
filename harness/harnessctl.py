@@ -7,7 +7,8 @@ from harness import __version__
 from harness.config import ConfigError, validate_config
 from harness.errors import HarnessError
 from harness.jsonio import base_payload, emit
-from harness.planner import PlanError, build_topology_plan
+from harness.cluster_plan import ClusterPlanError
+from harness.planner import PlanError, build_cluster_plan
 
 
 COMMANDS = ("version", "doctor", "validate", "plan", "run-scenario", "report")
@@ -65,8 +66,8 @@ def handle_plan(args):
         emit(command_payload("plan", status="NOT_IMPLEMENTED", reason="P03 plan requires --inventory and --scenario"))
         return 0
     try:
-        plan = build_topology_plan(args.inventory, args.scenario)
-    except (ConfigError, PlanError) as exc:
+        plan = build_cluster_plan(args.inventory, args.scenario)
+    except (ConfigError, PlanError, ClusterPlanError) as exc:
         emit(command_payload("plan", status="FAIL", reason=str(exc)), stream=sys.stderr)
         return 1
     emit(command_payload("plan", plan=plan))

@@ -1,0 +1,77 @@
+{
+  "phase": "P04",
+  "status": "PASS",
+  "attempt": 1,
+  "manifest_sha256": "d34c3ae82d24fdfa64baf19779a405194f3c2bd9e559951d6b7350fcad478f30",
+  "phase_card_sha256": "6a4b398db822494e6440fc6602497679160ad7cf0c87c3b242eb5dde29ad1f9d",
+  "summary": "P04 expanded topology planning into a complete ClusterPlan with node roles, ports, slot ranges, replica placement, and explicit placement warnings.",
+  "expected_outputs": [
+    "ClusterPlan, NodeSpec, SlotRange, ReplicaPlacement or equivalent typed models",
+    "Unique client ports and unique bus ports with no overlap",
+    "Complete 0..16383 slot coverage with single primary owner per slot",
+    "Replica anti-affinity against primary virtual AZ when possible; explicit warning when impossible",
+    "harnessctl plan emits full ClusterPlan JSON"
+  ],
+  "verified_outputs": [
+    {
+      "output": "ClusterPlan, NodeSpec, SlotRange, ReplicaPlacement or equivalent typed models",
+      "evidence": "harness/cluster_plan.py and tests/test_p04_cluster_plan.py"
+    },
+    {
+      "output": "Unique client ports and unique bus ports with no overlap",
+      "evidence": "P04 unit tests and port_allocator checks"
+    },
+    {
+      "output": "Complete 0..16383 slot coverage with single primary owner per slot",
+      "evidence": "slot_allocator and unit tests assert contiguous full coverage"
+    },
+    {
+      "output": "Replica anti-affinity against primary virtual AZ when possible; explicit warning when impossible",
+      "evidence": "unit tests assert different virtual AZ for smoke-6 replicas; cluster_plan records warning path"
+    },
+    {
+      "output": "harnessctl plan emits full ClusterPlan JSON",
+      "evidence": "pre-gate harnessctl plan command exit_code=0 and unit test checks cluster_plan key"
+    }
+  ],
+  "commands": [
+    {
+      "command": "python3 -m py_compile harness/cluster_plan.py harness/port_allocator.py harness/slot_allocator.py harness/planner.py harness/harnessctl.py",
+      "exit_code": 0
+    },
+    {
+      "command": "python3 -m unittest discover -s tests -p 'test_p04_cluster_plan.py'",
+      "exit_code": 0
+    },
+    {
+      "command": "python3 -m harness.harnessctl plan --inventory inventories/two-mac-physical-aligned.yaml --scenario scenarios/smoke-6.yaml --json > /tmp/cluster-plan.json",
+      "exit_code": 0
+    }
+  ],
+  "changed_files": [
+    "codex/current_phase_contract.json",
+    "codex/current_phase_contract.md",
+    "codex/loop_state.json",
+    "harness/harnessctl.py",
+    "harness/planner.py",
+    "artifacts/phase-P04/cmd-001.stderr.txt",
+    "artifacts/phase-P04/cmd-001.stdout.txt",
+    "artifacts/phase-P04/cmd-002.stderr.txt",
+    "artifacts/phase-P04/cmd-002.stdout.txt",
+    "artifacts/phase-P04/cmd-003.stderr.txt",
+    "artifacts/phase-P04/cmd-003.stdout.txt",
+    "artifacts/phase-P04/commands.jsonl",
+    "artifacts/phase-P04/commands.log",
+    "artifacts/phase-P04/notes.md",
+    "harness/cluster_plan.py",
+    "harness/port_allocator.py",
+    "harness/slot_allocator.py",
+    "tests/test_p04_cluster_plan.py",
+    "artifacts/phase-P04/result.json",
+    "artifacts/phase-P04/changed_files.txt"
+  ],
+  "risks": [
+    "No cluster runtime or production validation is claimed.",
+    "Later cluster_create code must consume this ClusterPlan without replanning."
+  ]
+}

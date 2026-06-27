@@ -1,53 +1,53 @@
 {
-  "id": "P03",
-  "order": 3,
-  "name": "虚拟 AZ 拓扑规划",
-  "goal": "实现 deterministic virtual AZ placement，支持 single_az、physical_aligned、uniform_interleaved、custom。",
+  "id": "P04",
+  "order": 4,
+  "name": "节点、端口、slot 与 replica 规划",
+  "goal": "把 virtual AZ placement 扩展成完整 ClusterPlan，包含 NodeSpec、client/bus ports、slot ranges、primary/replica 关系与 placement warnings。",
   "allowed_paths": [
     "harness/harnessctl.py",
     "harness/config.py",
     "harness/topology.py",
     "harness/planner.py",
-    "tests/test_p03_virtual_az.py",
+    "harness/cluster_plan.py",
+    "harness/port_allocator.py",
+    "harness/slot_allocator.py",
+    "tests/test_p04_cluster_plan.py",
     "tests/helpers/**",
     "tests/conftest.py",
     "codex/loop_state.json",
     "codex/current_phase_contract.json",
     "codex/current_phase_contract.md",
-    "artifacts/phase-P03/**"
+    "artifacts/phase-P04/**"
   ],
   "pre_gate_commands": [
-    "python3 -m py_compile harness/topology.py harness/planner.py harness/harnessctl.py",
-    "python3 -m unittest discover -s tests -p 'test_p03_virtual_az.py'",
-    "python3 -m harness.harnessctl plan --inventory inventories/single-mac-dev.yaml --scenario scenarios/smoke-6.yaml --json > /tmp/plan-single.json",
-    "python3 -m harness.harnessctl plan --inventory inventories/two-mac-physical-aligned.yaml --scenario scenarios/smoke-6.yaml --json > /tmp/plan-two.json",
-    "python3 -m harness.harnessctl plan --inventory inventories/three-mac-uniform-interleaved.yaml --scenario scenarios/smoke-6.yaml --json > /tmp/plan-three.json"
+    "python3 -m py_compile harness/cluster_plan.py harness/port_allocator.py harness/slot_allocator.py harness/planner.py harness/harnessctl.py",
+    "python3 -m unittest discover -s tests -p 'test_p04_cluster_plan.py'",
+    "python3 -m harness.harnessctl plan --inventory inventories/two-mac-physical-aligned.yaml --scenario scenarios/smoke-6.yaml --json > /tmp/cluster-plan.json"
   ],
   "required_artifacts": [
-    "artifacts/phase-P03/result.json",
-    "artifacts/phase-P03/notes.md",
-    "artifacts/phase-P03/commands.log",
-    "artifacts/phase-P03/commands.jsonl",
-    "artifacts/phase-P03/changed_files.txt"
+    "artifacts/phase-P04/result.json",
+    "artifacts/phase-P04/notes.md",
+    "artifacts/phase-P04/commands.log",
+    "artifacts/phase-P04/commands.jsonl",
+    "artifacts/phase-P04/changed_files.txt"
   ],
   "required_outputs": [
-    "VirtualAZPlacement model",
-    "Topology planner with deterministic ordering: physical_host_id, virtual_az_id, node_index",
-    "virtual_az_host_matrix in plan output",
-    "co-location and durability warnings when isolation is weak",
-    "harnessctl plan produces JSON topology draft"
+    "ClusterPlan, NodeSpec, SlotRange, ReplicaPlacement or equivalent typed models",
+    "Unique client ports and unique bus ports with no overlap",
+    "Complete 0..16383 slot coverage with single primary owner per slot",
+    "Replica anti-affinity against primary virtual AZ when possible; explicit warning when impossible",
+    "harnessctl plan emits full ClusterPlan JSON"
   ],
   "acceptance": [
-    "single_az creates one virtual AZ and emits explicit warning",
-    "physical_aligned supports 2 physical hosts / 3 virtual AZs without pretending physical isolation is perfect",
-    "uniform_interleaved emits every physical host x virtual AZ matrix entry",
-    "custom follows explicit mapping/weights exactly",
-    "Repeated plan command on same inputs gives byte-stable JSON after stable key ordering"
+    "smoke-6 yields exactly 3 primaries and 3 replicas",
+    "Slots cover 0..16383 without gap or overlap",
+    "Port allocator fails on insufficient or overlapping ranges",
+    "total_nodes not divisible by role/topology requirements fails rather than truncating"
   ],
   "forbidden": [
-    "Do not allocate ports or slots in P03",
-    "Do not use randomness or wall-clock time in planning"
+    "Do not let cluster_create or runtime recompute slot/replica layout later",
+    "Do not hide anti-affinity violations"
   ],
   "manifest_sha256": "d34c3ae82d24fdfa64baf19779a405194f3c2bd9e559951d6b7350fcad478f30",
-  "phase_card_sha256": "075fc4fa76c169aff493ea400f94cc88d24cb04fbc4fba9ea0e65b9882aa1737"
+  "phase_card_sha256": "6a4b398db822494e6440fc6602497679160ad7cf0c87c3b242eb5dde29ad1f9d"
 }

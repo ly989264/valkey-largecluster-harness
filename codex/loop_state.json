@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "current_phase": "P04",
+  "current_phase": "P05",
   "blocked": false,
   "blocked_reason": null,
   "complete": false,
@@ -46,10 +46,14 @@
       "passed_at": "2026-06-27T03:50:01Z"
     },
     "P04": {
-      "status": "PENDING",
-      "attempts": 0,
+      "status": "PASS",
+      "attempts": 1,
       "result_path": "artifacts/phase-P04/result.json",
-      "phase_card_path": "codex/phase_cards/P04.md"
+      "phase_card_path": "codex/phase_cards/P04.md",
+      "base_ref": "e7cc32f0dd32ef0fe51aa398a4ac82aca82bf88b",
+      "claimed_at": "2026-06-27T03:50:48Z",
+      "updated_at": "2026-06-27T03:53:33Z",
+      "passed_at": "2026-06-27T03:53:33Z"
     },
     "P05": {
       "status": "PENDING",

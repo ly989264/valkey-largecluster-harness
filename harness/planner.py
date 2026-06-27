@@ -1,6 +1,7 @@
 """P03 deterministic topology planner."""
 
 from harness.config import ConfigError, load_document, load_inventory, load_scenario
+from harness.cluster_plan import make_cluster_plan
 from harness.topology import VirtualAZPlacement, build_matrix
 
 
@@ -38,6 +39,20 @@ def build_topology_plan(inventory_path, scenario_path):
         "node_drafts": node_drafts,
         "warnings": warnings,
     }
+
+
+def build_cluster_plan(inventory_path, scenario_path):
+    inventory = load_inventory(inventory_path)
+    scenario = load_scenario(scenario_path)
+    topology_plan = build_topology_plan(inventory_path, scenario_path)
+    cluster_plan = make_cluster_plan(inventory, scenario, topology_plan)
+    merged = dict(topology_plan)
+    merged["cluster_plan"] = cluster_plan.to_dict()
+    merged["nodes"] = merged["cluster_plan"]["nodes"]
+    merged["slot_ranges"] = merged["cluster_plan"]["slot_ranges"]
+    merged["replica_placements"] = merged["cluster_plan"]["replica_placements"]
+    merged["warnings"] = sorted(set(merged.get("warnings", []) + merged["cluster_plan"].get("warnings", [])))
+    return merged
 
 
 def _placements(inventory, scenario, raw_scenario):
