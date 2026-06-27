@@ -1,0 +1,138 @@
+{
+  "phase": "P00",
+  "status": "PASS",
+  "attempt": 1,
+  "manifest_sha256": "d34c3ae82d24fdfa64baf19779a405194f3c2bd9e559951d6b7350fcad478f30",
+  "phase_card_sha256": "14efc37a62e248d29a8361ccba960552983b0fd9f21b17c42797b19d8e51baa0",
+  "summary": "P00 established the controlled loop state machine, canonical manifest copy, phase cards, guard scripts, quality gate stub, documentation, and auditable P00 command artifacts without implementing Valkey business harness behavior.",
+  "expected_outputs": [
+    "codex/phase_manifest.json copied exactly from the canonical JSON block in 01_阶段Manifest源_ValkeyHarness.md",
+    "codex/phase_cards/P00.md ... codex/phase_cards/P16.md generated from the manifest",
+    "codex/loop_state.json initialized with P00 IN_PROGRESS/PENDING semantics and all later phases PENDING",
+    "scripts/codex_next.py with next/status/claim/progress/pass/fail/block/explain and --json support",
+    "scripts/phase_gate.py with check/explain/list and --json support",
+    "scripts/diff_guard.py, artifact_guard.py, status_guard.py, forbidden_guard.py",
+    "scripts/project_quality_gate.py strict stub with --candidate-phase support for later P16 completion",
+    "AGENTS.md and CODEX_LOOP.md summarizing the execution contract",
+    "P00 artifacts: result.json, notes.md, commands.log, commands.jsonl, changed_files.txt"
+  ],
+  "verified_outputs": [
+    {
+      "output": "codex/phase_manifest.json copied exactly from the canonical JSON block in 01_阶段Manifest源_ValkeyHarness.md",
+      "evidence": "sha256 d34c3ae82d24fdfa64baf19779a405194f3c2bd9e559951d6b7350fcad478f30 and tests/test_p00_loop_control.py"
+    },
+    {
+      "output": "codex/phase_cards/P00.md ... codex/phase_cards/P16.md generated from the manifest",
+      "evidence": "python3 tests/test_p00_loop_control.py exit_code=0"
+    },
+    {
+      "output": "codex/loop_state.json initialized with P00 IN_PROGRESS/PENDING semantics and all later phases PENDING",
+      "evidence": "python3 scripts/codex_next.py status --json exit_code=0"
+    },
+    {
+      "output": "scripts/codex_next.py with next/status/claim/progress/pass/fail/block/explain and --json support",
+      "evidence": "py_compile and P00 unit tests exit_code=0"
+    },
+    {
+      "output": "scripts/phase_gate.py with check/explain/list and --json support",
+      "evidence": "python3 scripts/phase_gate.py list --json exit_code=0"
+    },
+    {
+      "output": "scripts/diff_guard.py, artifact_guard.py, status_guard.py, forbidden_guard.py",
+      "evidence": "py_compile exit_code=0 and diff_guard allowed-files exit_code=0"
+    },
+    {
+      "output": "scripts/project_quality_gate.py strict stub with --candidate-phase support for later P16 completion",
+      "evidence": "py_compile exit_code=0"
+    },
+    {
+      "output": "AGENTS.md and CODEX_LOOP.md summarizing the execution contract",
+      "evidence": "files listed in changed_files.txt"
+    },
+    {
+      "output": "P00 artifacts: result.json, notes.md, commands.log, commands.jsonl, changed_files.txt",
+      "evidence": "artifacts/phase-P00 directory contains required files"
+    }
+  ],
+  "commands": [
+    {
+      "command": "python3 -m py_compile scripts/codex_next.py scripts/phase_gate.py scripts/diff_guard.py scripts/artifact_guard.py scripts/status_guard.py scripts/forbidden_guard.py scripts/project_quality_gate.py",
+      "exit_code": 0
+    },
+    {
+      "command": "python3 tests/test_p00_loop_control.py",
+      "exit_code": 0
+    },
+    {
+      "command": "python3 scripts/codex_next.py status --json",
+      "exit_code": 0
+    },
+    {
+      "command": "python3 scripts/codex_next.py next --json",
+      "exit_code": 0
+    },
+    {
+      "command": "python3 scripts/phase_gate.py list --json",
+      "exit_code": 0
+    },
+    {
+      "command": "python3 scripts/diff_guard.py allowed-files --phase P00 --json",
+      "exit_code": 0
+    }
+  ],
+  "changed_files": [
+    "AGENTS.md",
+    "CODEX_LOOP.md",
+    "artifacts/phase-P00/changed_files.txt",
+    "artifacts/phase-P00/cmd-001.stderr.txt",
+    "artifacts/phase-P00/cmd-001.stdout.txt",
+    "artifacts/phase-P00/cmd-002.stderr.txt",
+    "artifacts/phase-P00/cmd-002.stdout.txt",
+    "artifacts/phase-P00/cmd-003.stderr.txt",
+    "artifacts/phase-P00/cmd-003.stdout.txt",
+    "artifacts/phase-P00/cmd-004.stderr.txt",
+    "artifacts/phase-P00/cmd-004.stdout.txt",
+    "artifacts/phase-P00/cmd-005.stderr.txt",
+    "artifacts/phase-P00/cmd-005.stdout.txt",
+    "artifacts/phase-P00/cmd-006.stderr.txt",
+    "artifacts/phase-P00/cmd-006.stdout.txt",
+    "artifacts/phase-P00/commands.jsonl",
+    "artifacts/phase-P00/commands.log",
+    "artifacts/phase-P00/gate_check.json",
+    "artifacts/phase-P00/notes.md",
+    "artifacts/phase-P00/result.json",
+    "codex/current_phase_contract.json",
+    "codex/current_phase_contract.md",
+    "codex/loop_state.json",
+    "codex/phase_cards/P00.md",
+    "codex/phase_cards/P01.md",
+    "codex/phase_cards/P02.md",
+    "codex/phase_cards/P03.md",
+    "codex/phase_cards/P04.md",
+    "codex/phase_cards/P05.md",
+    "codex/phase_cards/P06.md",
+    "codex/phase_cards/P07.md",
+    "codex/phase_cards/P08.md",
+    "codex/phase_cards/P09.md",
+    "codex/phase_cards/P10.md",
+    "codex/phase_cards/P11.md",
+    "codex/phase_cards/P12.md",
+    "codex/phase_cards/P13.md",
+    "codex/phase_cards/P14.md",
+    "codex/phase_cards/P15.md",
+    "codex/phase_cards/P16.md",
+    "codex/phase_manifest.json",
+    "scripts/artifact_guard.py",
+    "scripts/codex_next.py",
+    "scripts/diff_guard.py",
+    "scripts/forbidden_guard.py",
+    "scripts/phase_gate.py",
+    "scripts/project_quality_gate.py",
+    "scripts/status_guard.py",
+    "tests/test_p00_loop_control.py"
+  ],
+  "risks": [
+    "No real Valkey runtime, Docker, SSH, network fault, or production validation is claimed in P00.",
+    "project_quality_gate.py remains a P00 stub and must be finalized in P16."
+  ]
+}

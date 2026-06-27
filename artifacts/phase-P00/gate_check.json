@@ -1,0 +1,271 @@
+{
+  "status": "OK",
+  "phase": "P00",
+  "checks": [
+    {
+      "check": "status_guard.py",
+      "ok": true,
+      "payload": {
+        "phase": "P00",
+        "phase_status": "IN_PROGRESS",
+        "status": "OK"
+      }
+    },
+    {
+      "check": "artifact_guard.py",
+      "ok": true,
+      "payload": {
+        "artifact_count": 5,
+        "command_count": 6,
+        "phase": "P00",
+        "status": "OK"
+      }
+    },
+    {
+      "check": "diff_guard.py",
+      "ok": true,
+      "payload": {
+        "allowed_paths": [
+          "AGENTS.md",
+          "CODEX_LOOP.md",
+          "codex/**",
+          "scripts/codex_next.py",
+          "scripts/phase_gate.py",
+          "scripts/diff_guard.py",
+          "scripts/artifact_guard.py",
+          "scripts/status_guard.py",
+          "scripts/forbidden_guard.py",
+          "scripts/project_quality_gate.py",
+          "tests/test_p00_loop_control.py",
+          "codex/loop_state.json",
+          "codex/current_phase_contract.json",
+          "codex/current_phase_contract.md",
+          "artifacts/phase-P00/**"
+        ],
+        "changed_files": [
+          {
+            "file": "AGENTS.md",
+            "status": "??"
+          },
+          {
+            "file": "CODEX_LOOP.md",
+            "status": "??"
+          },
+          {
+            "file": "artifacts/phase-P00/changed_files.txt",
+            "status": "??"
+          },
+          {
+            "file": "artifacts/phase-P00/cmd-001.stderr.txt",
+            "status": "??"
+          },
+          {
+            "file": "artifacts/phase-P00/cmd-001.stdout.txt",
+            "status": "??"
+          },
+          {
+            "file": "artifacts/phase-P00/cmd-002.stderr.txt",
+            "status": "??"
+          },
+          {
+            "file": "artifacts/phase-P00/cmd-002.stdout.txt",
+            "status": "??"
+          },
+          {
+            "file": "artifacts/phase-P00/cmd-003.stderr.txt",
+            "status": "??"
+          },
+          {
+            "file": "artifacts/phase-P00/cmd-003.stdout.txt",
+            "status": "??"
+          },
+          {
+            "file": "artifacts/phase-P00/cmd-004.stderr.txt",
+            "status": "??"
+          },
+          {
+            "file": "artifacts/phase-P00/cmd-004.stdout.txt",
+            "status": "??"
+          },
+          {
+            "file": "artifacts/phase-P00/cmd-005.stderr.txt",
+            "status": "??"
+          },
+          {
+            "file": "artifacts/phase-P00/cmd-005.stdout.txt",
+            "status": "??"
+          },
+          {
+            "file": "artifacts/phase-P00/cmd-006.stderr.txt",
+            "status": "??"
+          },
+          {
+            "file": "artifacts/phase-P00/cmd-006.stdout.txt",
+            "status": "??"
+          },
+          {
+            "file": "artifacts/phase-P00/commands.jsonl",
+            "status": "??"
+          },
+          {
+            "file": "artifacts/phase-P00/commands.log",
+            "status": "??"
+          },
+          {
+            "file": "artifacts/phase-P00/gate_check.json",
+            "status": "??"
+          },
+          {
+            "file": "artifacts/phase-P00/notes.md",
+            "status": "??"
+          },
+          {
+            "file": "artifacts/phase-P00/result.json",
+            "status": "??"
+          },
+          {
+            "file": "codex/current_phase_contract.json",
+            "status": "??"
+          },
+          {
+            "file": "codex/current_phase_contract.md",
+            "status": "??"
+          },
+          {
+            "file": "codex/loop_state.json",
+            "status": "??"
+          },
+          {
+            "file": "codex/phase_cards/P00.md",
+            "status": "??"
+          },
+          {
+            "file": "codex/phase_cards/P01.md",
+            "status": "??"
+          },
+          {
+            "file": "codex/phase_cards/P02.md",
+            "status": "??"
+          },
+          {
+            "file": "codex/phase_cards/P03.md",
+            "status": "??"
+          },
+          {
+            "file": "codex/phase_cards/P04.md",
+            "status": "??"
+          },
+          {
+            "file": "codex/phase_cards/P05.md",
+            "status": "??"
+          },
+          {
+            "file": "codex/phase_cards/P06.md",
+            "status": "??"
+          },
+          {
+            "file": "codex/phase_cards/P07.md",
+            "status": "??"
+          },
+          {
+            "file": "codex/phase_cards/P08.md",
+            "status": "??"
+          },
+          {
+            "file": "codex/phase_cards/P09.md",
+            "status": "??"
+          },
+          {
+            "file": "codex/phase_cards/P10.md",
+            "status": "??"
+          },
+          {
+            "file": "codex/phase_cards/P11.md",
+            "status": "??"
+          },
+          {
+            "file": "codex/phase_cards/P12.md",
+            "status": "??"
+          },
+          {
+            "file": "codex/phase_cards/P13.md",
+            "status": "??"
+          },
+          {
+            "file": "codex/phase_cards/P14.md",
+            "status": "??"
+          },
+          {
+            "file": "codex/phase_cards/P15.md",
+            "status": "??"
+          },
+          {
+            "file": "codex/phase_cards/P16.md",
+            "status": "??"
+          },
+          {
+            "file": "codex/phase_manifest.json",
+            "status": "??"
+          },
+          {
+            "file": "scripts/artifact_guard.py",
+            "status": "??"
+          },
+          {
+            "file": "scripts/codex_next.py",
+            "status": "??"
+          },
+          {
+            "file": "scripts/diff_guard.py",
+            "status": "??"
+          },
+          {
+            "file": "scripts/forbidden_guard.py",
+            "status": "??"
+          },
+          {
+            "file": "scripts/phase_gate.py",
+            "status": "??"
+          },
+          {
+            "file": "scripts/project_quality_gate.py",
+            "status": "??"
+          },
+          {
+            "file": "scripts/status_guard.py",
+            "status": "??"
+          },
+          {
+            "file": "tests/test_p00_loop_control.py",
+            "status": "??"
+          }
+        ],
+        "phase": "P00",
+        "status": "OK"
+      }
+    },
+    {
+      "check": "forbidden_guard.py",
+      "ok": true,
+      "payload": {
+        "phase": "P00",
+        "status": "OK",
+        "violations": []
+      }
+    },
+    {
+      "check": "commands_exact",
+      "ok": true,
+      "payload": {
+        "command_count": 6
+      }
+    },
+    {
+      "check": "result_coverage",
+      "ok": true,
+      "payload": {
+        "verified_count": 9
+      }
+    }
+  ]
+}

@@ -1,0 +1,115 @@
+{
+  "version": 2,
+  "current_phase": "P01",
+  "blocked": false,
+  "blocked_reason": null,
+  "complete": false,
+  "phases": {
+    "P00": {
+      "status": "PASS",
+      "attempts": 1,
+      "result_path": "artifacts/phase-P00/result.json",
+      "phase_card_path": "codex/phase_cards/P00.md",
+      "updated_at": "2026-06-27T03:38:04Z",
+      "base_ref": "9a5e2461f8496eaa0110c2e731b2ae0bed3b260d",
+      "claimed_at": "2026-06-27T03:34:59Z",
+      "passed_at": "2026-06-27T03:38:04Z"
+    },
+    "P01": {
+      "status": "PENDING",
+      "attempts": 0,
+      "result_path": "artifacts/phase-P01/result.json",
+      "phase_card_path": "codex/phase_cards/P01.md"
+    },
+    "P02": {
+      "status": "PENDING",
+      "attempts": 0,
+      "result_path": "artifacts/phase-P02/result.json",
+      "phase_card_path": "codex/phase_cards/P02.md"
+    },
+    "P03": {
+      "status": "PENDING",
+      "attempts": 0,
+      "result_path": "artifacts/phase-P03/result.json",
+      "phase_card_path": "codex/phase_cards/P03.md"
+    },
+    "P04": {
+      "status": "PENDING",
+      "attempts": 0,
+      "result_path": "artifacts/phase-P04/result.json",
+      "phase_card_path": "codex/phase_cards/P04.md"
+    },
+    "P05": {
+      "status": "PENDING",
+      "attempts": 0,
+      "result_path": "artifacts/phase-P05/result.json",
+      "phase_card_path": "codex/phase_cards/P05.md"
+    },
+    "P06": {
+      "status": "PENDING",
+      "attempts": 0,
+      "result_path": "artifacts/phase-P06/result.json",
+      "phase_card_path": "codex/phase_cards/P06.md"
+    },
+    "P07": {
+      "status": "PENDING",
+      "attempts": 0,
+      "result_path": "artifacts/phase-P07/result.json",
+      "phase_card_path": "codex/phase_cards/P07.md"
+    },
+    "P08": {
+      "status": "PENDING",
+      "attempts": 0,
+      "result_path": "artifacts/phase-P08/result.json",
+      "phase_card_path": "codex/phase_cards/P08.md"
+    },
+    "P09": {
+      "status": "PENDING",
+      "attempts": 0,
+      "result_path": "artifacts/phase-P09/result.json",
+      "phase_card_path": "codex/phase_cards/P09.md"
+    },
+    "P10": {
+      "status": "PENDING",
+      "attempts": 0,
+      "result_path": "artifacts/phase-P10/result.json",
+      "phase_card_path": "codex/phase_cards/P10.md"
+    },
+    "P11": {
+      "status": "PENDING",
+      "attempts": 0,
+      "result_path": "artifacts/phase-P11/result.json",
+      "phase_card_path": "codex/phase_cards/P11.md"
+    },
+    "P12": {
+      "status": "PENDING",
+      "attempts": 0,
+      "result_path": "artifacts/phase-P12/result.json",
+      "phase_card_path": "codex/phase_cards/P12.md"
+    },
+    "P13": {
+      "status": "PENDING",
+      "attempts": 0,
+      "result_path": "artifacts/phase-P13/result.json",
+      "phase_card_path": "codex/phase_cards/P13.md"
+    },
+    "P14": {
+      "status": "PENDING",
+      "attempts": 0,
+      "result_path": "artifacts/phase-P14/result.json",
+      "phase_card_path": "codex/phase_cards/P14.md"
+    },
+    "P15": {
+      "status": "PENDING",
+      "attempts": 0,
+      "result_path": "artifacts/phase-P15/result.json",
+      "phase_card_path": "codex/phase_cards/P15.md"
+    },
+    "P16": {
+      "status": "PENDING",
+      "attempts": 0,
+      "result_path": "artifacts/phase-P16/result.json",
+      "phase_card_path": "codex/phase_cards/P16.md"
+    }
+  }
+}
