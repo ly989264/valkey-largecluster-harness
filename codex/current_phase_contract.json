@@ -1,48 +1,50 @@
 {
-  "id": "P06",
-  "order": 6,
-  "name": "事件、状态与 artifacts 基础设施",
-  "goal": "让所有 harness 动作可审计，并使 report 可完全从磁盘 artifacts 重建。",
+  "id": "P07",
+  "order": 7,
+  "name": "本地进程 nodehost 与 fake runtime",
+  "goal": "支持单 Mac 小集群开发路径；真实 Valkey 缺失时 unit/fake path 仍可验证 nodehost contract。",
   "allowed_paths": [
+    "nodehost/**",
+    "harness/nodehost_client.py",
     "harness/artifacts.py",
     "harness/events.py",
-    "harness/status.py",
-    "harness/command_log.py",
-    "tests/test_p06_artifacts_events.py",
+    "tests/test_p07_nodehost_local.py",
     "tests/helpers/**",
     "tests/conftest.py",
     "codex/loop_state.json",
     "codex/current_phase_contract.json",
     "codex/current_phase_contract.md",
-    "artifacts/phase-P06/**"
+    "artifacts/phase-P07/**"
   ],
   "pre_gate_commands": [
-    "python3 -m py_compile harness/artifacts.py harness/events.py harness/status.py harness/command_log.py",
-    "python3 -m unittest discover -s tests -p 'test_p06_artifacts_events.py'"
+    "python3 -m py_compile nodehost/nodehostctl.py nodehost/local_process.py nodehost/fake_valkey.py nodehost/process_table.py harness/nodehost_client.py",
+    "python3 -m unittest discover -s tests -p 'test_p07_nodehost_local.py'",
+    "python3 -m nodehost.nodehostctl status --json"
   ],
   "required_artifacts": [
-    "artifacts/phase-P06/result.json",
-    "artifacts/phase-P06/notes.md",
-    "artifacts/phase-P06/commands.log",
-    "artifacts/phase-P06/commands.jsonl",
-    "artifacts/phase-P06/changed_files.txt"
+    "artifacts/phase-P07/result.json",
+    "artifacts/phase-P07/notes.md",
+    "artifacts/phase-P07/commands.log",
+    "artifacts/phase-P07/commands.jsonl",
+    "artifacts/phase-P07/changed_files.txt"
   ],
   "required_outputs": [
-    "ArtifactLayout based on run_id and root directory",
-    "EventRecorder writing JSONL, one valid JSON object per line",
-    "RunStatusWriter and CommandLogWriter",
-    "Readers tolerate corrupted JSONL lines by marking them invalid instead of crashing report",
-    "Event taxonomy includes run, command, node, cluster, fault, failover, metric, assertion events"
+    "nodehost/nodehostctl.py CLI with status/prepare/start/stop/cleanup/metrics",
+    "nodehost/local_process.py local process manager",
+    "nodehost/fake_valkey.py fake runtime",
+    "nodehost/process_table.py run-scoped process table",
+    "harness/nodehost_client.py client contract",
+    "Idempotent start/stop/cleanup behavior"
   ],
   "acceptance": [
-    "events.jsonl supports append and replay",
-    "artifacts paths are isolated per run_id",
-    "Corrupted event line is represented as invalid evidence, not swallowed silently"
+    "No Valkey binary is needed for unit tests",
+    "cleanup only removes state for the specified run_id",
+    "Fake runtime can represent multiple node states and metrics"
   ],
   "forbidden": [
-    "Do not make report depend on live in-memory objects",
-    "Do not let one run overwrite another run's artifacts"
+    "Do not require sudo or real Valkey in P07",
+    "Do not use global process state without run_id scoping"
   ],
   "manifest_sha256": "d34c3ae82d24fdfa64baf19779a405194f3c2bd9e559951d6b7350fcad478f30",
-  "phase_card_sha256": "69558e678fc46fb630c7d86193e21766486e8e2b3702c58d83c6f30096cc547f"
+  "phase_card_sha256": "758b2a2fb4ec1c1b10f51a9fe63b544860422470f27a40e411602b1690e32f48"
 }

@@ -1,0 +1,1 @@
+{"command":"status","result":{"runs_root":"/tmp/valkey-largecluster-nodehost","status":"OK"},"status":"OK"}

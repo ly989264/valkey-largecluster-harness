@@ -1,31 +1,32 @@
-# Current Phase Contract: P06
+# Current Phase Contract: P07
 
 ## Name
-事件、状态与 artifacts 基础设施
+本地进程 nodehost 与 fake runtime
 
 ## Goal
-让所有 harness 动作可审计，并使 report 可完全从磁盘 artifacts 重建。
+支持单 Mac 小集群开发路径；真实 Valkey 缺失时 unit/fake path 仍可验证 nodehost contract。
 
 ## Allowed Paths
+- `nodehost/**`
+- `harness/nodehost_client.py`
 - `harness/artifacts.py`
 - `harness/events.py`
-- `harness/status.py`
-- `harness/command_log.py`
-- `tests/test_p06_artifacts_events.py`
+- `tests/test_p07_nodehost_local.py`
 - `tests/helpers/**`
 - `tests/conftest.py`
 - `codex/loop_state.json`
 - `codex/current_phase_contract.json`
 - `codex/current_phase_contract.md`
-- `artifacts/phase-P06/**`
+- `artifacts/phase-P07/**`
 
 ## Pre-Gate Commands
-- `python3 -m py_compile harness/artifacts.py harness/events.py harness/status.py harness/command_log.py`
-- `python3 -m unittest discover -s tests -p 'test_p06_artifacts_events.py'`
+- `python3 -m py_compile nodehost/nodehostctl.py nodehost/local_process.py nodehost/fake_valkey.py nodehost/process_table.py harness/nodehost_client.py`
+- `python3 -m unittest discover -s tests -p 'test_p07_nodehost_local.py'`
+- `python3 -m nodehost.nodehostctl status --json`
 
 ## Required Artifacts
-- `artifacts/phase-P06/result.json`
-- `artifacts/phase-P06/notes.md`
-- `artifacts/phase-P06/commands.log`
-- `artifacts/phase-P06/commands.jsonl`
-- `artifacts/phase-P06/changed_files.txt`
+- `artifacts/phase-P07/result.json`
+- `artifacts/phase-P07/notes.md`
+- `artifacts/phase-P07/commands.log`
+- `artifacts/phase-P07/commands.jsonl`
+- `artifacts/phase-P07/changed_files.txt`

@@ -1,0 +1,15 @@
+$ python3 -m py_compile nodehost/nodehostctl.py nodehost/local_process.py nodehost/fake_valkey.py nodehost/process_table.py harness/nodehost_client.py
+exit_code=0
+stdout=artifacts/phase-P07/cmd-001.stdout.txt
+stderr=artifacts/phase-P07/cmd-001.stderr.txt
+
+$ python3 -m unittest discover -s tests -p 'test_p07_nodehost_local.py'
+exit_code=0
+stdout=artifacts/phase-P07/cmd-002.stdout.txt
+stderr=artifacts/phase-P07/cmd-002.stderr.txt
+
+$ python3 -m nodehost.nodehostctl status --json
+exit_code=0
+stdout=artifacts/phase-P07/cmd-003.stdout.txt
+stderr=artifacts/phase-P07/cmd-003.stderr.txt
+
