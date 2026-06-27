@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "current_phase": "P12",
+  "current_phase": "P13",
   "blocked": false,
   "blocked_reason": null,
   "complete": false,
@@ -126,10 +126,14 @@
       "passed_at": "2026-06-27T04:14:39Z"
     },
     "P12": {
-      "status": "PENDING",
-      "attempts": 0,
+      "status": "PASS",
+      "attempts": 1,
       "result_path": "artifacts/phase-P12/result.json",
-      "phase_card_path": "codex/phase_cards/P12.md"
+      "phase_card_path": "codex/phase_cards/P12.md",
+      "base_ref": "1564b5e8bd8e603234cc638a0c62133b00964321",
+      "claimed_at": "2026-06-27T04:15:20Z",
+      "updated_at": "2026-06-27T04:17:34Z",
+      "passed_at": "2026-06-27T04:17:34Z"
     },
     "P13": {
       "status": "PENDING",

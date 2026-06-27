@@ -1,0 +1,16 @@
+codex/current_phase_contract.json
+codex/current_phase_contract.md
+codex/loop_state.json
+artifacts/phase-P12/cmd-001.stderr.txt
+artifacts/phase-P12/cmd-001.stdout.txt
+artifacts/phase-P12/cmd-002.stderr.txt
+artifacts/phase-P12/cmd-002.stdout.txt
+artifacts/phase-P12/commands.jsonl
+artifacts/phase-P12/commands.log
+artifacts/phase-P12/notes.md
+harness/failover_observer.py
+harness/failover_timeline.py
+harness/stability_assertions.py
+tests/test_p12_failover_timeline.py
+artifacts/phase-P12/result.json
+artifacts/phase-P12/changed_files.txt

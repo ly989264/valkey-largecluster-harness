@@ -1,0 +1,10 @@
+$ python3 -m py_compile harness/failover_timeline.py harness/failover_observer.py harness/stability_assertions.py harness/cluster_check.py
+exit_code=0
+stdout=artifacts/phase-P12/cmd-001.stdout.txt
+stderr=artifacts/phase-P12/cmd-001.stderr.txt
+
+$ python3 -m unittest discover -s tests -p 'test_p12_failover_timeline.py'
+exit_code=0
+stdout=artifacts/phase-P12/cmd-002.stdout.txt
+stderr=artifacts/phase-P12/cmd-002.stderr.txt
+

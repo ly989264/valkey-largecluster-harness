@@ -1,0 +1,69 @@
+{
+  "phase": "P12",
+  "status": "PASS",
+  "attempt": 1,
+  "manifest_sha256": "d34c3ae82d24fdfa64baf19779a405194f3c2bd9e559951d6b7350fcad478f30",
+  "phase_card_sha256": "360d86c63ba860e3966b5c83f66d777de2c3c0b5191ae9f40a3f671ea1518dac",
+  "summary": "P12 added failover timeline reconstruction, metric calculation, and stability assertions that preserve INCONCLUSIVE for missing critical evidence.",
+  "expected_outputs": [
+    "FailoverTimeline with fault_injected_at, first_pfail_observed_at, first_fail_observed_at, replica_promoted_at, slots_recovered_at, cluster_ok_at, client_success_restored_at",
+    "Metric calculation: pfail_detection_ms, fail_confirmation_ms, promotion_ms, slot_recovery_ms, cluster_recovery_ms, client_recovery_ms, unavailable_slots_count_max, stale_owner_duration_ms",
+    "FailoverObserver reconstructing timeline from events",
+    "StabilityAssertions returning PASS/FAIL/INCONCLUSIVE with reasons",
+    "Tests for missing PFAIL, missing promotion, client not recovered, stale owner"
+  ],
+  "verified_outputs": [
+    {
+      "output": "FailoverTimeline with fault_injected_at, first_pfail_observed_at, first_fail_observed_at, replica_promoted_at, slots_recovered_at, cluster_ok_at, client_success_restored_at",
+      "evidence": "harness/failover_timeline.py and unit tests"
+    },
+    {
+      "output": "Metric calculation: pfail_detection_ms, fail_confirmation_ms, promotion_ms, slot_recovery_ms, cluster_recovery_ms, client_recovery_ms, unavailable_slots_count_max, stale_owner_duration_ms",
+      "evidence": "test_complete_timeline_computes_all_metrics"
+    },
+    {
+      "output": "FailoverObserver reconstructing timeline from events",
+      "evidence": "harness/failover_observer.py used in all P12 tests"
+    },
+    {
+      "output": "StabilityAssertions returning PASS/FAIL/INCONCLUSIVE with reasons",
+      "evidence": "tests cover INCONCLUSIVE and FAIL paths"
+    },
+    {
+      "output": "Tests for missing PFAIL, missing promotion, client not recovered, stale owner",
+      "evidence": "tests/test_p12_failover_timeline.py"
+    }
+  ],
+  "commands": [
+    {
+      "command": "python3 -m py_compile harness/failover_timeline.py harness/failover_observer.py harness/stability_assertions.py harness/cluster_check.py",
+      "exit_code": 0
+    },
+    {
+      "command": "python3 -m unittest discover -s tests -p 'test_p12_failover_timeline.py'",
+      "exit_code": 0
+    }
+  ],
+  "changed_files": [
+    "codex/current_phase_contract.json",
+    "codex/current_phase_contract.md",
+    "codex/loop_state.json",
+    "artifacts/phase-P12/cmd-001.stderr.txt",
+    "artifacts/phase-P12/cmd-001.stdout.txt",
+    "artifacts/phase-P12/cmd-002.stderr.txt",
+    "artifacts/phase-P12/cmd-002.stdout.txt",
+    "artifacts/phase-P12/commands.jsonl",
+    "artifacts/phase-P12/commands.log",
+    "artifacts/phase-P12/notes.md",
+    "harness/failover_observer.py",
+    "harness/failover_timeline.py",
+    "harness/stability_assertions.py",
+    "tests/test_p12_failover_timeline.py",
+    "artifacts/phase-P12/result.json",
+    "artifacts/phase-P12/changed_files.txt"
+  ],
+  "risks": [
+    "No real failover workload is executed in P12.",
+    "cluster_state ok alone is insufficient by design."
+  ]
+}
